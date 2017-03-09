@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { AngularFireModule } from 'angularfire2';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -17,6 +18,11 @@ export const firebaseConfig = {
   messagingSenderId: "1038601253190"
 };
 
+const firebaseAuthConfig = {
+  provider: AuthProviders.Google,
+  method: AuthMethods.Redirect
+};
+
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
@@ -25,18 +31,20 @@ export class SafePipe implements PipeTransform {
   }
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    SidebarComponent,
     SafePipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
     MaterialModule,
-    Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk'})
+    Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],
   providers: [],
   bootstrap: [AppComponent]

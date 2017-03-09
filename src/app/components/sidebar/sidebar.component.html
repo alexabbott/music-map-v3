@@ -1,0 +1,50 @@
+<md-sidenav
+  class="md-sidenav-left"
+  md-component-id="left"
+  md-disable-backdrop
+  md-is-locked-open="true"
+  md-is-open="true"
+  md-whiteframe="4">
+
+  <md-toolbar>
+    <img src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
+    <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()">Login</button>
+    <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="logout()">Logout</button>
+  </md-toolbar>
+  <div class="form-container">
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Name" type="text" #newstation />
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station URL" type="text" #newurl/>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates>
+    </md-input-container>
+    <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
+  </div>
+  <md-card *ngFor="let station of stations | async">
+    <div class="station-name">
+      <md-icon
+        (click)="likeStation(station.$key)"
+        class="active"
+        *ngIf="userLikeValues && (userLikeValues)?.indexOf(station.$key) > -1">
+        star
+      </md-icon>
+      <md-icon
+        (click)="unlikeStation(station.$key)"
+        *ngIf="!userLikeValues || (userLikeValues)?.indexOf(station.$key) === -1">
+        star
+      </md-icon>
+      {{station.name}}
+    </div>
+    <div class="station-location">
+      {{ station.location }}
+    </div>
+    <div class="clearfix"></div>
+    <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>
+  </md-card>
+</md-sidenav>
