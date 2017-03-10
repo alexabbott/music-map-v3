@@ -26,17 +26,18 @@
     </md-input-container>
     <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
   </div>
+  
   <md-card *ngFor="let station of stations | async">
     <div class="station-name">
       <md-icon
-        (click)="likeStation(station.$key)"
+        (click)="unlikeStation(station.$key)"
         class="active"
-        *ngIf="userLikeValues && (userLikeValues)?.indexOf(station.$key) > -1">
+        *ngIf="(user | async)?.likes[station.$key]">
         star
       </md-icon>
       <md-icon
-        (click)="unlikeStation(station.$key)"
-        *ngIf="!userLikeValues || (userLikeValues)?.indexOf(station.$key) === -1">
+        (click)="likeStation(station.$key)"
+        *ngIf="!(user | async)?.likes[station.$key]">
         star
       </md-icon>
       {{station.name}}
@@ -46,5 +47,6 @@
     </div>
     <div class="clearfix"></div>
     <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>
+    <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key)">delete station</div>
   </md-card>
 </md-sidenav>

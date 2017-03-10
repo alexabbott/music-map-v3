@@ -23,16 +23,6 @@ export class SidebarComponent {
         this.userId = auth.uid;
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photo: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
-        this.userLikes = af.database.list('/users/' + this.userId + '/likes');
-        let userLikesArray = [];
-        this.userLikes.subscribe(likes => {
-          console.log('userlikes', likes);
-          likes.forEach(like => {
-            userLikesArray.push(like.$value);
-            me.userLikeValues = userLikesArray;
-            console.log('userlikelist', me.userLikeValues);
-          });
-        });
         this.user.subscribe(user => {
           console.log('thieuser', user);
         });
@@ -62,8 +52,8 @@ export class SidebarComponent {
     this.stations.remove();
   }
   likeStation(key: string) {
-    this.af.database.list('/users/' + this.userId + '/likes').push(key);
-    this.af.database.list('/stations/' + key + '/likes').push(this.userId);
+    this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
+    this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
   }
   unlikeStation(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
