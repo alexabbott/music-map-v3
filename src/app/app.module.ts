@@ -47,17 +47,60 @@ export class FirstPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'withParent', pure: false })
-export class WithParentPipe implements PipeTransform {
-    transform(value: Array<any>, args: any[] = null): any {
-        return value.map(t=> {
-            return {
-                item: t,
-                parent: value
-            }
-        });
+@Pipe({
+  //The @Pipe decorator takes an object with a name property whose value is the pipe name that we'll use within a template expression. It must be a valid JavaScript identifier. Our pipe's name is orderby.
+  name: "orderby"
+})
+export class OrderByPipe implements PipeTransform {
+  transform(array:Array<any>, args?) {
+    // Check if array exists, in this case array contains articles and args is an array that has 1 element : !id
+    if(array) {
+      // get the first element
+      let orderByValue = args[0]
+      let byVal = 1
+      // check if exclamation point 
+      if(orderByValue.charAt(0) == "!") {
+        // reverse the array
+        byVal = -1
+        orderByValue = orderByValue.substring(1)
+      }
+      console.log("byVal",byVal);
+      console.log("orderByValue",orderByValue);
+
+      array.sort((a: any, b: any) => {
+        if(a[orderByValue] < b[orderByValue]) {
+          return -1*byVal;
+        } else if (a[orderByValue] > b[orderByValue]) {
+          return 1*byVal;
+        } else {
+          return 0;
+        }
+      });
+      return array;
     }
-} 
+    //
+  }
+}
+
+@Pipe({
+  name : 'searchPipe',
+})
+export class SearchPipe implements PipeTransform {
+  public transform(value, key: string, term: string) {
+    return value.filter((item) => {
+      if (item.hasOwnProperty(key)) {
+        if (term) {
+          let regExp = new RegExp('\\b' + term, 'gi');
+          return regExp.test(item[key]);
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    });
+  }
+}
 
 @NgModule({
   declarations: [
@@ -65,7 +108,8 @@ export class WithParentPipe implements PipeTransform {
     SidebarComponent,
     GetPipe,
     FirstPipe,
-    WithParentPipe,
+    OrderByPipe,
+    SearchPipe,
     SafePipe
   ],
   imports: [

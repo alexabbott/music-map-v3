@@ -8,7 +8,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 })
 
 export class SidebarComponent {
-  stations: FirebaseListObservable<any[]>;
+  filteredStations: FirebaseListObservable<any[]>;
   newstation: HTMLTemplateElement;
   user: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
@@ -16,7 +16,11 @@ export class SidebarComponent {
 
   constructor(public af: AngularFire) {
     const me = this;
-    this.stations = af.database.list('/stations');
+    this.filteredStations = af.database.list('/stations', {
+      query: {
+        orderByChild: 'likesTotal'
+      }
+    });
     this.users = af.database.object('/users');
     this.af.auth.subscribe(auth => {
       if (auth) {
@@ -38,26 +42,38 @@ export class SidebarComponent {
   addStation(newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
     this.newstation = null;
     if (newName && newLocation && newCoordinates && newUrl) {
-      this.stations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: new Date() });
+      this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: new Date(), likesTotal: 0 });
       this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: new Date() });
     }
   }
   updateStation(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    this.stations.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
+    this.filteredStations.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
   }
   deleteStation(key: string) {
-    this.stations.remove(key);
+    this.filteredStations.remove(key);
   }
   deleteEverything() {
-    this.stations.remove();
+    this.filteredStations.remove();
   }
   likeStation(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
     this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
+    let likes = this.af.database.list('/stations/' + key + '/likes/');
+    likes.subscribe(subscribe => {
+      let length = (subscribe.length - 2) + 1;
+      this.af.database.object('/stations/' + key + '/likes/').update({ total: length });
+      this.af.database.object('/stations/' + key).update({ likesTotal: (-1*length) });
+    });
   }
   unlikeStation(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
+    let likes = this.af.database.list('/stations/' + key + '/likes/');
+    likes.subscribe(subscribe => {
+      let length = subscribe.length - 1;
+      this.af.database.object('/stations/' + key + '/likes/').update({ total: length });
+      this.af.database.object('/stations/' + key).update({ likesTotal: (-1*length) });
+    });
   }
   getLength(likes) {
     return Object.keys(likes).length;

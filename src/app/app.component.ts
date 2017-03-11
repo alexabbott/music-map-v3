@@ -11,6 +11,7 @@ export class AppComponent {
   mapOptions;
   stations: FirebaseListObservable<any[]>;
   newstation: HTMLTemplateElement;
+  newlocation: string;
 
   constructor(public af: AngularFire) {
     this.stations = af.database.list('/stations');
@@ -57,12 +58,16 @@ export class AppComponent {
         ].join(' ');
       }
     });
-
   }
   onIdle(event) {
     console.log('map', event.target);
   }
   onMarkerInit(marker) {
     console.log('marker', marker);
+    marker.addListener('click', function() {
+      console.log('marker', marker);
+      marker.map.setCenter({lat: marker.position.lat(), lng: marker.position.lng()});
+      marker.map.setZoom(14);
+    });
   }
 }

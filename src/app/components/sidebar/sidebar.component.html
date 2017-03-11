@@ -26,7 +26,7 @@
     </md-input-container>
     <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
   </div>
-  <md-card *ngFor="let station of stations | async">
+  <md-card *ngFor="let station of filteredStations | async">
     <div class="station-name">
       <span *ngIf="(af.auth | async)?.uid" class="like-controls">
         <md-icon
@@ -43,7 +43,7 @@
       </span>
       {{station.name}}<br>
       <span *ngIf="station.likes">
-        <span [innerHtml]="getLength(station.likes)"></span> like<span *ngIf="getLength(station.likes) > 1">s</span>
+        {{ station.likes.total }} like<span *ngIf="station.likes.total > 1 || station.likes.total === 0">s</span>
       </span>
     </div>
     <div class="station-location">
