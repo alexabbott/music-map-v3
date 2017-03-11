@@ -26,6 +26,8 @@
     </md-input-container>
     <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
   </div>
+  <button md-raised-button *ngIf="showReset" (click)="resetStations()" class="reset-stations">Reset Stations</button>
+  <div class="clearfix"></div>
   <md-card *ngFor="let station of filteredStations | async">
     <div class="station-name">
       <span *ngIf="(af.auth | async)?.uid" class="like-controls">
@@ -50,7 +52,7 @@
       {{ station.location }}
     </div>
     <div class="clearfix"></div>
-    <div class="station-user">
+    <div class="station-user" (click)="filterStationsByUser(station.user)">
       <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
     </div>
     <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>

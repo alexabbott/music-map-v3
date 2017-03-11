@@ -13,6 +13,8 @@ export class SidebarComponent {
   user: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
   userId: string;
+  filter: string;
+  showReset: boolean;
 
   constructor(public af: AngularFire) {
     const me = this;
@@ -77,5 +79,22 @@ export class SidebarComponent {
   }
   getLength(likes) {
     return Object.keys(likes).length;
+  }
+  filterStationsByUser(uid) {
+    this.filteredStations = this.af.database.list('/stations', {
+      query: {
+        orderByChild: 'user',
+        equalTo: uid
+      }
+    });
+    this.showReset = true;
+  }
+  resetStations() {
+    this.filteredStations = this.af.database.list('/stations', {
+      query: {
+        orderByChild: 'likesTotal'
+      }
+    });
+    this.showReset = false;
   }
 }

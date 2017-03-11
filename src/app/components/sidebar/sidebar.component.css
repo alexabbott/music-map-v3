@@ -25,6 +25,11 @@ md-toolbar {
     width: 50px;
 }
 
+.reset-stations {
+    float: right;
+    margin: 0 5% 0 0;
+}
+
 md-card {
     font-size: 1em;
 }
