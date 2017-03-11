@@ -1,4 +1,6 @@
 .md-sidenav-left {
+    border-right: 1px solid cadetblue;
+    box-sizing: border-box;
     display: inline-block;
     height: 100vh;
     overflow: scroll;
@@ -7,7 +9,9 @@
 }
 
 md-toolbar {
-    background: #000;
+    background: #C8D7D4;
+    border-right: 1px solid cadetblue;
+    box-sizing: border-box;
     left: 0;
     position: fixed;
     top: 0;
@@ -31,6 +35,16 @@ md-card {
 
 .station-location {
     float: right;
+}
+
+.station-user {
+    margin-top: 10px;
+}
+
+.station-user img {
+    border-radius: 50%;
+    vertical-align: middle;
+    width: 20px;
 }
 
 .active {

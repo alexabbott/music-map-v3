@@ -10,3 +10,11 @@ body {
 .clearfix {
     clear: both;
 }
+
+.mat-raised-button {
+    background: cadetblue;
+}
+
+.mat-button-wrapper {
+    color: #fff;
+}

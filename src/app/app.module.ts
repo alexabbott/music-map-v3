@@ -31,11 +31,28 @@ export class SafePipe implements PipeTransform {
   }
 }
 
+@Pipe({ name: 'get' })
+export class Get implements PipeTransform {
+  transform(val, args) {
+    if (val === null) return val;
+    return val[args];
+  }
+}
+
+@Pipe({ name: 'first' })
+export class First implements PipeTransform {
+  transform(val, args) {
+    if (val === null) return val;
+    return val[0];
+  }
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
+    Get,
+    First,
     SafePipe
   ],
   imports: [

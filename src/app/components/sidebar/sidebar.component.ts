@@ -11,17 +11,17 @@ export class SidebarComponent {
   stations: FirebaseListObservable<any[]>;
   newstation: HTMLTemplateElement;
   user: FirebaseObjectObservable<any>;
-  userLikes: FirebaseListObservable<any[]>;
-  userLikeValues: string[];
+  users: FirebaseObjectObservable<any>;
   userId: string;
 
   constructor(public af: AngularFire) {
     const me = this;
     this.stations = af.database.list('/stations');
+    this.users = af.database.object('/users');
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.userId = auth.uid;
-        af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photo: auth.auth.photoURL, email: auth.auth.email });
+        af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.user.subscribe(user => {
           console.log('thieuser', user);

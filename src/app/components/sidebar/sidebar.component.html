@@ -7,7 +7,7 @@
   md-whiteframe="4">
 
   <md-toolbar>
-    <img src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
+    <img *ngIf="(af.auth | async)?.uid" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
     <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()">Login</button>
     <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="logout()">Logout</button>
   </md-toolbar>
@@ -26,26 +26,30 @@
     </md-input-container>
     <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
   </div>
-  
   <md-card *ngFor="let station of stations | async">
     <div class="station-name">
-      <md-icon
-        (click)="unlikeStation(station.$key)"
-        class="active"
-        *ngIf="(user | async)?.likes[station.$key]">
-        star
-      </md-icon>
-      <md-icon
-        (click)="likeStation(station.$key)"
-        *ngIf="!(user | async)?.likes[station.$key]">
-        star
-      </md-icon>
+      <span *ngIf="(af.auth | async)?.uid" class="like-controls">
+        <md-icon
+          (click)="unlikeStation(station.$key)"
+          class="active"
+          *ngIf="(user | async)?.likes && (user | async)?.likes[station.$key]">
+          star
+        </md-icon>
+        <md-icon
+          (click)="likeStation(station.$key)"
+          *ngIf="!(user | async)?.likes || !(user | async)?.likes[station.$key]">
+          star
+        </md-icon>
+      </span>
       {{station.name}}
     </div>
     <div class="station-location">
       {{ station.location }}
     </div>
     <div class="clearfix"></div>
+    <div class="station-user">
+      <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
+    </div>
     <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>
     <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key)">delete station</div>
   </md-card>
