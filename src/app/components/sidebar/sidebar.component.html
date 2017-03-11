@@ -41,7 +41,10 @@
           star
         </md-icon>
       </span>
-      {{station.name}}
+      {{station.name}}<br>
+      <span *ngIf="station.likes">
+        <span [innerHtml]="getLength(station.likes)"></span> like<span *ngIf="getLength(station.likes) > 1">s</span>
+      </span>
     </div>
     <div class="station-location">
       {{ station.location }}

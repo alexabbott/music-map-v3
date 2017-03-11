@@ -59,4 +59,7 @@ export class SidebarComponent {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
   }
+  getLength(likes) {
+    return Object.keys(likes).length;
+  }
 }

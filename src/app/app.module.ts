@@ -32,7 +32,7 @@ export class SafePipe implements PipeTransform {
 }
 
 @Pipe({ name: 'get' })
-export class Get implements PipeTransform {
+export class GetPipe implements PipeTransform {
   transform(val, args) {
     if (val === null) return val;
     return val[args];
@@ -40,19 +40,32 @@ export class Get implements PipeTransform {
 }
 
 @Pipe({ name: 'first' })
-export class First implements PipeTransform {
+export class FirstPipe implements PipeTransform {
   transform(val, args) {
     if (val === null) return val;
     return val[0];
   }
 }
 
+@Pipe({ name: 'withParent', pure: false })
+export class WithParentPipe implements PipeTransform {
+    transform(value: Array<any>, args: any[] = null): any {
+        return value.map(t=> {
+            return {
+                item: t,
+                parent: value
+            }
+        });
+    }
+} 
+
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
-    Get,
-    First,
+    GetPipe,
+    FirstPipe,
+    WithParentPipe,
     SafePipe
   ],
   imports: [
