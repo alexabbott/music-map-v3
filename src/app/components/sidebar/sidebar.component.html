@@ -28,7 +28,7 @@
   </div>
   <button md-raised-button *ngIf="showReset" (click)="resetStations()" class="reset-stations">Reset Stations</button>
   <div class="clearfix"></div>
-  <md-card *ngFor="let station of filteredStations | async">
+  <md-card *ngFor="let station of filteredStations | async | orderBy: ['-likesTotal']">
     <div class="station-name">
       <span *ngIf="(af.auth | async)?.uid" class="like-controls">
         <md-icon
@@ -45,7 +45,7 @@
       </span>
       {{station.name}}<br>
       <span *ngIf="station.likes">
-        {{ station.likes.total }} like<span *ngIf="station.likes.total > 1 || station.likes.total === 0">s</span>
+        {{ station.likesTotal }} like<span *ngIf="station.likesTotal > 1 || station.likesTotal === 0">s</span>
       </span>
     </div>
     <div class="station-location">
@@ -56,6 +56,6 @@
       <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
     </div>
     <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>
-    <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key)">delete station</div>
+    <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.location, station.$key)">delete station</div>
   </md-card>
 </md-sidenav>

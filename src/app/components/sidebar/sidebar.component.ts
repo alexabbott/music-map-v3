@@ -18,11 +18,7 @@ export class SidebarComponent {
 
   constructor(public af: AngularFire) {
     const me = this;
-    this.filteredStations = af.database.list('/stations', {
-      query: {
-        orderByChild: 'likesTotal'
-      }
-    });
+    this.filteredStations = af.database.list('/stations');
     this.users = af.database.object('/users');
     this.af.auth.subscribe(auth => {
       if (auth) {
@@ -42,10 +38,10 @@ export class SidebarComponent {
      this.af.auth.logout();
   }
   addStation(newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    this.newstation = null;
+    let d = new Date();
     if (newName && newLocation && newCoordinates && newUrl) {
-      this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: new Date(), likesTotal: 0 });
-      this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: new Date() });
+      this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: d.getTime(), likesTotal: 0 });
+      this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
     }
   }
   updateStation(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
@@ -53,6 +49,7 @@ export class SidebarComponent {
   }
   deleteStation(key: string) {
     this.filteredStations.remove(key);
+    this.af.database.list('/user-stations/' + this.userId).remove(key);
   }
   deleteEverything() {
     this.filteredStations.remove();
@@ -62,9 +59,8 @@ export class SidebarComponent {
     this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
     likes.subscribe(subscribe => {
-      let length = (subscribe.length - 2) + 1;
-      this.af.database.object('/stations/' + key + '/likes/').update({ total: length });
-      this.af.database.object('/stations/' + key).update({ likesTotal: (-1*length) });
+      let length = subscribe.length;
+      this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
   unlikeStation(key: string) {
@@ -72,9 +68,8 @@ export class SidebarComponent {
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
     likes.subscribe(subscribe => {
-      let length = subscribe.length - 1;
-      this.af.database.object('/stations/' + key + '/likes/').update({ total: length });
-      this.af.database.object('/stations/' + key).update({ likesTotal: (-1*length) });
+      let length = subscribe.length;
+      this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
   getLength(likes) {
