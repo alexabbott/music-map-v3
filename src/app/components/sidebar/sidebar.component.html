@@ -28,7 +28,9 @@
   </div>
   <button md-raised-button *ngIf="showReset" (click)="resetStations()" class="reset-stations">Reset Stations</button>
   <div class="clearfix"></div>
-  <md-card *ngFor="let station of filteredStations | async | orderBy: ['-likesTotal']">
+  <button md-raised-button (click)="changeOrder('-published')">Newest Stations</button>
+  <button md-raised-button (click)="changeOrder('-likesTotal')">Popular Stations</button>
+  <md-card *ngFor="let station of filteredStations | async | orderBy: [order]">
     <div class="station-name">
       <span *ngIf="(af.auth | async)?.uid" class="like-controls">
         <md-icon

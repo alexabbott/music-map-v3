@@ -14,12 +14,14 @@ export class SidebarComponent {
   users: FirebaseObjectObservable<any>;
   userId: string;
   filter: string;
+  order: string;
   showReset: boolean;
 
   constructor(public af: AngularFire) {
-    const me = this;
+    this.order = '-published';
     this.filteredStations = af.database.list('/stations');
     this.users = af.database.object('/users');
+
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.userId = auth.uid;
@@ -91,5 +93,8 @@ export class SidebarComponent {
       }
     });
     this.showReset = false;
+  }
+  changeOrder(neworder) {
+    this.order = neworder;
   }
 }

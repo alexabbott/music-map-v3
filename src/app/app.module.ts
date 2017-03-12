@@ -1,13 +1,12 @@
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Pipe, PipeTransform, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+// import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
-import { Pipe, PipeTransform } from '@angular/core';
 
 // Must export the config
 export const firebaseConfig = {
@@ -113,12 +112,26 @@ export class OrderBy implements PipeTransform {
     }
 }
 
+@Pipe({ name: 'filter' })
+@Injectable()
+export class FilterPipe implements PipeTransform {
+    transform(items: any[], field : string, value : string): any[] {  
+        if (!items) return [];
+        if (field && value) {
+          return items.filter(it => it[field].indexOf(value) > -1);
+        } else {
+          return items;
+        }
+    }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent,
+    // SidebarComponent,
     GetPipe,
     FirstPipe,
+    FilterPipe,
     OrderBy,
     SafePipe
   ],

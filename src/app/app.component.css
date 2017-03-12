@@ -3,3 +3,104 @@ ng2-map {
     height: 100vh;
     width: 70%;
 }
+
+
+
+.md-sidenav-left {
+    border-right: 1px solid cadetblue;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 100vh;
+    overflow: scroll;
+    vertical-align: top;
+    width: 30%;
+}
+
+md-toolbar {
+    background: #C8D7D4;
+    border-right: 1px solid cadetblue;
+    box-sizing: border-box;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 30%;
+    z-index: 2;
+}
+
+.profile-image {
+    border-radius: 50%;
+    margin: 0 10px;
+    width: 50px;
+}
+
+.reset-stations {
+    float: right;
+    margin: 0 5% 0 0;
+}
+
+md-card {
+    font-size: 1em;
+}
+
+.station-name {
+    float: left;
+}
+
+.station-location {
+    float: right;
+}
+
+.station-user {
+    margin-top: 10px;
+}
+
+.station-user img {
+    border-radius: 50%;
+    vertical-align: middle;
+    width: 20px;
+}
+
+.active {
+    color: gold;
+}
+
+md-icon {
+    color: lightgrey;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+md-input-container {
+    display: block;
+}
+
+iframe {
+    display: block;
+    margin-top: 10px;
+    height: 150px;
+    width: 100%;
+}
+
+.delete-station {
+    color: red;
+    cursor: pointer;
+    margin: 10px 0 0 0;
+}
+
+.form-container {
+    margin: 80px auto 20px auto;
+    width: 90%;
+}
+
+.mat-input-wrapper {
+    margin: 2em 0;
+}
+
+input {
+    display: block;
+    font-size: 1em;
+    height: 20px;
+    padding: 5px 10px;
+    width: 100%;
+}
+

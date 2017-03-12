@@ -1,9 +1,72 @@
-<side-bar></side-bar>
+<md-sidenav
+  class="md-sidenav-left"
+  md-component-id="left"
+  md-disable-backdrop
+  md-is-locked-open="true"
+  md-is-open="true"
+  md-whiteframe="4">
+
+  <md-toolbar>
+    <img *ngIf="(af.auth | async)?.uid" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
+    <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()">Login</button>
+    <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="logout()">Logout</button>
+  </md-toolbar>
+  <div class="form-container">
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Name" type="text" #newstation />
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station URL" type="text" #newurl/>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates>
+    </md-input-container>
+    <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
+  </div>
+  <button md-raised-button *ngIf="showReset" (click)="resetStations()" class="reset-stations">Reset Stations</button>
+  <div class="clearfix"></div>
+  <button md-raised-button (click)="changeOrder('-published')">Newest Stations</button>
+  <button md-raised-button (click)="changeOrder('-likesTotal')">Popular Stations</button>
+  <md-card *ngFor="let station of filteredStations | async | filter: filterKey : filterValue | orderBy: [orderValue]">
+    <div class="station-name">
+      <span *ngIf="(af.auth | async)?.uid" class="like-controls">
+        <md-icon
+          (click)="unlikeStation(station.$key)"
+          class="active"
+          *ngIf="(user | async)?.likes && (user | async)?.likes[station.$key]">
+          star
+        </md-icon>
+        <md-icon
+          (click)="likeStation(station.$key)"
+          *ngIf="!(user | async)?.likes || !(user | async)?.likes[station.$key]">
+          star
+        </md-icon>
+      </span>
+      {{station.name}}<br>
+      <span *ngIf="station.likes">
+        {{ station.likesTotal }} like<span *ngIf="station.likesTotal > 1 || station.likesTotal === 0">s</span>
+      </span>
+    </div>
+    <div class="station-location">
+      {{ station.location }}
+    </div>
+    <div class="clearfix"></div>
+    <div class="station-user" (click)="filterStationsByUser(station.user)">
+      <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
+    </div>
+    <iframe scrolling="no" frameborder="no" [src]="station.url | safe"></iframe>
+    <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key, station.location)">delete station</div>
+  </md-card>
+</md-sidenav>
+
 <ng2-map
   [options]="mapOptions"
   (mapReady$)="onMapReady($event)"
   (idle)="onIdle($event)">
-    <marker *ngFor="let station of stations | async"
-      [position]="station.coordinates"
+    <marker *ngFor="let location of locations | async"
+      [position]="location.$key"
       (initialized$)="onMarkerInit($event)"></marker>
 </ng2-map>
