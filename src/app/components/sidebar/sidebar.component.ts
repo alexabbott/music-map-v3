@@ -103,4 +103,9 @@ export class SidebarComponent {
   changeOrder(neworder) {
     this.orderValue = neworder;
   }
+  filterByUser(uid) {
+    this.filterKey = 'user';
+    this.filterValue = uid;
+    this.showReset = true;
+  }
 }

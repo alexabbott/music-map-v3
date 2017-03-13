@@ -35,7 +35,9 @@
   <div class="sort-controls">
     <button md-raised-button (click)="changeOrder('-published')">Newest Stations</button>
     <button md-raised-button (click)="changeOrder('-likesTotal')">Popular Stations</button>
-    <button md-raised-button *ngIf="showReset" (click)="resetStations()" class="reset-stations button-alt">Reset Stations</button>
+  </div>
+  <div class="text-center reset-stations" *ngIf="showReset" (click)="resetStations()">
+      Reset Stations
   </div>
   <md-card *ngFor="let station of filteredStations | async | filter: filterKey : filterValue | orderBy: [orderValue]">
     <div class="station-name">
@@ -61,7 +63,7 @@
       <md-icon>location_on</md-icon> {{ station.location }}
     </div>
     <div class="clearfix"></div>
-    <div class="station-user" (click)="filterStationsByUser(station.user)">
+    <div class="station-user" (click)="filterByUser(station.user)">
       <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
     </div>
     <div class="clearfix"></div>
