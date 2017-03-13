@@ -18,3 +18,7 @@ body {
 .mat-button-wrapper {
     color: #fff;
 }
+
+.button-alt .mat-button-wrapper {
+    color: cadetblue;
+}

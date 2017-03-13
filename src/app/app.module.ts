@@ -2,8 +2,8 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule, Pipe, PipeTransform, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './app.component';
-// import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AppComponent, LocationService } from './app.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
@@ -50,7 +50,7 @@ export class FirstPipe implements PipeTransform {
 export class OrderBy implements PipeTransform {
 
     static _orderByComparator(a:any, b:any):number{
-    
+
       if((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))){
         //Isn't a number so lowercase the string to properly compare
         if(a.toLowerCase() < b.toLowerCase()) return -1;
@@ -61,18 +61,18 @@ export class OrderBy implements PipeTransform {
         if(parseFloat(a) < parseFloat(b)) return -1;
         if(parseFloat(a) > parseFloat(b)) return 1;
       }
-    
+
       return 0; //equal each other
     }
 
     transform(input:any, [config = '+']): any{
-        
+
         if(!Array.isArray(input)) return input;
 
         if(!Array.isArray(config) || (Array.isArray(config) && config.length == 1)){
             var propertyToCheck:string = !Array.isArray(config) ? config : config[0];
             var desc = propertyToCheck.substr(0, 1) == '-';
-            
+
             //Basic array
             if(!propertyToCheck || propertyToCheck == '-' || propertyToCheck == '+'){
                 return !desc ? input.sort() : input.sort().reverse();
@@ -98,10 +98,10 @@ export class OrderBy implements PipeTransform {
                         ? config[i].substr(1)
                         : config[i];
 
-                    var comparison = !desc 
-                        ? OrderBy._orderByComparator(a[property], b[property]) 
+                    var comparison = !desc
+                        ? OrderBy._orderByComparator(a[property], b[property])
                         : -OrderBy._orderByComparator(a[property], b[property]);
-                    
+
                     //Don't return 0 yet in case of needing to sort by next property
                     if(comparison != 0) return comparison;
                 }
@@ -115,7 +115,7 @@ export class OrderBy implements PipeTransform {
 @Pipe({ name: 'filter' })
 @Injectable()
 export class FilterPipe implements PipeTransform {
-    transform(items: any[], field : string, value : string): any[] {  
+    transform(items: any[], field : string, value : string): any[] {
         if (!items) return [];
         if (field && value) {
           return items.filter(it => it[field].indexOf(value) > -1);
@@ -128,7 +128,7 @@ export class FilterPipe implements PipeTransform {
 @NgModule({
   declarations: [
     AppComponent,
-    // SidebarComponent,
+    SidebarComponent,
     GetPipe,
     FirstPipe,
     FilterPipe,
@@ -143,7 +143,7 @@ export class FilterPipe implements PipeTransform {
     MaterialModule,
     Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],
-  providers: [],
+  providers: [LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

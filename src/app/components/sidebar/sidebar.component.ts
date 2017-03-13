@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { LocationService } from '../../app.component';
 
 @Component({
   selector: 'side-bar',
@@ -8,17 +9,20 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 })
 
 export class SidebarComponent {
+  map;
   filteredStations: FirebaseListObservable<any[]>;
-  newstation: HTMLTemplateElement;
   user: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
   userId: string;
-  filter: string;
-  order: string;
+  orderValue: string;
+  filterKey: string;
+  filterValue: string;
   showReset: boolean;
 
-  constructor(public af: AngularFire) {
-    this.order = '-published';
+  constructor(public af: AngularFire, public locationService: LocationService) {
+    this.filterKey = null;
+    this.filterValue = null;
+    this.orderValue = '-published';
     this.filteredStations = af.database.list('/stations');
     this.users = af.database.object('/users');
 
@@ -32,7 +36,21 @@ export class SidebarComponent {
         });
       }
     });
+
+    locationService.map.subscribe(themap => {
+      this.map = themap;
+    });
+    locationService.filterKey.subscribe(key => {
+      this.filterKey = key;
+    });
+    locationService.filterValue.subscribe(value => {
+      this.filterValue = value;
+    });
+    locationService.showReset.subscribe(bool => {
+      this.showReset = bool;
+    });
   }
+
   login() {
     this.af.auth.login();
   }
@@ -43,15 +61,17 @@ export class SidebarComponent {
     let d = new Date();
     if (newName && newLocation && newCoordinates && newUrl) {
       this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: d.getTime(), likesTotal: 0 });
+      this.af.database.list('/location-stations/' + newLocation).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
       this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
     }
   }
   updateStation(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
     this.filteredStations.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
   }
-  deleteStation(key: string) {
+  deleteStation(key: string, location: string) {
     this.filteredStations.remove(key);
     this.af.database.list('/user-stations/' + this.userId).remove(key);
+    this.af.database.list('/location-stations/' + location).remove(key);
   }
   deleteEverything() {
     this.filteredStations.remove();
@@ -74,27 +94,13 @@ export class SidebarComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
-  getLength(likes) {
-    return Object.keys(likes).length;
-  }
-  filterStationsByUser(uid) {
-    this.filteredStations = this.af.database.list('/stations', {
-      query: {
-        orderByChild: 'user',
-        equalTo: uid
-      }
-    });
-    this.showReset = true;
-  }
   resetStations() {
-    this.filteredStations = this.af.database.list('/stations', {
-      query: {
-        orderByChild: 'likesTotal'
-      }
-    });
     this.showReset = false;
+    this.filterKey = null;
+    this.filterValue = null;
+    this.map.setZoom(3);
   }
   changeOrder(neworder) {
-    this.order = neworder;
+    this.orderValue = neworder;
   }
 }
