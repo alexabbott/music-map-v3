@@ -1,0 +1,2 @@
+<iframe class="main-player" *ngIf="playerUrl" id="player" [src]="playerUrl | safe"></iframe>
+<div class="no-playlist" *ngIf="!playerUrl">No Playlist Loaded</div>

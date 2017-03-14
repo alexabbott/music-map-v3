@@ -10,12 +10,9 @@ md-toolbar {
     z-index: 2;
 }
 
-ng2-map {
-    height: 50% !important;
-}
-
 .profile-image {
     border-radius: 50%;
+    cursor: pointer;
     margin: 0 10px;
     width: 50px;
 }
@@ -39,17 +36,11 @@ ng2-map {
     transform-origin: 50% 50%;
 }
 
-ng2-map {
-    float: right;
-    height: 100vh;
-    width: 70%;
-}
-
 .md-sidenav-left {
     border-right: 1px solid cadetblue;
     box-sizing: border-box;
     display: inline-block;
-    height: 100vh;
+    height: 90vh;
     overflow: scroll;
     vertical-align: top;
     width: 30%;
@@ -66,10 +57,31 @@ ng2-map {
 }
 
 .reset-stations {
-    background: #C8D7D4;
-    color: cadetblue;
+    background: cadetblue;
+    color: white;
     cursor: pointer;
     padding: 10px 0;
+}
+
+.headline {
+    box-sizing: border-box;
+    background: cadetblue;
+    color: white;
+    margin: 0;
+    padding: 24px;
+}
+
+.headline md-icon {
+    color: white;
+    font-size: 26px;
+    margin: -7px 0px 0 0;
+}
+
+.headline img {
+    border-radius: 50%;
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+    width: 50px;
 }
 
 md-card {
@@ -82,6 +94,7 @@ md-card {
 }
 
 .station-location {
+    cursor: pointer;
     float: right;
     margin-top: 10px;
 }
@@ -120,11 +133,14 @@ md-input-container {
     display: block;
 }
 
-iframe {
+.play-button {
     display: block;
-    margin-top: 10px;
-    height: 150px;
+    margin-top: 15px;
     width: 100%;
+}
+
+.play-button md-icon {
+    color: white;
 }
 
 .delete-station {

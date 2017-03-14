@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent, LocationService } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { PlayerComponent } from './components/player/player.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
@@ -125,13 +126,33 @@ export class FilterPipe implements PipeTransform {
     }
 }
 
+@Pipe({ name: 'filterUserLikes' })
+@Injectable()
+export class FilterUserLikesPipe implements PipeTransform {
+    transform(items: any[], field : string, value : string): any[] {
+        if (!items) return [];
+        if (field && value) {
+          return items.filter(it => {
+            if (it[field]) {
+              console.log('match');
+              value in it[field];
+            }
+          });
+        } else {
+          return items;
+        }
+    }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
+    PlayerComponent,
     GetPipe,
     FirstPipe,
     FilterPipe,
+    FilterUserLikesPipe,
     OrderBy,
     SafePipe
   ],

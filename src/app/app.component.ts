@@ -8,6 +8,7 @@ export class LocationService {
   public filterKey = new BehaviorSubject(null);
   public filterValue = new BehaviorSubject(null);
   public showReset = new BehaviorSubject(false);
+  public playerUrl = new BehaviorSubject(null);
   public updateLocation(key, value) {
     this.filterKey.next(key);
     this.filterValue.next(value);
@@ -17,6 +18,9 @@ export class LocationService {
   }
   public updateMap(themap) {
     this.map.next(themap);
+  }
+  public updatePlayerUrl(url) {
+    this.playerUrl.next(url);
   }
 }
 

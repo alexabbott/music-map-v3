@@ -1,0 +1,27 @@
+.main-player {
+    bottom: 0;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,.2);
+    height: 10vh;
+    left: 0;
+    position: fixed;
+    width: 30%;
+    z-index: 1;
+}
+
+.no-playlist {
+    background: rgba(5,150,50,0.05);
+    border-right: 1px solid cadetblue;
+    border-top: 1px solid cadetblue;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,.2);
+    bottom: 0;
+    color: cadetblue;
+    height: 10vh;
+    left: 0;
+    line-height: 10vh;
+    position: fixed;
+    text-align: center;
+    width: 30%;
+    z-index: 1;
+}

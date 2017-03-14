@@ -15,8 +15,16 @@ body {
     background: cadetblue;
 }
 
+.mat-raised-button.alt {
+    background: #C8D7D4;
+}
+
 .mat-button-wrapper {
     color: #fff;
+}
+
+.alt .mat-button-wrapper {
+    color: cadetblue;
 }
 
 .text-center {

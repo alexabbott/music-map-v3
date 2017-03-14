@@ -18,6 +18,8 @@ export class SidebarComponent {
   filterKey: string;
   filterValue: string;
   showReset: boolean;
+  headline: string;
+  playerUrl: string;
 
   constructor(public af: AngularFire, public locationService: LocationService) {
     this.filterKey = null;
@@ -25,6 +27,9 @@ export class SidebarComponent {
     this.orderValue = '-published';
     this.filteredStations = af.database.list('/stations');
     this.users = af.database.object('/users');
+    this.playerUrl = null;
+
+    let me = this;
 
     this.af.auth.subscribe(auth => {
       if (auth) {
@@ -48,6 +53,9 @@ export class SidebarComponent {
     });
     locationService.showReset.subscribe(bool => {
       this.showReset = bool;
+    });
+    locationService.playerUrl.subscribe(url => {
+      this.playerUrl = url;
     });
   }
 
@@ -99,6 +107,7 @@ export class SidebarComponent {
     this.filterKey = null;
     this.filterValue = null;
     this.map.setZoom(3);
+    this.headline = null;
   }
   changeOrder(neworder) {
     this.orderValue = neworder;
@@ -107,5 +116,20 @@ export class SidebarComponent {
     this.filterKey = 'user';
     this.filterValue = uid;
     this.showReset = true;
+  }
+  filterByCurrentUser() {
+    this.filterKey = 'user';
+    this.filterValue = this.userId;
+    this.showReset = true;
+    this.headline = 'My Stations';
+  }
+  filterByLocation(loc) {
+    this.filterKey = 'location';
+    this.filterValue = loc;
+    this.showReset = true;
+    this.headline = loc;
+  }
+  updatePlayer(url) {
+    this.locationService.updatePlayerUrl(url);
   }
 }
