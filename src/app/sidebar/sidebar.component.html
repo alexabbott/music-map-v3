@@ -77,7 +77,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="station-date">
-      Published: {{ station.published | date: 'MM/dd/yyyy' }}
+      Published {{ station.published | date: 'MM/dd/yyyy' }}
     </div>
     <div class="station-user" (click)="filterByUser(station.user)">
       <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
@@ -124,13 +124,13 @@
         </div>
         <div class="clearfix"></div>
         <div class="station-date">
-          {{ station.published | date: 'MM/dd/yyyy' }}
+          Published {{ station.published | date: 'MM/dd/yyyy' }}
         </div>
         <div class="station-user" (click)="filterByUser(station.user)">
           <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
         </div>
         <div class="clearfix"></div>
-        <button md-raised-button (click)="updatePlayer(station.url)" class="play-button">
+        <button md-raised-button (click)="updatePlayer(station.url)" class="play-button" [ngClass]="{'alt': playerUrl !== station.url }">
           <span *ngIf="playerUrl !== station.url">
             Load Playlist
           </span>
