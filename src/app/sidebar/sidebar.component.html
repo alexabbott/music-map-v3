@@ -76,6 +76,9 @@
       <md-icon>location_on</md-icon> {{ station.location }}
     </div>
     <div class="clearfix"></div>
+    <div class="station-date">
+      Published: {{ station.published | date: 'MM/dd/yyyy' }}
+    </div>
     <div class="station-user" (click)="filterByUser(station.user)">
       <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
     </div>
@@ -120,6 +123,9 @@
           <md-icon>location_on</md-icon> {{ station.location }}
         </div>
         <div class="clearfix"></div>
+        <div class="station-date">
+          {{ station.published | date: 'MM/dd/yyyy' }}
+        </div>
         <div class="station-user" (click)="filterByUser(station.user)">
           <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
         </div>

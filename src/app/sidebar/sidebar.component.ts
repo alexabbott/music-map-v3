@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { LocationService } from '../../app.component';
+import { LocationService } from '../location.service';
 
 @Component({
   selector: 'side-bar',

@@ -1,0 +1,8 @@
+<ng2-map
+  [options]="mapOptions"
+  (mapReady$)="onMapReady($event)"
+  (idle)="onIdle($event)">
+    <marker *ngFor="let location of locations | async"
+      [position]="location.$key"
+      (initialized$)="onMarkerInit($event)"></marker>
+</ng2-map>

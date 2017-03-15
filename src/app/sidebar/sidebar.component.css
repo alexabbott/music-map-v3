@@ -104,6 +104,13 @@ md-card {
     margin-top: 10px;
 }
 
+.station-date {
+    color: grey;
+    float: left;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
 .station-user {
     cursor: pointer;
     float: right;

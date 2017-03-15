@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LocationService } from '../../app.component';
+import { LocationService } from '../location.service';
 
 @Component({
   selector: 'player',

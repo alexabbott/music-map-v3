@@ -2,12 +2,14 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule, Pipe, PipeTransform, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AppComponent, LocationService } from './app.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { PlayerComponent } from './components/player/player.component';
+import { AppComponent } from './app.component';
+import { LocationService } from './location.service';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { PlayerComponent } from './player/player.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
+import { MapComponent } from './map/map.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -154,7 +156,8 @@ export class FilterUserLikesPipe implements PipeTransform {
     FilterPipe,
     FilterUserLikesPipe,
     OrderBy,
-    SafePipe
+    SafePipe,
+    MapComponent
   ],
   imports: [
     BrowserModule,
