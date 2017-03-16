@@ -78,6 +78,13 @@ export class SidebarComponent {
     this.filteredStations.remove(key);
     this.af.database.list('/user-stations/' + this.userId).remove(key);
     this.af.database.list('/location-stations/' + location).remove(key);
+    let loc = this.af.database.list('/location-stations/' + location);
+    loc.subscribe(subscribe => {
+      let length = subscribe.length;
+      if (length === 0) {
+        loc.remove(location);
+      }
+    });
   }
   deleteEverything() {
     this.filteredStations.remove();
