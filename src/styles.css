@@ -27,6 +27,14 @@ body {
     color: cadetblue;
 }
 
+.mat-input-underline {
+    border-top-color: cadetblue;
+}
+
+.mat-input-placeholder {
+    color: cadetblue;
+}
+
 .text-center {
     text-align: center;
 }

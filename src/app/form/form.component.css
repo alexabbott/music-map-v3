@@ -31,15 +31,29 @@ input {
 }
 
 .search-result {
-    border-top: 1px solid lightgrey;
+    background-color: #C8D7D4;
+    box-sizing: border-box;
     cursor: pointer;
-    height: 40px;
-    padding: 5px 0;
+    margin: 2px 0;
+    max-height: 140px;
+    padding: 5px 10px;
     overflow: hidden;
+    transition: background-color 0.3s ease-out;
+}
+
+.search-result:hover {
+    background-color: #A8D7D4;
+}
+
+.playlist-preview {
+    height: 80px;
+    margin-top: 5px;
+    width: 100%;
 }
 
 .playlist-info {
     display: inline-block;
+    font-size: 14px;
     vertical-align: middle;
     width: 78%;
 }
