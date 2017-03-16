@@ -1,0 +1,15 @@
+<div class="form-container" [ngClass]="{'push-down': showForm === true}">
+  <md-input-container class="md-block">
+    <input mdInput placeholder="Station Name" type="text" #newstation />
+  </md-input-container>
+  <md-input-container class="md-block">
+    <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
+  </md-input-container>
+  <md-input-container class="md-block">
+    <input mdInput placeholder="Station URL" type="text" #newurl/>
+  </md-input-container>
+  <md-input-container class="md-block">
+    <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates>
+  </md-input-container>
+  <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
+</div>

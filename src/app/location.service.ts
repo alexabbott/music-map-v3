@@ -8,6 +8,8 @@ export class LocationService {
   public filterValue = new BehaviorSubject(null);
   public showReset = new BehaviorSubject(false);
   public playerUrl = new BehaviorSubject(null);
+  public userId = new BehaviorSubject(null);
+  public showForm = new BehaviorSubject(false);
   public updateLocation(key, value) {
     this.filterKey.next(key);
     this.filterValue.next(value);
@@ -20,5 +22,11 @@ export class LocationService {
   }
   public updatePlayerUrl(url) {
     this.playerUrl.next(url);
+  }
+  public updateUserId(id) {
+    this.userId.next(id);
+  }
+  public toggleForm() {
+    this.showForm.next(!this.showForm.getValue());
   }
 }

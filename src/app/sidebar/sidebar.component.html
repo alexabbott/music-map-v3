@@ -2,7 +2,7 @@
   <img *ngIf="(af.auth | async)?.uid" (click)="filterByCurrentUser()" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
   <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()">Login</button>
   <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="logout()">Logout</button>
-  <button md-fab *ngIf="(af.auth | async)?.uid" (click)="showForm = !showForm" [ngClass]="{'rotate': showForm === true}">
+  <button md-fab *ngIf="(af.auth | async)?.uid" (click)="showHideForm()" [ngClass]="{'rotate': showForm === true}">
     <span class="fab-button-content">+</span>
   </button>
 </md-toolbar>
@@ -15,21 +15,7 @@
   md-is-open="true"
   md-whiteframe="4">
 
-  <div class="form-container" [ngClass]="{'push-down': showForm === true}">
-    <md-input-container class="md-block">
-      <input mdInput placeholder="Station Name" type="text" #newstation />
-    </md-input-container>
-    <md-input-container class="md-block">
-      <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
-    </md-input-container>
-    <md-input-container class="md-block">
-      <input mdInput placeholder="Station URL" type="text" #newurl/>
-    </md-input-container>
-    <md-input-container class="md-block">
-      <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates>
-    </md-input-container>
-    <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
-  </div>
+  <add-form></add-form>
 
   <div class="clearfix"></div>
 

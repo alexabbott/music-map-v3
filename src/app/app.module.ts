@@ -16,6 +16,7 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
 import { MapComponent } from './map/map.component';
+import { FormComponent } from './form/form.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -42,7 +43,8 @@ const firebaseAuthConfig = {
     FilterUserLikesPipe,
     OrderBy,
     SafePipe,
-    MapComponent
+    MapComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

@@ -20,6 +20,7 @@ export class SidebarComponent {
   showReset: boolean;
   headline: string;
   playerUrl: string;
+  showForm: boolean;
 
   constructor(public af: AngularFire, public locationService: LocationService) {
     this.filterKey = null;
@@ -28,12 +29,14 @@ export class SidebarComponent {
     this.filteredStations = af.database.list('/stations');
     this.users = af.database.object('/users');
     this.playerUrl = null;
+    this.showForm = false;
 
     let me = this;
 
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.userId = auth.uid;
+        locationService.updateUserId(this.userId);
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.user.subscribe(user => {
@@ -57,6 +60,9 @@ export class SidebarComponent {
     locationService.playerUrl.subscribe(url => {
       this.playerUrl = url;
     });
+    locationService.showForm.subscribe(bool => {
+      this.showForm = bool;
+    });
   }
 
   login() {
@@ -64,14 +70,6 @@ export class SidebarComponent {
   }
   logout() {
      this.af.auth.logout();
-  }
-  addStation(newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    let d = new Date();
-    if (newName && newLocation && newCoordinates && newUrl) {
-      this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: d.getTime(), likesTotal: 0 });
-      this.af.database.list('/location-stations/' + newLocation).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
-      this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
-    }
   }
   updateStation(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
     this.filteredStations.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
@@ -131,5 +129,8 @@ export class SidebarComponent {
   }
   updatePlayer(url) {
     this.locationService.updatePlayerUrl(url);
+  }
+  showHideForm() {
+    this.locationService.toggleForm();
   }
 }

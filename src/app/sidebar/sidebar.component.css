@@ -136,10 +136,6 @@ md-icon {
     vertical-align: middle;
 }
 
-md-input-container {
-    display: block;
-}
-
 .play-button {
     display: block;
     margin-top: 15px;
@@ -155,26 +151,4 @@ md-input-container {
     cursor: pointer;
     margin: 10px 0 0 0;
     text-align: right;
-}
-
-.form-container {
-    margin: -215px auto 20px auto;
-    transition: margin 0.2s ease-out;
-    width: 90%;
-}
-
-.form-container.push-down {
-    margin: 80px auto 20px auto;
-}
-
-.mat-input-wrapper {
-    margin: 2em 0;
-}
-
-input {
-    display: block;
-    font-size: 1em;
-    height: 20px;
-    padding: 5px 10px;
-    width: 100%;
 }
