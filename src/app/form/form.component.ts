@@ -14,6 +14,12 @@ export class FormComponent {
   userId: string;
   showForm: boolean;
   searchData;
+  searchResults: Array<any>;
+  newstation: HTMLInputElement;
+  newlocation: HTMLInputElement;
+  searchKeyword: string;
+  newurl: string;
+  newcoordinates: HTMLInputElement;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
@@ -32,15 +38,14 @@ export class FormComponent {
     locationService.showForm.subscribe(bool => {
       this.showForm = bool;
     });
-
-    this.getSoundcloudPlaylists();
   }
 
-  getSoundcloudPlaylists() {
-    this.http.get('http://api.soundcloud.com/playlists?linked_partitioning=1&client_id=' + this.clientId + '&q=albeit+some+ep')
+  getSoundcloudPlaylists(keyword: string) {
+    this.http.get('http://api.soundcloud.com/playlists?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
       .map(res => {
         res.text();
         console.log('res', res.json().collection);
+        this.searchResults = res.json().collection;
       })
       .subscribe(
         data => this.searchData = data,
@@ -58,6 +63,12 @@ export class FormComponent {
       this.filteredStations.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: d.getTime(), likesTotal: 0 });
       this.af.database.list('/location-stations/' + newLocation).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
       this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
+
+      this.newstation.value = '';
+      this.newlocation.value = '';
+      this.newcoordinates.value = '';
+      this.newurl = '';
+      this.searchKeyword = '';
     }
   }
 }

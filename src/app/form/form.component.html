@@ -6,10 +6,22 @@
     <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Station URL" type="text" #newurl/>
+    <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (ngModelChange)="getSoundcloudPlaylists(searchKeyword)"/>
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates>
+    <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newurl" disabled/>
   </md-input-container>
-  <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl.value)">Add Station</button>
+  <md-input-container class="md-block">
+    <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates />
+  </md-input-container>
+  <div class="search-results">
+    <div *ngFor="let result of searchResults" class="search-result" (click)="newurl = result.id">
+      <div class="playlist-image-container">
+        <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="playlist-image">
+        <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="playlist-image">
+      </div>
+      <div class="playlist-info">{{ result.title }} by {{ result.user.username }}</div>
+    </div>
+  </div>
+  <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl)">Add Station</button>
 </div>

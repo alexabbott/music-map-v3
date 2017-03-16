@@ -13,8 +13,12 @@ export class PlayerComponent {
   constructor(public locationService: LocationService) {
     this.playerUrl = null;
 
-    locationService.playerUrl.subscribe(url => {
-      this.playerUrl = url;
+    locationService.playerUrl.subscribe(id => {
+      if (id) {
+        this.playerUrl = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/' + id + '&amp;auto_play=true&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;visual=true';
+      } else {
+        this.playerUrl = null;
+      }
     });
   }
 }

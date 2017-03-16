@@ -23,3 +23,37 @@ input {
     padding: 5px 10px;
     width: 100%;
 }
+
+.search-results {
+    margin-bottom: 10px;
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.search-result {
+    border-top: 1px solid lightgrey;
+    cursor: pointer;
+    height: 40px;
+    padding: 5px 0;
+    overflow: hidden;
+}
+
+.playlist-info {
+    display: inline-block;
+    vertical-align: middle;
+    width: 78%;
+}
+
+.playlist-image-container {
+    display: inline-block;
+    min-width: 40px;
+    vertical-align: middle;
+    width: 15%;
+}
+
+.playlist-image {
+    border-radius: 50%;
+    float: left;
+    vertical-align: middle;
+    width: 35px;
+}
