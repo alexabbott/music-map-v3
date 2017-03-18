@@ -10,6 +10,8 @@ export class LocationService {
   public playerUrl = new BehaviorSubject(null);
   public userId = new BehaviorSubject(null);
   public showForm = new BehaviorSubject(false);
+  public soundcloudId = new BehaviorSubject('8e1349e63dfd43dc67a63e0de3befc68');
+  
   public updateLocation(key, value) {
     this.filterKey.next(key);
     this.filterValue.next(value);

@@ -1,2 +1,13 @@
-<iframe class="main-player" *ngIf="playerUrl" id="player" [src]="playerUrl | safe"></iframe>
-<div class="no-playlist" *ngIf="!playerUrl">No Playlist Loaded</div>
+<div class="player-controls">
+    <md-icon (click)="playSound()">play_arrow</md-icon>
+    <md-icon (click)="pauseSound()">pause</md-icon>
+</div>
+<div *ngIf="currentTrack" class="track-art">
+    <img [src]="currentTrack.artwork_url | safe">
+</div>
+<div *ngIf="currentTrack" class="track-info">
+    {{ currentTrack.title }} by {{ currentTrack.user.username }}
+</div>
+<div *ngIf="!currentTrack" class="track-info">
+    No Tracks Currently Loaded
+</div>
