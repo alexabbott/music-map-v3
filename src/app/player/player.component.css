@@ -2,6 +2,7 @@
     background-color: #C8D7D4;
     box-sizing: border-box;
     border-top: 1px solid cadetblue;
+    font-size: 0;
     height: 60px;
     width: 100vw;
 }
@@ -9,17 +10,24 @@
 .player-controls {
     box-sizing: border-box;
     display: inline-block;
+    font-size: 16px;
     height: 60px;
     line-height: 75px;
-    min-width: 415px;
-    padding: 0 10%;
-    width: 35%;
+    text-align: center;
+    width: 30%;
 }
 
 .player-controls md-icon {
     color: cadetblue;
     cursor: pointer;
     margin-right: 5%;
+}
+
+.current-track {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    width: 70%;
 }
 
 .track-art {
@@ -32,12 +40,15 @@
 .track-art img {
     border-radius: 50%;
     display: inline-block;
+    margin-top: 7px;
+    vertical-align: middle;
     width: 40px;
 }
 
 .track-info {
     color: cadetblue;
     display: inline-block;
+    font-size: 16px;
     line-height: 60px;
     vertical-align: top;
 }
