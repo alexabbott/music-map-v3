@@ -1,18 +1,19 @@
-player {
+.main-player {
     background-color: #C8D7D4;
     box-sizing: border-box;
-    box-shadow: 0px 3px 5px -1px rgba(0,0,0,.2);
-    height: 10vh;
+    border-top: 1px solid cadetblue;
+    height: 60px;
     width: 100vw;
 }
 
 .player-controls {
     box-sizing: border-box;
     display: inline-block;
-    height: 10vh;
-    line-height: 12vh;
+    height: 60px;
+    line-height: 75px;
+    min-width: 415px;
     padding: 0 10%;
-    width: 30%;
+    width: 35%;
 }
 
 .player-controls md-icon {
@@ -23,7 +24,9 @@ player {
 
 .track-art {
     display: inline-block;
-    line-height: 10vh;
+    line-height: 55px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .track-art img {
@@ -33,6 +36,8 @@ player {
 }
 
 .track-info {
+    color: cadetblue;
     display: inline-block;
-    line-height: 10vh;
+    line-height: 60px;
+    vertical-align: top;
 }

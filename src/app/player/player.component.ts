@@ -14,9 +14,13 @@ export class PlayerComponent {
   playlistTracks;
   playlistData;
   currentTrack;
+  currentSound;
+  newSounds;
+  currentlyPlaying: boolean;
 
   constructor(public locationService: LocationService, http: Http) {
     this.http = http;
+    this.currentlyPlaying = false;
 
     this.soundManager = window['soundManager'];
 
@@ -40,21 +44,33 @@ export class PlayerComponent {
         this.playlistTracks = res.json().tracks;
 
         let playlistLength = this.playlistTracks.length;
-        let newSounds = [];
+        this.newSounds = [];
         for (let i = 0; i < playlistLength; i++) {
-          newSounds.push(this.soundManager.createSound({
+          this.newSounds.push(this.soundManager.createSound({
             id: this.playlistTracks[i].id.toString(),
             url: 'https://api.soundcloud.com/tracks/' + this.playlistTracks[i].id + '/stream?client_id=' + this.locationService.soundcloudId.getValue(),
             onfinish: () => {
-              if (newSounds[i+1]) {
+              if (this.newSounds[i+1]) {
                 this.currentTrack = this.playlistTracks[i+1];
-                newSounds[i+1].play();
+                this.currentSound = this.newSounds[i+1];
+                this.newSounds[i+1].play();
               }
-					  }
+					  },
+            onPlay: () => {
+              this.currentlyPlaying = true;
+            },
+            onPause: () => {
+              this.currentlyPlaying = false;
+            }
           }));
           if (i == 0) {
             this.currentTrack = this.playlistTracks[i];
-            newSounds[i].play();
+            if (this.currentSound) {
+              this.currentSound.stop();
+            }
+            this.currentSound = this.newSounds[i];
+            this.newSounds[i].play();
+            this.currentlyPlaying = true;
           }
         }
       })
@@ -64,10 +80,42 @@ export class PlayerComponent {
   }
 
   playSound() {
-    this.soundManager.play();
+    this.currentSound.play();
+    this.currentlyPlaying = true;
   }
 
   pauseSound() {
-    this.soundManager.pause();
+    this.currentSound.pause();
+    this.currentlyPlaying = false;
+  }
+
+  playPrevious() {
+    let currentIndex = this.newSounds.indexOf(this.currentSound);
+    this.currentlyPlaying = true;
+    this.currentSound.stop();
+    if (this.newSounds[currentIndex - 1]) {
+      this.currentSound = this.newSounds[currentIndex - 1];
+      this.currentTrack = this.playlistTracks[currentIndex - 1];
+      this.newSounds[currentIndex - 1].play();
+    } else {
+      this.currentSound = this.newSounds[this.newSounds.length - 1];
+      this.currentTrack = this.playlistTracks[this.playlistTracks.length - 1];
+      this.newSounds[this.newSounds.length - 1].play();
+    }
+  }
+
+  playNext() {
+    let currentIndex = this.newSounds.indexOf(this.currentSound);
+    this.currentlyPlaying = true;
+    this.currentSound.stop();
+    if (this.newSounds[currentIndex + 1]) {
+      this.currentSound = this.newSounds[currentIndex + 1];
+      this.currentTrack = this.playlistTracks[currentIndex + 1];
+      this.newSounds[currentIndex + 1].play();
+    } else {
+      this.currentSound = this.newSounds[0];
+      this.currentTrack = this.playlistTracks[0];
+      this.newSounds[0].play();
+    }
   }
 }

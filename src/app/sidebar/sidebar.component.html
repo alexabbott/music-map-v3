@@ -1,11 +1,16 @@
 <md-toolbar>
-  <img *ngIf="(af.auth | async)?.uid" (click)="filterByCurrentUser()" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
+  <img *ngIf="(af.auth | async)?.uid" (click)="showMenu = !showMenu" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
   <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()">Login</button>
-  <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="logout()">Logout</button>
-  <button md-fab *ngIf="(af.auth | async)?.uid" (click)="showHideForm()" [ngClass]="{'rotate': showForm === true}">
-    <span class="fab-button-content">+</span>
+  <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="showHideForm()">
+    <span *ngIf="showForm !== true">Add a Playlist</span>
+    <span *ngIf="showForm === true">Hide</span>
   </button>
 </md-toolbar>
+
+<nav *ngIf="(af.auth | async)?.uid" [ngClass]="{ 'show-menu': showMenu === true }">
+  <div class="nav-item" (click)="filterByCurrentUser()">My Profile</div>
+  <div class="nav-item" (click)="logout()">Logout</div>
+</nav>
 
 <md-sidenav
   class="md-sidenav-left"
@@ -19,113 +24,120 @@
 
   <div class="clearfix"></div>
 
-  <div class="text-center reset-stations" *ngIf="showReset" (click)="resetStations()">
-      View All Stations
-  </div>
-
   <div class="sort-controls">
-    <button md-raised-button (click)="changeOrder('-published')" [ngClass]="{'alt': orderValue === '-likesTotal' }">Newest Stations</button>
-    <button md-raised-button (click)="changeOrder('-likesTotal')" [ngClass]="{'alt': orderValue === '-published' }">Popular Stations</button>
+    <button md-raised-button (click)="changeOrder('-published')" [ngClass]="{'alt': orderValue === '-likesTotal' }">Newest Playlists</button>
+    <button md-raised-button (click)="changeOrder('-likesTotal')" [ngClass]="{'alt': orderValue === '-published' }">Popular Playlists</button>
   </div>
 
-  <h2 *ngIf="headline" class="headline">
-    <md-icon *ngIf="filterKey === 'location'">location_on</md-icon> {{ headline }}
-  </h2>
-  <h2 *ngIf="filterKey === 'coordinates'" class="headline">
-    <md-icon>location_on</md-icon> {{ (filteredStations | async | filter: filterKey : filterValue | first)?.location }}
-  </h2>
-  <h2 *ngIf="filterKey === 'user' && headline !== 'My Stations'" class="headline">
-    <img src="{{ (users | async | get: ((filteredStations | async | filter: filterKey : filterValue | first)?.user))?.photoURL }}"> {{ (users | async | get: ((filteredStations | async | filter: filterKey : filterValue | first)?.user))?.name }}
-  </h2>
+  <div class="text-center reset-playlists" *ngIf="showReset" (click)="resetPlaylists()">
+      View All Playlists
+  </div>
 
-  <md-card *ngFor="let station of filteredStations | async | filter: filterKey : filterValue | orderBy: [orderValue]">
-    <div class="station-name" (click)="pausePlayer()">
-      {{ station.name }}
-    </div>
-    <div class="station-likes">
-      <span *ngIf="(af.auth | async)?.uid" class="like-controls">
-        <md-icon
-          (click)="unlikeStation(station.$key)"
-          class="active"
-          *ngIf="(user | async)?.likes && (user | async)?.likes[station.$key]">
-          star
-        </md-icon>
-        <md-icon
-          (click)="likeStation(station.$key)"
-          *ngIf="!(user | async)?.likes || !(user | async)?.likes[station.$key]">
-          star
-        </md-icon>
+  <div class="playlists-container" [ngClass]="{ 'push-down': showReset === true }">
+
+    <md-input-container class="search-playlists">
+      <input mdInput placeholder="Search Playlists..." [(ngModel)]="searchTerm">
+    </md-input-container>
+
+    <h2 *ngIf="headline" class="headline">
+      <md-icon *ngIf="filterKey === 'location'">location_on</md-icon> {{ headline }}
+    </h2>
+    <h2 *ngIf="filterKey === 'coordinates'" class="headline">
+      <md-icon>location_on</md-icon> {{ (filteredPlaylists | async | filter: filterKey : filterValue | first)?.location }}
+    </h2>
+    <h2 *ngIf="filterKey === 'user' && headline !== 'My Playlists'" class="headline">
+      <img src="{{ (users | async | get: ((filteredPlaylists | async | filter: filterKey : filterValue | first)?.user))?.photoURL }}"> {{ (users | async | get: ((filteredPlaylists | async | filter: filterKey : filterValue | first)?.user))?.name }}
+    </h2>
+
+    <md-card *ngFor="let playlist of filteredPlaylists | async | filter: filterKey : filterValue | search: searchTerm | orderBy: [orderValue]">
+      <div class="playlist-name" (click)="pausePlayer()">
+        {{ playlist.name }}
+      </div>
+      <div class="playlist-likes">
+        <span *ngIf="(af.auth | async)?.uid" class="like-controls">
+          <md-icon
+            (click)="unlikePlaylist(playlist.$key)"
+            class="active"
+            *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
+            star
+          </md-icon>
+          <md-icon
+            (click)="likePlaylist(playlist.$key)"
+            *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
+            star
+          </md-icon>
+        </span>
+        {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
+      </div>
+      <div class="playlist-location" (click)="filterByLocation(playlist.location)">
+        <md-icon>location_on</md-icon> {{ playlist.location }}
+      </div>
+      <div class="clearfix"></div>
+      <div class="playlist-date">
+        Published {{ playlist.published | date: 'MM/dd/yyyy' }}
+      </div>
+      <div class="playlist-user" (click)="filterByUser(playlist.user)">
+        <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ (users | async | get: playlist.user)?.name }}
+      </div>
+      <div class="clearfix"></div>
+      <button md-raised-button (click)="updatePlayer(playlist.url)" class="play-button" [ngClass]="{'alt': playerUrl !== playlist.url }">
+        <span *ngIf="playerUrl !== playlist.url">
+          Play
+        </span>
+        <span *ngIf="playerUrl === playlist.url">
+          Currently Playing
+        </span>
+      </button>
+      <div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>
+    </md-card>
+
+    <section *ngIf="headline === 'My Playlists'">
+
+      <h2 class="headline">Liked Playlists</h2>
+
+      <span *ngFor="let playlist of filteredPlaylists | async | search: searchTerm | orderBy: [orderValue]">
+        <md-card *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
+          <div class="playlist-name">
+            {{ playlist.name }}
+          </div>
+          <div class="playlist-likes">
+            <span *ngIf="(af.auth | async)?.uid" class="like-controls">
+              <md-icon
+                (click)="unlikePlaylist(playlist.$key)"
+                class="active"
+                *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
+                star
+              </md-icon>
+              <md-icon
+                (click)="likePlaylist(playlist.$key)"
+                *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
+                star
+              </md-icon>
+            </span>
+            {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
+          </div>
+          <div class="playlist-location" (click)="filterByLocation(playlist.location)">
+            <md-icon>location_on</md-icon> {{ playlist.location }}
+          </div>
+          <div class="clearfix"></div>
+          <div class="playlist-date">
+            Published {{ playlist.published | date: 'MM/dd/yyyy' }}
+          </div>
+          <div class="playlist-user" (click)="filterByUser(playlist.user)">
+            <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ (users | async | get: playlist.user)?.name }}
+          </div>
+          <div class="clearfix"></div>
+          <button md-raised-button (click)="updatePlayer(playlist.url)" class="play-button" [ngClass]="{'alt': playerUrl !== playlist.url }">
+            <span *ngIf="playerUrl !== playlist.url">
+              Play
+            </span>
+            <span *ngIf="playerUrl === playlist.url">
+              Currently Playing
+            </span>
+          </button>
+          <div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>
+        </md-card>
       </span>
-      {{ station.likesTotal }} like<span *ngIf="station.likesTotal > 1 || station.likesTotal === 0">s</span>
-    </div>
-    <div class="station-location" (click)="filterByLocation(station.location)">
-      <md-icon>location_on</md-icon> {{ station.location }}
-    </div>
-    <div class="clearfix"></div>
-    <div class="station-date">
-      Published {{ station.published | date: 'MM/dd/yyyy' }}
-    </div>
-    <div class="station-user" (click)="filterByUser(station.user)">
-      <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
-    </div>
-    <div class="clearfix"></div>
-    <button md-raised-button (click)="updatePlayer(station.url)" class="play-button" [ngClass]="{'alt': playerUrl !== station.url }">
-      <span *ngIf="playerUrl !== station.url">
-        Load Playlist
-      </span>
-      <span *ngIf="playerUrl === station.url">
-        Playlist Loaded
-      </span>
-    </button>
-    <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key, station.location)">delete station</div>
-  </md-card>
-
-  <section *ngIf="headline === 'My Stations'">
-
-    <h2 class="headline">Liked Stations</h2>
-
-    <span *ngFor="let station of filteredStations | async | orderBy: [orderValue]">
-      <md-card *ngIf="(user | async)?.likes && (user | async)?.likes[station.$key]">
-        <div class="station-name">
-          {{ station.name }}
-        </div>
-        <div class="station-likes">
-          <span *ngIf="(af.auth | async)?.uid" class="like-controls">
-            <md-icon
-              (click)="unlikeStation(station.$key)"
-              class="active"
-              *ngIf="(user | async)?.likes && (user | async)?.likes[station.$key]">
-              star
-            </md-icon>
-            <md-icon
-              (click)="likeStation(station.$key)"
-              *ngIf="!(user | async)?.likes || !(user | async)?.likes[station.$key]">
-              star
-            </md-icon>
-          </span>
-          {{ station.likesTotal }} like<span *ngIf="station.likesTotal > 1 || station.likesTotal === 0">s</span>
-        </div>
-        <div class="station-location" (click)="filterByLocation(station.location)">
-          <md-icon>location_on</md-icon> {{ station.location }}
-        </div>
-        <div class="clearfix"></div>
-        <div class="station-date">
-          Published {{ station.published | date: 'MM/dd/yyyy' }}
-        </div>
-        <div class="station-user" (click)="filterByUser(station.user)">
-          <img src="{{ (users | async | get: station.user)?.photoURL }}"> {{ (users | async | get: station.user)?.name }}
-        </div>
-        <div class="clearfix"></div>
-        <button md-raised-button (click)="updatePlayer(station.url)" class="play-button" [ngClass]="{'alt': playerUrl !== station.url }">
-          <span *ngIf="playerUrl !== station.url">
-            Load Playlist
-          </span>
-          <span *ngIf="playerUrl === station.url">
-            Playlist Loaded
-          </span>
-        </button>
-        <div class="delete-station" *ngIf="station.user === (user | async)?.uid" (click)="deleteStation(station.$key, station.location)">delete station</div>
-      </md-card>
-    </span>
-  </section>
+    </section>
+  </div>
 </md-sidenav>

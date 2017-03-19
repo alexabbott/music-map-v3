@@ -1,11 +1,18 @@
 .form-container {
-    margin: -215px auto 20px auto;
-    transition: margin 0.2s ease-out;
-    width: 90%;
+    background: white;
+    border-right: 1px solid cadetblue;
+    box-sizing: border-box;
+    height: calc(100vh - 124px);
+    padding: 15px;
+    position: absolute;
+    transform: translate3d(0, -95vh, 0);
+    transition: transform 0.3s ease-out;
+    width: 30%;
+    z-index: 2;
 }
 
 .form-container.push-down {
-    margin: 80px auto 20px auto;
+    transform: translate3d(0, 44px, 0);
 }
 
 md-input-container {
@@ -41,7 +48,8 @@ input {
     transition: background-color 0.3s ease-out;
 }
 
-.search-result:hover {
+.search-result:hover,
+.search-result.selected {
     background-color: #A8D7D4;
 }
 
@@ -70,4 +78,9 @@ input {
     float: left;
     vertical-align: middle;
     width: 35px;
+}
+
+.search-actions {
+    margin: 10px auto;
+    text-align: center;
 }

@@ -10,7 +10,7 @@ import { LocationService } from '../location.service';
 
 export class SidebarComponent {
   map;
-  filteredStations: FirebaseListObservable<any[]>;
+  filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
   userId: string;
@@ -26,7 +26,7 @@ export class SidebarComponent {
     this.filterKey = null;
     this.filterValue = null;
     this.orderValue = '-published';
-    this.filteredStations = af.database.list('/stations');
+    this.filteredPlaylists = af.database.list('/stations');
     this.users = af.database.object('/users');
     this.playerUrl = null;
     this.showForm = false;
@@ -71,11 +71,11 @@ export class SidebarComponent {
   logout() {
      this.af.auth.logout();
   }
-  updateStation(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    this.filteredStations.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
+  updatePlaylist(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
+    this.filteredPlaylists.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
   }
-  deleteStation(key: string, location: string) {
-    this.filteredStations.remove(key);
+  deletePlaylist(key: string, location: string) {
+    this.filteredPlaylists.remove(key);
     this.af.database.list('/user-stations/' + this.userId).remove(key);
     this.af.database.list('/location-stations/' + location).remove(key);
     let loc = this.af.database.list('/location-stations/' + location);
@@ -87,9 +87,9 @@ export class SidebarComponent {
     });
   }
   deleteEverything() {
-    this.filteredStations.remove();
+    this.filteredPlaylists.remove();
   }
-  likeStation(key: string) {
+  likePlaylist(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
     this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
@@ -98,7 +98,7 @@ export class SidebarComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
-  unlikeStation(key: string) {
+  unlikePlaylist(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
@@ -107,7 +107,7 @@ export class SidebarComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
-  resetStations() {
+  resetPlaylists() {
     this.showReset = false;
     this.filterKey = null;
     this.filterValue = null;
@@ -126,7 +126,7 @@ export class SidebarComponent {
     this.filterKey = 'user';
     this.filterValue = this.userId;
     this.showReset = true;
-    this.headline = 'My Stations';
+    this.headline = 'My Playlists';
   }
   filterByLocation(loc) {
     this.filterKey = 'location';

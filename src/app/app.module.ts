@@ -17,6 +17,7 @@ import { MaterialModule } from '@angular/material';
 import { Ng2MapModule} from 'ng2-map';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
+import { SearchPipe } from './search.pipe';
 
 // Must export the config
 export const firebaseConfig = {
@@ -44,7 +45,8 @@ const firebaseAuthConfig = {
     OrderBy,
     SafePipe,
     MapComponent,
-    FormComponent
+    FormComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

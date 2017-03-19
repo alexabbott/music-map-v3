@@ -11,7 +11,6 @@ import { LocationService } from '../location.service';
 export class MapComponent {
   mapOptions;
   map;
-  newstation: HTMLTemplateElement;
   newlocation: string;
   locations: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
@@ -80,7 +79,7 @@ export class MapComponent {
       me.showReset = true;
       console.log('marker coordinates', me.convertCoordinates(marker.position.lat()) + ', ' + me.convertCoordinates(marker.position.lng()));
       marker.map.setCenter({lat: marker.position.lat(), lng: marker.position.lng()});
-      marker.map.setZoom(14);
+      marker.map.setZoom(6);
       me.locationService.updateLocation('coordinates', me.convertCoordinates(marker.position.lat()));
       me.locationService.updateReset();
     });

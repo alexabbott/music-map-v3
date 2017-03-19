@@ -1,9 +1,9 @@
 <div class="form-container" [ngClass]="{'push-down': showForm === true}">
   <md-input-container class="md-block">
-    <input mdInput placeholder="Station Name" type="text" #newstation />
+    <input mdInput placeholder="Playlist Name" type="text" #newplaylist />
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Station Location" type="text" id="autocomplete" #newlocation />
+    <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newlocation />
   </md-input-container>
   <md-input-container class="md-block">
     <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (ngModelChange)="getSoundcloudPlaylists(searchKeyword)"/>
@@ -12,17 +12,23 @@
     <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newurl" disabled/>
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Station Coordinates" type="text" id="coordinates" disabled #newcoordinates />
+    <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newcoordinates />
   </md-input-container>
   <div class="search-results">
-    <div *ngFor="let result of searchResults" class="search-result" (click)="newurl = result.id">
+    <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newurl === result.id }">
       <div class="playlist-image-container">
         <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="playlist-image">
         <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="playlist-image">
       </div>
       <div class="playlist-info">{{ result.title }} by {{ result.user.username }}</div>
-      <iframe [src]="('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/'+result.id+'&amp;auto_play=true&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;visual=true' | safe)" class="playlist-preview"></iframe>
+      <div class="search-actions">
+        <button md-raised-button (click)="newurl = result.id">
+          <span *ngIf="newurl !== result.id">Select Playlist</span>
+          <span *ngIf="newurl === result.id">Playlist Selected</span>
+        </button>
+        <button md-raised-button (click)="updatePlayer(result.id)">Preview Playlist</button>
+      </div>
     </div>
   </div>
-  <button md-raised-button (click)="addStation(newstation.value, newlocation.value, newcoordinates.value, newurl)">Add Station</button>
+  <button md-raised-button (click)="addPlaylist(newplaylist.value, newlocation.value, newcoordinates.value, newurl)">Add Playlist</button>
 </div>
