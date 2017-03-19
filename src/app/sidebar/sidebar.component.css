@@ -136,11 +136,13 @@ md-card {
 .playlist-location {
     cursor: pointer;
     float: right;
+    font-size: 12px;
     margin-top: 10px;
 }
 
 .playlist-likes {
     float: left;
+    font-size: 12px;
     margin-top: 10px;
 }
 
@@ -154,6 +156,7 @@ md-card {
 .playlist-user {
     cursor: pointer;
     float: right;
+    font-size: 12px;
     margin-top: 10px;
 }
 

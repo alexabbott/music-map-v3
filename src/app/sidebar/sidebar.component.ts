@@ -21,6 +21,7 @@ export class SidebarComponent {
   headline: string;
   playerUrl: string;
   showForm: boolean;
+  showMenu: boolean;
 
   constructor(public af: AngularFire, public locationService: LocationService) {
     this.filterKey = null;
@@ -30,6 +31,7 @@ export class SidebarComponent {
     this.users = af.database.object('/users');
     this.playerUrl = null;
     this.showForm = false;
+    this.showMenu = false;
 
     let me = this;
 
@@ -127,6 +129,7 @@ export class SidebarComponent {
     this.filterValue = this.userId;
     this.showReset = true;
     this.headline = 'My Playlists';
+    this.showMenu = false;
   }
   filterByLocation(loc) {
     this.filterKey = 'location';
