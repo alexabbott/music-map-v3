@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { LocationService } from './location.service';
+import { GlobalService } from './global.service';
 
-describe('LocationService', () => {
+describe('GlobalService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LocationService]
+      providers: [GlobalService]
     });
   });
 
-  it('should ...', inject([LocationService], (service: LocationService) => {
+  it('should ...', inject([GlobalService], (service: GlobalService) => {
     expect(service).toBeTruthy();
   }));
 });
