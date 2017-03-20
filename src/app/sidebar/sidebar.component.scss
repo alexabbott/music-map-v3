@@ -1,202 +1,213 @@
-md-toolbar {
-    background: #C8D7D4;
-    border-right: 1px solid cadetblue;
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, .2);
-    box-sizing: border-box;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 30%;
-    z-index: 4;
-}
+@import '../../variables';
 
-md-toolbar button {
+md-toolbar {
+  background: $color-main;
+  border-right: 1px solid $color-main;
+  box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  box-sizing: border-box;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 30%;
+  z-index: 4;
+
+  button {
     position: absolute;
     right: 7%;
+  }
 }
 
+
 .profile-image {
-    border-radius: 50%;
-    cursor: pointer;
-    margin: 0 10px;
-    width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 10px;
+  width: 50px;
 }
 
 nav {
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, .2);
-    position: absolute;
-    text-align: center;
-    transform: translate3d(0, -200px, 0);
-    transition: transform 0.3s ease-out;
-    width: 30%;
-    z-index: 3;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2);
+  position: absolute;
+  text-align: center;
+  transform: translate3d(0, -200px, 0);
+  transition: transform .3s ease-out;
+  width: 30%;
+  z-index: 3;
+
+  .show-menu {
+    transform: translate3d(0, 65px, 0);
+  }
 }
 
-nav.show-menu {
-    transform: translate3d(0,65px,0);
-}
 
 .nav-item {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid cadetblue;
-    color: cadetblue;
-    cursor: pointer;
-    padding: 15px 0;
+  background-color: rgba($color-white, .9);
+  border-bottom: 1px solid $color-main;
+  color: $color-main;
+  cursor: pointer;
+  padding: 15px 0;
 }
 
 .md-sidenav-left {
-    border-right: 1px solid cadetblue;
-    box-sizing: border-box;
-    display: inline-block;
-    height: calc(100vh - 60px);
-    overflow: scroll;
-    vertical-align: top;
-    width: 30%;
+  border-right: 1px solid $color-main;
+  box-sizing: border-box;
+  display: inline-block;
+  height: calc(100vh - 60px);
+  overflow: scroll;
+  vertical-align: top;
+  width: 30%;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
-.md-sidenav-left:focus {
-    outline: 0;
-}
 
 .sort-controls {
-    background: #e6f5f2;
-    border-right: 1px solid cadetblue;
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, .2);
-    box-sizing: border-box;
-    margin: 0 auto;
-    position: fixed;
-    top: 64px;
-    text-align: center;
-    width: 30%;
-    z-index: 1;
+  background: $color-grey-lighter;
+  border-right: 1px solid $color-main;
+  box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  box-sizing: border-box;
+  margin: 0 auto;
+  position: fixed;
+  text-align: center;
+  top: 64px;
+  width: 30%;
+  z-index: 1;
+
+  button {
+    margin: 20px 2px;
+  }
 }
 
-.sort-controls button {
-    margin: 20px 2px;
-}
 
 .reset-playlists {
-    background: #C8D7D4;
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, .2);
-    color: cadetblue;
-    cursor: pointer;
-    padding: 10px 0;
-    position: fixed;
-    top: 140px;
-    width: 30%;
-    z-index: 1;
+  background: $color-grey-light;
+  box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  color: $color-main;
+  cursor: pointer;
+  padding: 10px 0;
+  position: fixed;
+  top: 140px;
+  width: 30%;
+  z-index: 1;
 }
 
 .playlists-container {
-    transform: translate3d(0, 140px, 0);
-    transition: transform 0.3s ease-out;
-}
+  transform: translate3d(0, 140px, 0);
+  transition: transform .3s ease-out;
 
-.playlists-container.push-down {
+  &.push-down {
     transform: translate3d(0, 182px, 0);
+  }
 }
 
 .search-playlists {
-    display: block;
-    margin: 20px auto 0 auto;
-    width: 90%;
+  display: block;
+  margin: 20px auto 0;
+  width: 90%;
 }
 
 .headline {
-    box-sizing: border-box;
-    background: cadetblue;
-    color: white;
-    margin: 0;
-    padding: 24px;
-}
+  background: $color-main;
+  box-sizing: border-box;
+  color: $color-white;
+  margin: 0;
+  padding: 24px;
 
-.headline md-icon {
-    color: white;
+  md-icon {
+    color: $color-white;
     font-size: 26px;
-    margin: -7px 0px 0 0;
-}
+    margin-top: -7px;
+  }
 
-.headline img {
+  img {
     border-radius: 50%;
     margin: 0 5px 0 0;
     vertical-align: middle;
     width: 50px;
+  }
 }
 
 md-card {
-    font-size: 1em;
+  background: $color-grey-lighter;
+  font-size: 1em;
+  margin-bottom: 3px;
 }
 
 .playlist-name {
-    color: cadetblue;
-    font-size: 24px;
-    width: 100%;
+  color: $color-main;
+  font-size: 24px;
+  width: 100%;
 }
 
 .playlist-location {
-    cursor: pointer;
-    float: right;
-    font-size: 12px;
-    margin-top: 10px;
+  color: $color-grey;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 .playlist-likes {
-    float: left;
-    font-size: 12px;
-    margin-top: 10px;
+  color: $color-grey;
+  float: left;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 .playlist-date {
-    color: grey;
-    float: left;
-    font-size: 12px;
-    margin-top: 10px;
+  color: $color-grey;
+  float: left;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 .playlist-user {
-    cursor: pointer;
-    float: right;
-    font-size: 12px;
-    margin-top: 10px;
-}
+  color: $color-grey;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: 10px;
 
-.playlist-user img {
+  img {
     border-radius: 50%;
     margin-top: -3px;
     vertical-align: middle;
     width: 20px;
+  }
 }
 
 .active {
-    color: gold;
+  color: $color-gold;
 }
 
 md-icon {
-    color: lightgrey;
-    cursor: pointer;
-    font-size: 21px;
-    margin-right: -4px;
-    vertical-align: middle;
+  color: $color-grey-light;
+  cursor: pointer;
+  font-size: 21px;
+  margin-right: -4px;
+  vertical-align: middle;
 }
 
 .play-button {
-    display: block;
-    margin-top: 15px;
-    pointer-events: none;
-    width: 100%;
-}
+  display: block;
+  margin-top: 15px;
+  pointer-events: none;
+  width: 100%;
 
-.play-button.alt {
+  &.alt {
     pointer-events: initial;
-}
+  }
 
-.play-button md-icon {
-    color: white;
+  md-icon {
+    color: $color-white;
+  }
 }
 
 .delete-playlist {
-    color: lightgrey;
-    cursor: pointer;
-    margin: 10px 0 0 0;
-    text-align: right;
+  color: $color-grey;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: right;
 }

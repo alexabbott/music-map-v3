@@ -4,5 +4,6 @@
   (idle)="onIdle($event)">
     <marker *ngFor="let location of locations | async"
       [position]="location.$key"
+      [options]="markerOptions"
       (initialized$)="onMarkerInit($event)"></marker>
 </ng2-map>

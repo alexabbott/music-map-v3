@@ -1,53 +1,57 @@
+@import '../../variables';
+
 .main-player {
-    background-color: cadetblue;
-    box-sizing: border-box;
-    font-size: 0;
-    height: 60px;
-    width: 100vw;
+  background-color: $color-main;
+  box-sizing: border-box;
+  font-size: 0;
+  height: 60px;
+  width: 100vw;
 }
 
 .player-controls {
-    box-sizing: border-box;
-    display: inline-block;
-    font-size: 16px;
-    height: 60px;
-    line-height: 75px;
-    text-align: center;
-    width: 30%;
-}
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 16px;
+  height: 60px;
+  line-height: 75px;
+  text-align: center;
+  width: 30%;
 
-.player-controls md-icon {
-    color: white;
+  md-icon {
+    color: $color-white;
     cursor: pointer;
     margin-right: 5%;
+  }
 }
 
+
 .current-track {
-    display: inline-block;
-    text-align: center;
-    vertical-align: top;
-    width: 70%;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  width: 70%;
 }
 
 .track-art {
-    display: inline-block;
-    line-height: 55px;
-    margin-right: 10px;
-    vertical-align: middle;
-}
+  display: inline-block;
+  line-height: 55px;
+  margin-right: 10px;
+  vertical-align: middle;
 
-.track-art img {
+  img {
     border-radius: 50%;
     display: inline-block;
     margin-top: 7px;
     vertical-align: middle;
     width: 40px;
+  }
 }
 
+
 .track-info {
-    color: white;
-    display: inline-block;
-    font-size: 16px;
-    line-height: 60px;
-    vertical-align: top;
+  color: $color-white;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 60px;
+  vertical-align: top;
 }

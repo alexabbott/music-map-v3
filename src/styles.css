@@ -13,27 +13,27 @@ body {
 }
 
 .mat-raised-button {
-    background: cadetblue;
+    background: #0c6;
 }
 
 .mat-raised-button.alt {
-    background: #C8D7D4;
+    background: white;
 }
 
 .mat-button-wrapper {
-    color: #fff;
+    color: white;
 }
 
 .alt .mat-button-wrapper {
-    color: cadetblue;
+    color: #0c6;
 }
 
 .mat-input-underline {
-    border-top-color: cadetblue;
+    border-top-color: #0c6;
 }
 
 .mat-input-placeholder {
-    color: cadetblue;
+    color: #0c6;
 }
 
 .text-center {
