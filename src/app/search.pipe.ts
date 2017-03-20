@@ -11,7 +11,7 @@ export class SearchPipe implements PipeTransform {
     if(term === undefined) return items;
 
     return items.filter( function(item){
-      return item.name.toLowerCase().includes(term.toLowerCase()) || item.location.toLowerCase().includes(term.toLowerCase());
+      return item.name.toLowerCase().includes(term.toLowerCase()) || item.location.toLowerCase().includes(term.toLowerCase()) || item.userName.toLowerCase().includes(term.toLowerCase());
     })
   }
 }

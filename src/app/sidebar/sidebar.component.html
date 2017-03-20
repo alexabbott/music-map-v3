@@ -56,13 +56,13 @@
       <div class="playlist-likes">
         <span *ngIf="(af.auth | async)?.uid" class="like-controls">
           <md-icon
-            (click)="unlikePlaylist(playlist.$key)"
+            (click)="unlikePlaylist(playlist.$key, playlist.user)"
             class="active"
             *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
             star
           </md-icon>
           <md-icon
-            (click)="likePlaylist(playlist.$key)"
+            (click)="likePlaylist(playlist.$key, playlist.user)"
             *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
             star
           </md-icon>
@@ -103,13 +103,13 @@
           <div class="playlist-likes">
             <span *ngIf="(af.auth | async)?.uid" class="like-controls">
               <md-icon
-                (click)="unlikePlaylist(playlist.$key)"
+                (click)="unlikePlaylist(playlist.$key, playlist.user)"
                 class="active"
                 *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
                 star
               </md-icon>
               <md-icon
-                (click)="likePlaylist(playlist.$key)"
+                (click)="likePlaylist(playlist.$key, playlist.user)"
                 *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
                 star
               </md-icon>

@@ -97,23 +97,27 @@ export class SidebarComponent {
     this.filteredPlaylists.remove();
   }
 
-  likePlaylist(key: string) {
+  likePlaylist(key: string, user: string) {
     this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
     this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
+    this.af.database.list('/users-stations/' + user + '/' + key + '/likes/' + this.userId).push(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
     likes.subscribe(subscribe => {
       let length = subscribe.length;
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
+      this.af.database.object('/users-stations/' + user + '/' + key).update({ likesTotal: length });
     });
   }
 
-  unlikePlaylist(key: string) {
+  unlikePlaylist(key: string, user: string) {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
+    this.af.database.list('/users-stations/' + user + '/' + key + '/likes/' + this.userId).remove(this.userId);
     let likes = this.af.database.list('/stations/' + key + '/likes/');
     likes.subscribe(subscribe => {
       let length = subscribe.length;
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
+      this.af.database.object('/users-stations/' + user + '/' + key).update({ likesTotal: length });
     });
   }
 
