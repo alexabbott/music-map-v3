@@ -6,7 +6,7 @@ import { GlobalService } from '../global.service';
 @Component({
   selector: 'add-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
 

@@ -6,7 +6,7 @@ import { GlobalService } from '../global.service';
 @Component({
   selector: 'map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent {
   mapOptions;

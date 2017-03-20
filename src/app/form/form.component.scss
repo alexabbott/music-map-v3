@@ -9,11 +9,12 @@
     transition: transform 0.3s ease-out;
     width: 30%;
     z-index: 2;
+
+    &.push-down {
+        transform: translate3d(0, 44px, 0);
+    }
 }
 
-.form-container.push-down {
-    transform: translate3d(0, 44px, 0);
-}
 
 md-input-container {
     display: block;
