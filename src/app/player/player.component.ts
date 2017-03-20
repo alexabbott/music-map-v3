@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { LocationService } from '../location.service';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'player',
@@ -18,13 +18,13 @@ export class PlayerComponent {
   newSounds;
   currentlyPlaying: boolean;
 
-  constructor(public locationService: LocationService, http: Http) {
+  constructor(public globalService: GlobalService, http: Http) {
     this.http = http;
     this.currentlyPlaying = false;
 
     this.soundManager = window['soundManager'];
 
-    locationService.playerUrl.subscribe(id => {
+    globalService.playerUrl.subscribe(id => {
       if (id) {
         this.playMusic(id);
       }
@@ -37,7 +37,7 @@ export class PlayerComponent {
   }
   playMusic(id: string) {
 
-    this.http.get('https://api.soundcloud.com/playlists/' + id + '?client_id=' + this.locationService.soundcloudId.getValue())
+    this.http.get('https://api.soundcloud.com/playlists/' + id + '?client_id=' + this.globalService.soundcloudId.getValue())
       .map(res => {
         res.text();
         console.log('res', res.json().tracks);
@@ -48,7 +48,7 @@ export class PlayerComponent {
         for (let i = 0; i < playlistLength; i++) {
           this.newSounds.push(this.soundManager.createSound({
             id: this.playlistTracks[i].id.toString(),
-            url: 'https://api.soundcloud.com/tracks/' + this.playlistTracks[i].id + '/stream?client_id=' + this.locationService.soundcloudId.getValue(),
+            url: 'https://api.soundcloud.com/tracks/' + this.playlistTracks[i].id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
             onfinish: () => {
               if (this.newSounds[i+1]) {
                 this.currentTrack = this.playlistTracks[i+1];

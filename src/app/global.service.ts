@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
-export class LocationService {
+export class GlobalService {
   public map = new BehaviorSubject(null);
   public filterKey = new BehaviorSubject(null);
   public filterValue = new BehaviorSubject(null);

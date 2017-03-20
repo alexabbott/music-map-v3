@@ -84,3 +84,7 @@ input {
     margin: 10px auto;
     text-align: center;
 }
+
+.add-playlist {
+    width: 100%;
+}

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { LocationService } from '../location.service';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'add-form',
@@ -17,25 +17,27 @@ export class FormComponent {
   searchResults: Array<any>;
   newplaylist: HTMLInputElement;
   newlocation: HTMLInputElement;
+  newcoordinates: HTMLInputElement;
   searchKeyword: string;
   newurl: string;
-  newcoordinates: HTMLInputElement;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
 
-  constructor(public af: AngularFire, public locationService: LocationService, http: Http) {
-
+  constructor(public af: AngularFire, public globalService: GlobalService, http: Http) {
+    this.newplaylist = <HTMLInputElement>document.getElementById('playlist-name');
+    this.newlocation = <HTMLInputElement>document.getElementById('autocomplete');
+    this.newcoordinates = <HTMLInputElement>document.getElementById('coordinates');
     this.http = http;
 		console.log('http', this.http);
 
     this.filteredPlaylists = af.database.list('/stations');
 
-    locationService.userId.subscribe(id => {
+    globalService.userId.subscribe(id => {
       this.userId = id;
     });
 
-    locationService.showForm.subscribe(bool => {
+    globalService.showForm.subscribe(bool => {
       this.showForm = bool;
     });
   }
@@ -59,22 +61,24 @@ export class FormComponent {
 
   addPlaylist(newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
     let d = new Date();
-    if (newName && newLocation && newCoordinates && newUrl) {
-      this.filteredPlaylists.push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: d.getTime(), likesTotal: 0 });
-      this.af.database.list('/location-stations/' + newLocation).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
-      this.af.database.list('/users-stations/' + this.userId).push({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: d.getTime() });
+    let newDate = d.getTime();
+    if (newName && newLocation && newCoordinates && newUrl && newDate) {
+      let newKey = newUrl.toString() + newDate.toString();
+      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: newDate });
+      this.af.database.object('/users-stations/' + this.userId + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: newDate });
 
-      this.newplaylist.value = '';
-      this.newlocation.value = '';
-      this.newcoordinates.value = '';
+      // this.newplaylist.value = '';
+      // this.newlocation.value = '';
+      // this.newcoordinates.value = '';
       this.newurl = '';
       this.searchKeyword = '';
       
-      this.showForm = false;
+      this.globalService.toggleForm();
     }
   }
 
   updatePlayer(url) {
-    this.locationService.updatePlayerUrl(url);
+    this.globalService.updatePlayerUrl(url);
   }
 }

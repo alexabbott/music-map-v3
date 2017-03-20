@@ -1,7 +1,6 @@
 .main-player {
-    background-color: #C8D7D4;
+    background-color: cadetblue;
     box-sizing: border-box;
-    border-top: 1px solid cadetblue;
     font-size: 0;
     height: 60px;
     width: 100vw;
@@ -18,7 +17,7 @@
 }
 
 .player-controls md-icon {
-    color: cadetblue;
+    color: white;
     cursor: pointer;
     margin-right: 5%;
 }
@@ -46,7 +45,7 @@
 }
 
 .track-info {
-    color: cadetblue;
+    color: white;
     display: inline-block;
     font-size: 16px;
     line-height: 60px;

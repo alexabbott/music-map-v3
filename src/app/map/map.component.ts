@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { LocationService } from '../location.service';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'map',
@@ -18,7 +18,7 @@ export class MapComponent {
   userId: string;
   showReset: boolean;
 
-  constructor(public af: AngularFire, public locationService: LocationService) {
+  constructor(public af: AngularFire, public globalService: GlobalService) {
     const me = this;
     this.locations = af.database.list('/location-stations');
     this.mapOptions = {
@@ -28,7 +28,7 @@ export class MapComponent {
 
   }
   onMapReady(map) {
-    this.locationService.updateMap(map);
+    this.globalService.updateMap(map);
     console.log('map', map);
     console.log('markers', map.markers);
     const input = <HTMLInputElement>document.getElementById('autocomplete');
@@ -80,8 +80,8 @@ export class MapComponent {
       console.log('marker coordinates', me.convertCoordinates(marker.position.lat()) + ', ' + me.convertCoordinates(marker.position.lng()));
       marker.map.setCenter({lat: marker.position.lat(), lng: marker.position.lng()});
       marker.map.setZoom(6);
-      me.locationService.updateLocation('coordinates', me.convertCoordinates(marker.position.lat()));
-      me.locationService.updateReset();
+      me.globalService.updateLocation('coordinates', me.convertCoordinates(marker.position.lat()));
+      me.globalService.updateReset();
     });
   }
 }

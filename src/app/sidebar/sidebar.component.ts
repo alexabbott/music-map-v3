@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { LocationService } from '../location.service';
+import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'side-bar',
@@ -23,7 +23,7 @@ export class SidebarComponent {
   showForm: boolean;
   showMenu: boolean;
 
-  constructor(public af: AngularFire, public locationService: LocationService) {
+  constructor(public af: AngularFire, public globalService: GlobalService) {
     this.filterKey = null;
     this.filterValue = null;
     this.orderValue = '-published';
@@ -38,7 +38,7 @@ export class SidebarComponent {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.userId = auth.uid;
-        locationService.updateUserId(this.userId);
+        globalService.updateUserId(this.userId);
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.user.subscribe(user => {
@@ -47,22 +47,22 @@ export class SidebarComponent {
       }
     });
 
-    locationService.map.subscribe(themap => {
+    globalService.map.subscribe(themap => {
       this.map = themap;
     });
-    locationService.filterKey.subscribe(key => {
+    globalService.filterKey.subscribe(key => {
       this.filterKey = key;
     });
-    locationService.filterValue.subscribe(value => {
+    globalService.filterValue.subscribe(value => {
       this.filterValue = value;
     });
-    locationService.showReset.subscribe(bool => {
+    globalService.showReset.subscribe(bool => {
       this.showReset = bool;
     });
-    locationService.playerUrl.subscribe(url => {
+    globalService.playerUrl.subscribe(url => {
       this.playerUrl = url;
     });
-    locationService.showForm.subscribe(bool => {
+    globalService.showForm.subscribe(bool => {
       this.showForm = bool;
     });
   }
@@ -78,7 +78,7 @@ export class SidebarComponent {
   }
   deletePlaylist(key: string, location: string) {
     this.filteredPlaylists.remove(key);
-    this.af.database.list('/user-stations/' + this.userId).remove(key);
+    this.af.database.list('/users-stations/' + this.userId).remove(key);
     this.af.database.list('/location-stations/' + location).remove(key);
     let loc = this.af.database.list('/location-stations/' + location);
     loc.subscribe(subscribe => {
@@ -138,9 +138,6 @@ export class SidebarComponent {
     this.headline = loc;
   }
   updatePlayer(url) {
-    this.locationService.updatePlayerUrl(url);
-  }
-  showHideForm() {
-    this.locationService.toggleForm();
+    this.globalService.updatePlayerUrl(url);
   }
 }

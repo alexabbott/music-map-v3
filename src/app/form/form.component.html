@@ -1,6 +1,6 @@
 <div class="form-container" [ngClass]="{'push-down': showForm === true}">
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Name" type="text" #newplaylist />
+    <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" #newplaylist />
   </md-input-container>
   <md-input-container class="md-block">
     <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newlocation />
@@ -30,5 +30,8 @@
       </div>
     </div>
   </div>
-  <button md-raised-button (click)="addPlaylist(newplaylist.value, newlocation.value, newcoordinates.value, newurl)">Add Playlist</button>
+  <button
+    md-raised-button
+    (click)="addPlaylist(newplaylist.value, newlocation.value, newcoordinates.value, newurl)"
+    class="add-playlist">Add Playlist</button>
 </div>

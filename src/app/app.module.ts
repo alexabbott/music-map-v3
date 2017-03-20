@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { LocationService } from './location.service';
+import { GlobalService } from './global.service';
 import { SafePipe } from './safe.pipe';
 import { FilterPipe } from './filter.pipe';
 import { FilterUserLikesPipe } from './filter-user-likes.pipe';
@@ -56,7 +56,7 @@ const firebaseAuthConfig = {
     MaterialModule,
     Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],
-  providers: [LocationService],
+  providers: [GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
