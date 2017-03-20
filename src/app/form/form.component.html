@@ -1,30 +1,30 @@
 <div class="form-container" [ngClass]="{'push-down': showForm === true}">
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" #newplaylist />
+    <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" [(ngModel)]="newName" />
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newlocation />
+    <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newLocation />
   </md-input-container>
   <md-input-container class="md-block">
     <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (ngModelChange)="getSoundcloudPlaylists(searchKeyword)"/>
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newurl" disabled/>
+    <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newUrl" disabled/>
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newcoordinates />
+    <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newCoordinates />
   </md-input-container>
   <div class="search-results">
-    <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newurl === result.id }">
+    <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newUrl === result.id }">
       <div class="playlist-image-container">
         <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="playlist-image">
         <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="playlist-image">
       </div>
       <div class="playlist-info">{{ result.title }} by {{ result.user.username }}</div>
       <div class="search-actions">
-        <button md-raised-button (click)="newurl = result.id">
-          <span *ngIf="newurl !== result.id">Select Playlist</span>
-          <span *ngIf="newurl === result.id">Playlist Selected</span>
+        <button md-raised-button (click)="newUrl = result.id">
+          <span *ngIf="newUrl !== result.id">Select Playlist</span>
+          <span *ngIf="newUrl === result.id">Playlist Selected</span>
         </button>
         <button md-raised-button (click)="updatePlayer(result.id)">Preview Playlist</button>
       </div>
@@ -32,6 +32,6 @@
   </div>
   <button
     md-raised-button
-    (click)="addPlaylist(newplaylist.value, newlocation.value, newcoordinates.value, newurl)"
+    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newUrl)"
     class="add-playlist">Add Playlist</button>
 </div>

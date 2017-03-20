@@ -14,9 +14,6 @@ export class MapComponent {
   map;
   newlocation: string;
   locations: FirebaseListObservable<any[]>;
-  user: FirebaseObjectObservable<any>;
-  users: FirebaseObjectObservable<any>;
-  userId: string;
   showReset: boolean;
 
   constructor(public af: AngularFire, public globalService: GlobalService) {
@@ -30,8 +27,8 @@ export class MapComponent {
     this.markerOptions = {
       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     };
-
   }
+
   onMapReady(map) {
     this.globalService.updateMap(map);
     console.log('map', map);
@@ -71,13 +68,16 @@ export class MapComponent {
       }
     });
   }
+
   onIdle(event) {
     console.log('map idle', event.target);
   }
+
   convertCoordinates(coordinate) {
     coordinate = coordinate.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0];
     return coordinate;
   }
+
   onMarkerInit(marker) {
     const me = this;
     marker.addListener('click', function() {

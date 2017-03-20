@@ -38,6 +38,7 @@ export class SidebarComponent {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.userId = auth.uid;
+        globalService.updateUser(auth.auth);
         globalService.updateUserId(this.userId);
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
@@ -70,12 +71,15 @@ export class SidebarComponent {
   login() {
     this.af.auth.login();
   }
+
   logout() {
      this.af.auth.logout();
   }
+
   updatePlaylist(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
     this.filteredPlaylists.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
   }
+
   deletePlaylist(key: string, location: string) {
     this.filteredPlaylists.remove(key);
     this.af.database.list('/users-stations/' + this.userId).remove(key);
@@ -88,9 +92,11 @@ export class SidebarComponent {
       }
     });
   }
+
   deleteEverything() {
     this.filteredPlaylists.remove();
   }
+
   likePlaylist(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
     this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
@@ -100,6 +106,7 @@ export class SidebarComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
+
   unlikePlaylist(key: string) {
     this.af.database.list('/users/' + this.userId + '/likes').remove(key);
     this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
@@ -109,6 +116,7 @@ export class SidebarComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
     });
   }
+
   resetPlaylists() {
     this.showReset = false;
     this.filterKey = null;
@@ -116,14 +124,17 @@ export class SidebarComponent {
     this.map.setZoom(3);
     this.headline = null;
   }
+
   changeOrder(neworder) {
     this.orderValue = neworder;
   }
+
   filterByUser(uid) {
     this.filterKey = 'user';
     this.filterValue = uid;
     this.showReset = true;
   }
+
   filterByCurrentUser() {
     this.filterKey = 'user';
     this.filterValue = this.userId;
@@ -131,12 +142,14 @@ export class SidebarComponent {
     this.headline = 'My Playlists';
     this.showMenu = false;
   }
+
   filterByLocation(loc) {
     this.filterKey = 'location';
     this.filterValue = loc;
     this.showReset = true;
     this.headline = loc;
   }
+
   updatePlayer(url) {
     this.globalService.updatePlayerUrl(url);
   }

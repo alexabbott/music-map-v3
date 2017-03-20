@@ -8,10 +8,11 @@ export class GlobalService {
   public filterValue = new BehaviorSubject(null);
   public showReset = new BehaviorSubject(false);
   public playerUrl = new BehaviorSubject(null);
+  public user = new BehaviorSubject(null);
   public userId = new BehaviorSubject(null);
   public showForm = new BehaviorSubject(false);
   public soundcloudId = new BehaviorSubject('8e1349e63dfd43dc67a63e0de3befc68');
-  
+
   public updateLocation(key, value) {
     this.filterKey.next(key);
     this.filterValue.next(value);
@@ -24,6 +25,9 @@ export class GlobalService {
   }
   public updatePlayerUrl(url) {
     this.playerUrl.next(url);
+  }
+  public updateUser(user) {
+    this.user.next(user);
   }
   public updateUserId(id) {
     this.userId.next(id);

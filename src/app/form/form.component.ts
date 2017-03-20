@@ -11,30 +11,30 @@ import { GlobalService } from '../global.service';
 export class FormComponent {
 
   filteredPlaylists: FirebaseListObservable<any[]>;
-  userId: string;
+  user;
   showForm: boolean;
   searchData;
   searchResults: Array<any>;
-  newplaylist: HTMLInputElement;
-  newlocation: HTMLInputElement;
-  newcoordinates: HTMLInputElement;
+  newName: string;
+  newLocation: HTMLInputElement;
+  newCoordinates: HTMLInputElement;
   searchKeyword: string;
-  newurl: string;
+  newUrl: string;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
 
   constructor(public af: AngularFire, public globalService: GlobalService, http: Http) {
-    this.newplaylist = <HTMLInputElement>document.getElementById('playlist-name');
-    this.newlocation = <HTMLInputElement>document.getElementById('autocomplete');
-    this.newcoordinates = <HTMLInputElement>document.getElementById('coordinates');
+    this.newLocation = <HTMLInputElement>document.getElementById('autocomplete');
+    this.newCoordinates = <HTMLInputElement>document.getElementById('coordinates');
     this.http = http;
 		console.log('http', this.http);
 
     this.filteredPlaylists = af.database.list('/stations');
 
-    globalService.userId.subscribe(id => {
-      this.userId = id;
+    globalService.user.subscribe(user => {
+      this.user = user;
+      console.log('thisuser', this.user);
     });
 
     globalService.showForm.subscribe(bool => {
@@ -64,16 +64,16 @@ export class FormComponent {
     let newDate = d.getTime();
     if (newName && newLocation && newCoordinates && newUrl && newDate) {
       let newKey = newUrl.toString() + newDate.toString();
-      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.userId, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: newDate });
-      this.af.database.object('/users-stations/' + this.userId + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: newDate });
+      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, published: newDate });
 
-      // this.newplaylist.value = '';
       // this.newlocation.value = '';
       // this.newcoordinates.value = '';
-      this.newurl = '';
+      this.newName = '';
+      this.newUrl = '';
       this.searchKeyword = '';
-      
+
       this.globalService.toggleForm();
     }
   }
