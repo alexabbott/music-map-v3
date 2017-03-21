@@ -36,4 +36,4 @@
     Currently Playing
   </span>
 </button>
-<div class="delete-playlist" *ngIf="playlist.user === user.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>
+<div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>
