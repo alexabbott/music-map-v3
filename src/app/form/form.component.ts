@@ -23,6 +23,8 @@ export class FormComponent {
   newCoordinates: HTMLInputElement;
   searchKeyword: string;
   newUrl: string;
+  newTag: string;
+  tags: Array<any>;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
@@ -46,6 +48,18 @@ export class FormComponent {
           });
 
     this.filteredPlaylists = af.database.list('/stations');
+
+    this.tags = [
+      { value: 'Chill' },
+      { value: 'Dance Party' },
+      { value: 'Festival Music' },
+      { value: 'Get Weird' },
+      { value: 'Rage' },
+      { value: 'Road Trip' },
+      { value: 'Rock Out' },
+      { value: 'Twerk It' },
+      { value: 'Work Time' }
+    ];
 
     globalService.user.subscribe(user => {
       this.user = user;
@@ -76,19 +90,23 @@ export class FormComponent {
     console.error('There was an error: ' + err);
   }
 
-  addPlaylist(newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
+  addPlaylist(newName: string, newLocation: string, newCoordinates: string, newUrl: string, newTag: string) {
     let d = new Date();
     let newDate = d.getTime();
+    if (!newTag) {
+      newTag = '';
+    }
     if (newName && newLocation && newCoordinates && newUrl && newDate) {
       let newKey = newUrl.toString() + newDate.toString();
-      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.user.uid, userName: this.user.displayName, published: newDate });
-      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
 
       // this.newlocation.value = '';
       // this.newcoordinates.value = '';
       this.newName = '';
       this.newUrl = '';
+      this.newTag = '';
       this.searchKeyword = '';
 
       this.globalService.toggleForm();

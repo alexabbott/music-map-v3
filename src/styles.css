@@ -28,6 +28,10 @@ body {
     color: #0c6;
 }
 
+.mat-input-wrapper {
+    margin: 1.3em 0 !important;
+}
+
 .mat-input-underline {
     border-top-color: #0c6;
 }
@@ -48,4 +52,57 @@ body {
 .disabled-button {
     opacity: 0.4;
     pointer-events: none;
+}
+
+.mat-select {
+    color: #0c6;
+    margin: 0.2em 0;
+    width: 100%;
+}
+
+.mat-select-underline {
+    background: #0c6;
+}
+
+.mat-select-placeholder {
+    margin-bottom: 10px;
+}
+
+.mat-select-value-text {
+    color: black;
+    margin-left: 10px;
+}
+
+.mat-select-placeholder.mat-floating-placeholder {
+    margin-bottom: 0;
+}
+
+.cdk-overlay-pane {
+    position: absolute;
+    z-index: 2;
+}
+
+.mat-select-panel {
+    background: white;
+    color: #0c6;
+    line-height: 1.5em;
+    min-width: 23vw !important;
+    padding: 5% !important;
+}
+
+md-option {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    padding: 2%;
+    transition: background .2s ease-out;
+    width: 100%;
+}
+
+md-option:hover {
+    background: #eee;
+}
+
+md-option:focus {
+    outline: 0;
 }

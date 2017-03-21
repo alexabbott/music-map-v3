@@ -1,5 +1,8 @@
-<div class="playlist-name" (click)="pausePlayer()">
+<div class="playlist-name">
   {{ playlist.name }}
+</div>
+<div class="playlist-tag" *ngIf="playlist.tag" (click)="filterByTag(playlist.tag)">
+  {{ playlist.tag }}
 </div>
 <div class="playlist-likes">
   <span *ngIf="(user | async)?.uid" class="like-controls">

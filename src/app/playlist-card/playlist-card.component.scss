@@ -2,8 +2,20 @@
 
 .playlist-name {
   color: $color-main;
+  float: left;
   font-size: 24px;
   width: 100%;
+}
+
+.playlist-tag {
+  background: $color-main;
+  border-radius: 5px;
+  color: $color-white;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: -28px;
+  padding: 3px 5px;
 }
 
 .playlist-location {

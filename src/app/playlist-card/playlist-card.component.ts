@@ -27,7 +27,7 @@ export class PlaylistCardComponent {
         this.user = af.database.object('/users/' + auth.uid);
         this.userId = auth.uid;
         this.user.subscribe(user => {
-          console.log('thieuser', user);
+          // console.log('thieuser', user);
         });
       }
     });
@@ -76,6 +76,12 @@ export class PlaylistCardComponent {
       this.af.database.object('/stations/' + key).update({ likesTotal: length });
       this.af.database.object('/users-stations/' + user + '/' + key).update({ likesTotal: length });
     });
+  }
+
+  filterByTag(tag) {
+    this.globalService.updateLocation('tag', tag);
+    this.globalService.updateReset();
+    this.globalService.updateHeadline(tag);
   }
 
   filterByUser(uid) {

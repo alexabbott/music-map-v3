@@ -5,6 +5,11 @@
   <md-input-container class="md-block">
     <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newLocation />
   </md-input-container>
+  <md-select placeholder="Playlist vibes" [(ngModel)]="newTag">
+    <md-option *ngFor="let tag of tags" [value]="tag.value">
+      {{ tag.value }}
+    </md-option>
+  </md-select>
   <md-input-container class="md-block">
     <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
   </md-input-container>
@@ -34,7 +39,7 @@
   </div>
   <button
     md-raised-button
-    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newUrl)"
+    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newUrl, newTag)"
     [ngClass]="{ 'disabled-button': !newName || !newLocation.value || !newCoordinates.value || !newUrl}"
     class="add-playlist">Save Playlist</button>
 </div>
