@@ -18,6 +18,7 @@ import { Ng2MapModule} from 'ng2-map';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { SearchPipe } from './search.pipe';
+import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -46,7 +47,8 @@ const firebaseAuthConfig = {
     SafePipe,
     MapComponent,
     FormComponent,
-    SearchPipe
+    SearchPipe,
+    PlaylistCardComponent
   ],
   imports: [
     BrowserModule,

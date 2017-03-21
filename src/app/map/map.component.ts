@@ -90,6 +90,7 @@ export class MapComponent {
       marker.map.setZoom(6);
       me.globalService.updateLocation('coordinates', me.convertCoordinates(marker.position.lat()));
       me.globalService.updateReset();
+      me.globalService.updateHeadline(null);
     });
   }
 }

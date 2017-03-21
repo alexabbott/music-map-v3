@@ -1,0 +1,78 @@
+@import '../../variables';
+
+.playlist-name {
+  color: $color-main;
+  font-size: 24px;
+  width: 100%;
+}
+
+.playlist-location {
+  color: $color-grey;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.playlist-likes {
+  color: $color-grey;
+  float: left;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.playlist-date {
+  color: $color-grey;
+  float: left;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.playlist-user {
+  color: $color-grey;
+  cursor: pointer;
+  float: right;
+  font-size: 12px;
+  margin-top: 10px;
+
+  img {
+    border-radius: 50%;
+    margin-top: -3px;
+    vertical-align: middle;
+    width: 20px;
+  }
+}
+
+.active {
+  color: $color-gold;
+}
+
+md-icon {
+  color: $color-grey-light;
+  cursor: pointer;
+  font-size: 21px;
+  margin-right: -4px;
+  vertical-align: middle;
+}
+
+.play-button {
+  display: block;
+  margin-top: 15px;
+  pointer-events: none;
+  width: 100%;
+
+  &.alt {
+    pointer-events: initial;
+  }
+
+  md-icon {
+    color: $color-white;
+  }
+}
+
+.delete-playlist {
+  color: $color-grey;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: right;
+}

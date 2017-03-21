@@ -34,7 +34,7 @@ nav {
   width: 30%;
   z-index: 3;
 
-  .show-menu {
+  &.show-menu {
     transform: translate3d(0, 65px, 0);
   }
 }

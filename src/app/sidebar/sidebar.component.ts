@@ -19,7 +19,6 @@ export class SidebarComponent {
   filterValue: string;
   showReset: boolean;
   headline: string;
-  playerUrl: string;
   showForm: boolean;
   showMenu: boolean;
 
@@ -29,7 +28,6 @@ export class SidebarComponent {
     this.orderValue = '-published';
     this.filteredPlaylists = af.database.list('/stations');
     this.users = af.database.object('/users');
-    this.playerUrl = null;
     this.showForm = false;
     this.showMenu = false;
 
@@ -43,7 +41,7 @@ export class SidebarComponent {
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.user.subscribe(user => {
-          console.log('thieuser', user);
+          // console.log('thieuser', user);
         });
       }
     });
@@ -57,11 +55,11 @@ export class SidebarComponent {
     globalService.filterValue.subscribe(value => {
       this.filterValue = value;
     });
+    globalService.headline.subscribe(headline => {
+      this.headline = headline;
+    });
     globalService.showReset.subscribe(bool => {
       this.showReset = bool;
-    });
-    globalService.playerUrl.subscribe(url => {
-      this.playerUrl = url;
     });
     globalService.showForm.subscribe(bool => {
       this.showForm = bool;
@@ -76,51 +74,6 @@ export class SidebarComponent {
      this.af.auth.logout();
   }
 
-  updatePlaylist(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    this.filteredPlaylists.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
-  }
-
-  deletePlaylist(key: string, location: string) {
-    this.filteredPlaylists.remove(key);
-    this.af.database.list('/users-stations/' + this.userId).remove(key);
-    this.af.database.list('/location-stations/' + location).remove(key);
-    let loc = this.af.database.list('/location-stations/' + location);
-    loc.subscribe(subscribe => {
-      let length = subscribe.length;
-      if (length === 0) {
-        loc.remove(location);
-      }
-    });
-  }
-
-  deleteEverything() {
-    this.filteredPlaylists.remove();
-  }
-
-  likePlaylist(key: string, user: string) {
-    this.af.database.list('/users/' + this.userId + '/likes/' + key).push(key);
-    this.af.database.list('/stations/' + key + '/likes/' + this.userId).push(this.userId);
-    this.af.database.list('/users-stations/' + user + '/' + key + '/likes/' + this.userId).push(this.userId);
-    let likes = this.af.database.list('/stations/' + key + '/likes/');
-    likes.subscribe(subscribe => {
-      let length = subscribe.length;
-      this.af.database.object('/stations/' + key).update({ likesTotal: length });
-      this.af.database.object('/users-stations/' + user + '/' + key).update({ likesTotal: length });
-    });
-  }
-
-  unlikePlaylist(key: string, user: string) {
-    this.af.database.list('/users/' + this.userId + '/likes').remove(key);
-    this.af.database.list('/stations/' + key + '/likes').remove(this.userId);
-    this.af.database.list('/users-stations/' + user + '/' + key + '/likes/' + this.userId).remove(this.userId);
-    let likes = this.af.database.list('/stations/' + key + '/likes/');
-    likes.subscribe(subscribe => {
-      let length = subscribe.length;
-      this.af.database.object('/stations/' + key).update({ likesTotal: length });
-      this.af.database.object('/users-stations/' + user + '/' + key).update({ likesTotal: length });
-    });
-  }
-
   resetPlaylists() {
     this.showReset = false;
     this.filterKey = null;
@@ -133,28 +86,11 @@ export class SidebarComponent {
     this.orderValue = neworder;
   }
 
-  filterByUser(uid) {
-    this.filterKey = 'user';
-    this.filterValue = uid;
-    this.showReset = true;
-  }
-
   filterByCurrentUser() {
     this.filterKey = 'user';
     this.filterValue = this.userId;
     this.showReset = true;
     this.headline = 'My Playlists';
     this.showMenu = false;
-  }
-
-  filterByLocation(loc) {
-    this.filterKey = 'location';
-    this.filterValue = loc;
-    this.showReset = true;
-    this.headline = loc;
-  }
-
-  updatePlayer(url) {
-    this.globalService.updatePlayerUrl(url);
   }
 }
