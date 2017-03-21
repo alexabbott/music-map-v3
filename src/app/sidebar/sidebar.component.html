@@ -24,6 +24,12 @@
 
   <div class="clearfix"></div>
 
+  <div class="search-container">
+    <md-input-container class="search-playlists">
+      <input mdInput placeholder="Search Playlists..." [(ngModel)]="searchTerm">
+    </md-input-container>
+  </div>
+
   <div class="sort-controls">
     <button md-raised-button (click)="changeOrder('-published')" [ngClass]="{'alt': orderValue === '-likesTotal' }">Newest Playlists</button>
     <button md-raised-button (click)="changeOrder('-likesTotal')" [ngClass]="{'alt': orderValue === '-published' }">Popular Playlists</button>
@@ -34,10 +40,6 @@
   </div>
 
   <div class="playlists-container" [ngClass]="{ 'push-down': showReset === true }">
-
-    <md-input-container class="search-playlists">
-      <input mdInput placeholder="Search Playlists..." [(ngModel)]="searchTerm">
-    </md-input-container>
 
     <h2 *ngIf="headline" class="headline">
       <md-icon *ngIf="filterKey === 'location'">location_on</md-icon> {{ headline }}

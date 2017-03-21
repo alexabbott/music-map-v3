@@ -6,12 +6,12 @@
     <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newLocation />
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (ngModelChange)="getSoundcloudPlaylists(searchKeyword)"/>
+    <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
   </md-input-container>
-  <md-input-container class="md-block">
+  <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newUrl" disabled/>
   </md-input-container>
-  <md-input-container class="md-block">
+  <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newCoordinates />
   </md-input-container>
   <div class="search-results">
@@ -22,16 +22,19 @@
       </div>
       <div class="playlist-info">{{ result.title }} by {{ result.user.username }}</div>
       <div class="search-actions">
-        <button md-raised-button (click)="newUrl = result.id">
+        <button md-raised-button (click)="newUrl = result.id" class="alt">
           <span *ngIf="newUrl !== result.id">Select Playlist</span>
           <span *ngIf="newUrl === result.id">Playlist Selected</span>
         </button>
-        <button md-raised-button (click)="updatePlayer(result.id)">Preview Playlist</button>
+        <button md-raised-button (click)="updatePlayer(result.id)" class="alt">
+          Preview Playlist
+        </button>
       </div>
     </div>
   </div>
   <button
     md-raised-button
     (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newUrl)"
-    class="add-playlist">Add Playlist</button>
+    [ngClass]="{ 'disabled-button': !newName || !newLocation.value || !newCoordinates.value || !newUrl}"
+    class="add-playlist">Save Playlist</button>
 </div>

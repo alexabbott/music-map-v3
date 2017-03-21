@@ -39,7 +39,6 @@ nav {
   }
 }
 
-
 .nav-item {
   background-color: rgba($color-white, .9);
   border-bottom: 1px solid $color-main;
@@ -62,7 +61,6 @@ nav {
   }
 }
 
-
 .sort-controls {
   background: $color-grey-lighter;
   border-right: 1px solid $color-main;
@@ -71,7 +69,7 @@ nav {
   margin: 0 auto;
   position: fixed;
   text-align: center;
-  top: 64px;
+  top: 123px;
   width: 30%;
   z-index: 1;
 
@@ -80,32 +78,46 @@ nav {
   }
 }
 
+.search-container {
+  background: $color-white;
+  border-right: 1px solid $color-main;
+  box-sizing: border-box;
+  box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  display: block;
+  left: 0;
+  position: fixed;
+  top: 64px;
+  width: 30%;
+  z-index: 1;
+
+  .search-playlists {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+  }
+}
 
 .reset-playlists {
-  background: $color-grey-light;
+  background: $color-white;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  border-right: 1px solid $color-main;
+  box-sizing: border-box;
   color: $color-main;
   cursor: pointer;
   padding: 10px 0;
   position: fixed;
-  top: 140px;
+  top: 200px;
   width: 30%;
   z-index: 1;
 }
 
 .playlists-container {
-  transform: translate3d(0, 140px, 0);
+  transform: translate3d(0, 200px, 0);
   transition: transform .3s ease-out;
 
   &.push-down {
-    transform: translate3d(0, 182px, 0);
+    transform: translate3d(0, 242px, 0);
   }
-}
-
-.search-playlists {
-  display: block;
-  margin: 20px auto 0;
-  width: 90%;
 }
 
 .headline {

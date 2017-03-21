@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { GlobalService } from '../global.service';
+import { BehaviorSubject } from "rxjs/Rx";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/distinctUntilChanged";
 
 @Component({
   selector: 'add-form',
@@ -9,7 +12,7 @@ import { GlobalService } from '../global.service';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
-
+  searchUpdated: BehaviorSubject<string> = new BehaviorSubject(null);
   filteredPlaylists: FirebaseListObservable<any[]>;
   user;
   showForm: boolean;
@@ -24,11 +27,23 @@ export class FormComponent {
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
 
+  private makeSearch(value: string) {
+    this.searchUpdated.next(value);
+  }
+  @Output() searchChangeEmitter: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(public af: AngularFire, public globalService: GlobalService, http: Http) {
     this.newLocation = <HTMLInputElement>document.getElementById('autocomplete');
     this.newCoordinates = <HTMLInputElement>document.getElementById('coordinates');
     this.http = http;
-		console.log('http', this.http);
+
+    this.searchUpdated.next('');
+
+    this.searchChangeEmitter = <any>this.searchUpdated.asObservable()
+         .debounceTime(400)
+          .distinctUntilChanged().subscribe(q => {
+            this.getSoundcloudPlaylists(this.searchUpdated.getValue());
+          });
 
     this.filteredPlaylists = af.database.list('/stations');
 
@@ -43,16 +58,18 @@ export class FormComponent {
   }
 
   getSoundcloudPlaylists(keyword: string) {
-    this.http.get('http://api.soundcloud.com/playlists?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
-      .map(res => {
-        res.text();
-        console.log('res', res.json().collection);
-        this.searchResults = res.json().collection;
-      })
-      .subscribe(
-        data => this.searchData = data,
-        err => this.logError(err)
-      );
+    if (keyword !== '') {
+      this.http.get('http://api.soundcloud.com/playlists?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
+        .map(res => {
+          res.text();
+          console.log('res', res.json().collection);
+          this.searchResults = res.json().collection;
+        })
+        .subscribe(
+          data => this.searchData = data,
+          err => this.logError(err)
+        );
+    }
   }
 
   logError(err) {

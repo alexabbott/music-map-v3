@@ -39,3 +39,13 @@ body {
 .text-center {
     text-align: center;
 }
+
+.no-height {
+    height: 0;
+    overflow: hidden;
+}
+
+.disabled-button {
+    opacity: 0.4;
+    pointer-events: none;
+}
