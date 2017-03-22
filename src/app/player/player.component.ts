@@ -31,7 +31,7 @@ export class PlayerComponent {
     });
 
     this.soundManager.setup({
-      url: '../../../node_modules/soundmanager2/swf'
+      url: '../../assets/swf'
     });
 
   }
