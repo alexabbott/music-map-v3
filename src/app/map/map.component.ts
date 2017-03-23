@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { GlobalService } from '../global.service';
@@ -21,7 +21,7 @@ export class MapComponent {
   google: any;
   markerCount: number;
 
-  constructor(public af: AngularFire, public globalService: GlobalService) {
+  constructor(public af: AngularFire, public globalService: GlobalService, public zone: NgZone) {
     const me = this;
     this.locations = af.database.list('/location-stations');
     this.mapOptions = {
@@ -32,7 +32,6 @@ export class MapComponent {
       styles: [{"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.locality","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.neighborhood","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"visibility":"off"},{"hue":"#ff0000"}]},{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#944242"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#ffffff"}]},{"featureType":"landscape.natural.landcover","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"},{"saturation":"-1"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi.attraction","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#292929"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"visibility":"off"},{"color":"#494949"},{"saturation":"-85"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#888888"},{"visibility":"on"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"visibility":"simplified"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.airport","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.bus","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"transit.station.rail","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#dddddd"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]}]
     };
 
-    this.google = window['google'];
     this.markers = [];
 
     this.markerCount = 0;
@@ -42,9 +41,10 @@ export class MapComponent {
       console.log('alllocations', locations);
       for (let i = 0; i < this.markerCount; ++i ){
         let coordinatesArray = locations[i][Object.keys(locations[i])[0]].coordinates.split(',');
-        this.markers.push({lat: parseInt(coordinatesArray[0]), lng: parseInt(coordinatesArray[1].trim())});
+        this.markers.push({lat: parseFloat(coordinatesArray[0]), lng: parseFloat(coordinatesArray[1].trim())});
       }
       this.map = new google.maps.Map(document.getElementById('map'), this.mapOptions);
+      this.globalService.updateMap(this.map);
       this.initMarkers();
       var mc = new window['MarkerClusterer'](this.map, me.googleMarkers, { imagePath: 'https://googlemaps.github.io/js-marker-clusterer/images/m' } );
     });
@@ -52,14 +52,25 @@ export class MapComponent {
   }
 
   initMarkers(){
-    console.log('allmarkers', this.markers);
+    let me = this;
     this.googleMarkers = [];
     for (let i = 0; i < this.markerCount; ++i ){
-       this.googleMarkers.push( new google.maps.Marker({
-            position: this.markers[i],
-            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-        })
-       );
+      let newMarker: any = new google.maps.Marker({
+        position: this.markers[i],
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      });
+      this.googleMarkers.push(newMarker);
+      newMarker.addListener('click', function() {
+        me.zone.run(() => {
+          me.showReset = true;
+          console.log('marker coordinates', me.convertCoordinates(newMarker.position.lat()) + ', ' + me.convertCoordinates(newMarker.position.lng()));
+          me.map.setCenter({lat: newMarker.position.lat(), lng: newMarker.position.lng()});
+          me.map.setZoom(6);
+          me.globalService.updateLocation('coordinates', me.convertCoordinates(newMarker.position.lat()));
+          me.globalService.updateReset();
+          me.globalService.updateHeadline(null);
+        });
+      });
     }
   }
 
@@ -114,7 +125,6 @@ export class MapComponent {
   }
 
   onMarkerInit(marker) {
-    // this.markers.push(marker);
     const me = this;
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
     marker.addListener('click', function() {
