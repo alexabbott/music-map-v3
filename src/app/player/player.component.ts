@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { GlobalService } from '../global.service';
+import '../../assets/soundmanager2.js';
 
 @Component({
   selector: 'player',
