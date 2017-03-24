@@ -20,7 +20,7 @@
   </span>
   {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
 </div>
-<div class="playlist-location" (click)="filterByLocation(playlist.location)">
+<div class="playlist-location" (click)="filterByLocation(playlist.location, playlist.coordinates)">
   <md-icon>location_on</md-icon> {{ playlist.location }}
 </div>
 <div class="clearfix"></div>

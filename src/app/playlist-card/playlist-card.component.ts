@@ -90,8 +90,9 @@ export class PlaylistCardComponent {
     this.globalService.updateHeadline(null);
   }
 
-  filterByLocation(loc) {
+  filterByLocation(loc, coo) {
     this.globalService.updateLocation('location', loc);
+    this.globalService.updateMapCenter(coo);
     this.globalService.updateReset();
     this.globalService.updateHeadline(loc);
   }

@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 @Injectable()
 export class GlobalService {
   public map = new BehaviorSubject(null);
+  public coordinates = new BehaviorSubject(null);
   public filterKey = new BehaviorSubject(null);
   public filterValue = new BehaviorSubject(null);
   public headline = new BehaviorSubject(null);
@@ -18,6 +19,9 @@ export class GlobalService {
   public updateLocation(key, value) {
     this.filterKey.next(key);
     this.filterValue.next(value);
+  }
+  public updateMapCenter(coordinates) {
+    this.coordinates.next(coordinates);
   }
   public updateReset() {
     this.showReset.next(true);
