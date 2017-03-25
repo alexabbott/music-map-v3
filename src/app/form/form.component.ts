@@ -25,6 +25,7 @@ export class FormComponent {
   newUrl: string;
   newTag: string;
   tags: Array<any>;
+  map: any;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
@@ -69,6 +70,10 @@ export class FormComponent {
     globalService.showForm.subscribe(bool => {
       this.showForm = bool;
     });
+
+    globalService.map.subscribe(themap => {
+      this.map = themap;
+    });
   }
 
   getSoundcloudPlaylists(keyword: string) {
@@ -97,6 +102,7 @@ export class FormComponent {
       newTag = '';
     }
     if (newName && newLocation && newCoordinates && newUrl && newDate) {
+      var coordinateArray = newCoordinates.split(',');
       let newKey = newUrl.toString() + newDate.toString();
       this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
       this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });

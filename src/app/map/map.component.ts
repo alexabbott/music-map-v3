@@ -21,6 +21,7 @@ export class MapComponent {
   googleMarkers: any;
   google: any;
   markerCount: number;
+  markerCluster: any;
 
   constructor(public af: AngularFire, public globalService: GlobalService, public zone: NgZone) {
     const me = this;
@@ -42,10 +43,10 @@ export class MapComponent {
       }
     });
 
-    this.markers = [];
 
     this.markerCount = 0;
     this.locations.subscribe(locations => {
+      this.markers = [];
       this.markerCount = locations.length;
       console.log('markerCount', this.markerCount);
       console.log('alllocations', locations);
@@ -53,10 +54,13 @@ export class MapComponent {
         let coordinatesArray = locations[i][Object.keys(locations[i])[0]].coordinates.split(',');
         this.markers.push({lat: parseFloat(coordinatesArray[0]), lng: parseFloat(coordinatesArray[1].trim())});
       }
-      this.map = new google.maps.Map(document.getElementById('map'), this.mapOptions);
-      this.globalService.updateMap(this.map);
+      if (!this.map) {
+        this.map = new google.maps.Map(document.getElementById('map'), this.mapOptions);
+        this.globalService.updateMap(this.map);
+      }
       this.initMarkers();
-      var mc = new window['MarkerClusterer'](this.map, me.googleMarkers, { imagePath: '../../assets/cluster' } );
+      this.markerCluster = new window['MarkerClusterer'](this.map, this.googleMarkers, { imagePath: '../../assets/cluster' } );
+      console.log('cluster', this.markerCluster);
       this.initAutoComplete();
     });
   }
@@ -101,12 +105,15 @@ export class MapComponent {
   initMarkers(){
     let me = this;
     this.googleMarkers = [];
+    console.log('makers', this.markers);
     for (let i = 0; i < this.markerCount; ++i ){
       let newMarker: any = new google.maps.Marker({
         position: this.markers[i],
+        map: me.map,
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       });
       this.googleMarkers.push(newMarker);
+      console.log('goog', this.googleMarkers);
       newMarker.addListener('click', function() {
         me.zone.run(() => {
           me.showReset = true;

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, enableProdMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -19,6 +20,7 @@ import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { SearchPipe } from './search.pipe';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
+import 'hammerjs';
 
 // Must export the config
 export const firebaseConfig = {
@@ -54,6 +56,7 @@ const firebaseAuthConfig = {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
