@@ -20,6 +20,7 @@
     <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newCoordinates />
   </md-input-container>
   <div class="search-results">
+    <md-spinner *ngIf="searchKeyword && (!searchResults || searchResults.length === 0)"></md-spinner>
     <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newUrl === result.id }">
       <div class="track-image-container">
         <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">

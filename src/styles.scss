@@ -1,0 +1,98 @@
+@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
+@import './variables';
+
+html,
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.mat-raised-button {
+  background: $color-highlight;
+
+  &.alt {
+    background: $color-white;
+  }
+}
+
+.mat-button-wrapper {
+  color: $color-white;
+}
+
+.alt .mat-button-wrapper {
+  color: $color-highlight;
+}
+
+.mat-input-wrapper {
+  margin: 1.3em 0 !important;
+}
+
+.mat-input-underline {
+  border-top-color: $color-highlight;
+}
+
+.mat-input-placeholder {
+  color: $color-grey;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.no-height {
+  height: 0;
+  overflow: hidden;
+}
+
+.disabled-button {
+  opacity: .4;
+  pointer-events: none;
+}
+
+.mat-select {
+  color: $color-grey;
+  margin: .2em 0;
+  width: 100%;
+}
+
+.mat-select-underline {
+  background: $color-highlight;
+}
+
+.mat-input-underline .mat-input-ripple,
+.mat-select:focus:not(.mat-select-disabled) .mat-select-underline {
+  background-color: $color-highlight;
+}
+
+.mat-input-placeholder.mat-focused,
+.mat-select:focus:not(.mat-select-disabled) .mat-select-trigger {
+  color: $color-highlight;
+}
+
+.mat-select-placeholder {
+  margin-bottom: 10px;
+}
+
+.mat-select-value-text {
+  color: $color-main;
+  margin-left: 10px;
+}
+
+.mat-select-placeholder.mat-floating-placeholder {
+  margin-bottom: 0;
+}
+
+md-option:hover {
+  background: $color-grey-lighter;
+}
+
+.mat-spinner {
+  path {
+    stroke: $color-highlight;
+  }
+}

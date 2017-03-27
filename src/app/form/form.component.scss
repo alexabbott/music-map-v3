@@ -34,6 +34,13 @@ input {
   width: 100%;
 }
 
+md-spinner {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 50px;
+}
+
 .search-results {
   margin-bottom: 10px;
   max-height: 300px;
@@ -52,7 +59,7 @@ input {
   transition: background-color .3s ease-out;
 
   &:hover {
-    background-color: $color-main;
+    background-color: $color-grey-light;
   }
 }
 
@@ -131,5 +138,5 @@ input {
 }
 
 .playlist-track {
-  background-color: $color-main;
+  background-color: $color-grey-lighter;
 }
