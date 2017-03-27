@@ -23,7 +23,12 @@ md-toolbar {
 }
 
 .logo {
-  color: $color-highlight;
+  color: $color-white;
+}
+
+.logo-image {
+  height: 30px;
+  margin: 5px 2px 0 0;
 }
 
 .profile-image {
