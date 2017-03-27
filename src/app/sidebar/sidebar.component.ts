@@ -26,7 +26,7 @@ export class SidebarComponent {
     this.filterKey = null;
     this.filterValue = null;
     this.orderValue = '-published';
-    this.filteredPlaylists = af.database.list('/stations');
+    this.filteredPlaylists = af.database.list('/playlists');
     this.users = af.database.object('/users');
     this.showForm = false;
     this.showMenu = false;

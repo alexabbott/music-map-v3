@@ -47,6 +47,8 @@ export class PlayerComponent {
           res.text();
             this.currentIndex = i;
             this.playlistTrack = res.json();
+            this.globalService.currentTrack.next(this.playlistTrack.id);
+            console.log('globaltrack', this.globalService.currentTrack.getValue());
             this.newSound = this.soundManager.createSound({
               id: ('a' + id[i].toString()),
               url: 'https://api.soundcloud.com/tracks/' + id[i] + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
@@ -72,10 +74,12 @@ export class PlayerComponent {
           data => this.playlistData = data
         );
     } else if (typeof id !== "object" && id) {
+      this.currentPlaylist = null;
       this.http.get('https://api.soundcloud.com/tracks/' + id + '?client_id=' + this.globalService.soundcloudId.getValue())
         .map(res => {
           res.text();
             this.playlistTrack = res.json();
+            this.globalService.currentTrack.next(this.playlistTrack.id);
             this.newSound = this.soundManager.createSound({
               id: ('a' + id.toString()),
               url: 'https://api.soundcloud.com/tracks/' + id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
@@ -114,22 +118,26 @@ export class PlayerComponent {
   }
 
   playPrevious() {
-    this.currentlyPlaying = true;
-    this.currentSound.stop();
-    if (this.currentPlaylist[this.currentIndex - 1]) {
-      this.playTrack(this.currentPlaylist, (this.currentIndex - 1));
-    } else {
-      this.playTrack(this.currentPlaylist, (this.currentPlaylist.length - 1));
+    if (this.currentPlaylist && this.currentPlaylist.length > 1) {
+      this.currentlyPlaying = true;
+      this.currentSound.stop();
+      if (this.currentPlaylist[this.currentIndex - 1]) {
+        this.playTrack(this.currentPlaylist, (this.currentIndex - 1));
+      } else {
+        this.playTrack(this.currentPlaylist, (this.currentPlaylist.length - 1));
+      }
     }
   }
 
   playNext() {
-    this.currentlyPlaying = true;
-    this.currentSound.stop();
-    if (this.currentPlaylist[this.currentIndex + 1]) {
-      this.playTrack(this.currentPlaylist, (this.currentIndex + 1));
-    } else {
-      this.playTrack(this.currentPlaylist, 0);
+    if (this.currentPlaylist && this.currentPlaylist.length > 1) {
+      this.currentlyPlaying = true;
+      this.currentSound.stop();
+      if (this.currentPlaylist[this.currentIndex + 1]) {
+        this.playTrack(this.currentPlaylist, (this.currentIndex + 1));
+      } else {
+        this.playTrack(this.currentPlaylist, 0);
+      }
     }
   }
 }

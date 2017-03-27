@@ -14,6 +14,7 @@ export class GlobalService {
   public users = new BehaviorSubject(null);
   public userId = new BehaviorSubject(null);
   public showForm = new BehaviorSubject(false);
+  public currentTrack = new BehaviorSubject(null);
   public soundcloudId = new BehaviorSubject('8e1349e63dfd43dc67a63e0de3befc68');
 
   public updateLocation(key, value) {

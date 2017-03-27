@@ -50,7 +50,7 @@ export class FormComponent {
             this.getSoundcloudPlaylists(this.searchUpdated.getValue());
           });
 
-    this.filteredPlaylists = af.database.list('/stations');
+    this.filteredPlaylists = af.database.list('/playlists');
 
     this.tags = [
       { value: 'Chill' },
@@ -109,9 +109,9 @@ export class FormComponent {
         trackIdArray.push(this.playlistTracks[i].id);
       }
       let newKey = trackIdArray[0].toString() + newDate.toString();
-      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
-      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-playlists/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/user-playlists/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
 
       // this.newlocation.value = '';
       // this.newcoordinates.value = '';
