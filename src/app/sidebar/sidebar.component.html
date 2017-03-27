@@ -1,4 +1,5 @@
 <md-toolbar>
+  <span class="logo">MusicMap</span>
   <img *ngIf="(af.auth | async)?.uid" (click)="showMenu = !showMenu" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
   <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()" class="alt">Login</button>
   <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="globalService.toggleForm()" class="alt">

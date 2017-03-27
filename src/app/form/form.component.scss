@@ -109,7 +109,7 @@ input {
 }
 
 .playlist-tracks {
-  background: $color-white;
+  background: rgba($color-white, .8);
   border-right: 1px solid $color-main;
   box-sizing: border-box;
   height: calc(100vh - 60px);

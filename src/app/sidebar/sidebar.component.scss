@@ -13,15 +13,21 @@ md-toolbar {
 
   button {
     position: absolute;
-    right: 7%;
+    right: calc(7% + 60px);
+    top: 13px;
   }
 }
 
+.logo {
+  color: $color-highlight;
+}
 
 .profile-image {
   border-radius: 50%;
   cursor: pointer;
-  margin: 0 10px;
+  position: absolute;
+  right: 7%;
+  top: 7px;
   width: 50px;
 }
 
