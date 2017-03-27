@@ -1,27 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, enableProdMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './app.component';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { MaterialModule } from '@angular/material';
+import 'hammerjs';
+import { Ng2MapModule} from 'ng2-map';
+import { DndModule } from 'ng2-dnd';
+
+//services
 import { GlobalService } from './global.service';
+
+//pipes
+import { SearchPipe } from './search.pipe';
 import { SafePipe } from './safe.pipe';
 import { FilterPipe } from './filter.pipe';
 import { FilterUserLikesPipe } from './filter-user-likes.pipe';
 import { FirstPipe } from './first.pipe';
 import { GetPipe } from './get.pipe';
 import { OrderBy } from './order-by.pipe';
+
+//components
+import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { PlayerComponent } from './player/player.component';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-import { MaterialModule } from '@angular/material';
-import { Ng2MapModule} from 'ng2-map';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
-import { SearchPipe } from './search.pipe';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
-import { DndModule } from 'ng2-dnd';
-import 'hammerjs';
 
 // Must export the config
 export const firebaseConfig = {
@@ -36,8 +42,6 @@ const firebaseAuthConfig = {
   provider: AuthProviders.Google,
   method: AuthMethods.Redirect
 };
-
-// enableProdMode();
 
 @NgModule({
   declarations: [
@@ -56,12 +60,12 @@ const firebaseAuthConfig = {
     PlaylistCardComponent
   ],
   imports: [
+    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
-    MaterialModule,
     DndModule.forRoot(),
     Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],

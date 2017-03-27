@@ -1,17 +1,16 @@
 <md-toolbar>
   <span class="logo">MusicMap</span>
-  <img *ngIf="(af.auth | async)?.uid" (click)="showMenu = !showMenu" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image">
-  <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()" class="alt">Login</button>
+  <img *ngIf="(af.auth | async)?.uid" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image" [mdMenuTriggerFor]="menu">
+  <md-menu #menu="mdMenu">
+    <button md-menu-item (click)="filterByCurrentUser()">My Profile</button>
+    <button md-menu-item (click)="logout()">Logout</button>
+  </md-menu>
+  <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()" class="alt login">Login</button>
   <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="globalService.toggleForm()" class="alt">
     <span *ngIf="showForm !== true">Add a Playlist</span>
     <span *ngIf="showForm === true">Hide</span>
   </button>
 </md-toolbar>
-
-<nav *ngIf="(af.auth | async)?.uid" [ngClass]="{ 'show-menu': showMenu === true }">
-  <div class="nav-item" (click)="filterByCurrentUser()">My Profile</div>
-  <div class="nav-item" (click)="logout()">Logout</div>
-</nav>
 
 <md-sidenav
   class="md-sidenav-left"
@@ -27,7 +26,7 @@
 
   <div class="search-container">
     <md-input-container class="search-playlists">
-      <input mdInput placeholder="Search Playlists..." [(ngModel)]="searchTerm">
+      <input mdInput placeholder="Search Playlists" [(ngModel)]="searchTerm">
     </md-input-container>
   </div>
 
