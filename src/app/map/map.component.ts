@@ -48,8 +48,6 @@ export class MapComponent {
     this.locations.subscribe(locations => {
       this.markers = [];
       this.markerCount = locations.length;
-      console.log('markerCount', this.markerCount);
-      console.log('alllocations', locations);
       for (let i = 0; i < this.markerCount; ++i ){
         let coordinatesArray = locations[i][Object.keys(locations[i])[0]].coordinates.split(',');
         this.markers.push({lat: parseFloat(coordinatesArray[0]), lng: parseFloat(coordinatesArray[1].trim())});
@@ -60,7 +58,6 @@ export class MapComponent {
       }
       this.initMarkers();
       this.markerCluster = new window['MarkerClusterer'](this.map, this.googleMarkers, { imagePath: '../../assets/cluster' } );
-      console.log('cluster', this.markerCluster);
       this.initAutoComplete();
     });
   }
@@ -105,7 +102,6 @@ export class MapComponent {
   initMarkers(){
     let me = this;
     this.googleMarkers = [];
-    console.log('makers', this.markers);
     for (let i = 0; i < this.markerCount; ++i ){
       let newMarker: any = new google.maps.Marker({
         position: this.markers[i],
@@ -113,11 +109,9 @@ export class MapComponent {
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       });
       this.googleMarkers.push(newMarker);
-      console.log('goog', this.googleMarkers);
       newMarker.addListener('click', function() {
         me.zone.run(() => {
           me.showReset = true;
-          console.log('marker coordinates', me.convertCoordinates(newMarker.position.lat()) + ', ' + me.convertCoordinates(newMarker.position.lng()));
           me.map.setCenter({lat: newMarker.position.lat(), lng: newMarker.position.lng()});
           me.map.setZoom(6);
           me.globalService.updateLocation('coordinates', me.convertCoordinates(newMarker.position.lat()));

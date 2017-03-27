@@ -5,6 +5,7 @@
   border-right: 1px solid $color-main;
   box-sizing: border-box;
   height: calc(100vh - 124px);
+  overflow: scroll;
   padding: 15px;
   position: absolute;
   transform: translate3d(0, -95vh, 0);
@@ -39,55 +40,96 @@ input {
   overflow: scroll;
 }
 
-.search-result {
+.search-result,
+.playlist-track {
   background-color: $color-grey-lighter;
   box-sizing: border-box;
   cursor: pointer;
   margin: 2px 0;
-  max-height: 140px;
+  max-height: 55px;
   overflow: hidden;
   padding: 5px 10px;
   transition: background-color .3s ease-out;
 
-  &:hover,
-  &.selected {
+  &:hover {
     background-color: $color-main;
   }
 }
 
-.playlist-preview {
-  height: 80px;
-  margin-top: 5px;
-  width: 100%;
-}
-
-.playlist-info {
+.track-info {
   display: inline-block;
   font-size: 14px;
   vertical-align: middle;
-  width: 78%;
+  width: 60%;
+
+  .track-text {
+    margin-top: 2%;
+    vertical-align: middle;
+  }
 }
 
-.playlist-image-container {
+.track-image-container {
   display: inline-block;
+  margin-top: 5px;
   min-width: 40px;
-  vertical-align: middle;
+  vertical-align: top;
   width: 15%;
 }
 
-.playlist-image {
+.track-image {
   border-radius: 50%;
   float: left;
-  vertical-align: middle;
+  vertical-align: top;
   width: 35px;
 }
 
 .search-actions {
+  display: inline-block;
   margin: 10px auto;
   text-align: center;
+  vertical-align: top;
+  width: 20%;
 }
 
-.add-playlist {
+.add-track,
+.preview-track {
+  background: $color-main;
+  border-radius: 50%;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 3px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.save-playlist {
   transition: opacity .2s ease-out;
   width: 100%;
+}
+
+.playlist-tracks {
+  background: $color-white;
+  border-right: 1px solid $color-main;
+  box-sizing: border-box;
+  height: calc(100vh - 60px);
+  left: 0;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  transition: transform .3s ease-out;
+  width: 30%;
+
+  &.show {
+    transform: translate3d(30vw, 0, 0);
+    z-index: 1;
+  }
+
+  h3 {
+    color: $color-main;
+  }
+}
+
+.playlist-track {
+  background-color: $color-main;
 }

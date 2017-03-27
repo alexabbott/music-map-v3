@@ -5,7 +5,9 @@
   box-sizing: border-box;
   font-size: 0;
   height: 60px;
+  position: relative;
   width: 100vw;
+  z-index: 2;
 }
 
 .player-controls {

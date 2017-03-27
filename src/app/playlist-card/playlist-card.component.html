@@ -31,11 +31,11 @@
   <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ playlist.userName }}
 </div>
 <div class="clearfix"></div>
-<button md-raised-button (click)="updatePlayer(playlist.url)" class="play-button" [ngClass]="{'alt': playerUrl !== playlist.url }">
-  <span *ngIf="playerUrl !== playlist.url">
+<button md-raised-button (click)="updatePlayer(playlist.tracks)" class="play-button" [ngClass]="{'alt': playlist.tracks && playlist.tracks.indexOf(playerUrl) === -1 }">
+  <span *ngIf="playlist.tracks && playlist.tracks.indexOf(playerUrl) === -1">
     Play
   </span>
-  <span *ngIf="playerUrl === playlist.url">
+  <span *ngIf="playlist.tracks && playlist.tracks.indexOf(playerUrl) > -1">
     Currently Playing
   </span>
 </button>

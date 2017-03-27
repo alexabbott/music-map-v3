@@ -18,11 +18,11 @@ export class FormComponent {
   showForm: boolean;
   searchData;
   searchResults: Array<any>;
+  playlistTracks: Array<any>;
   newName: string;
   newLocation: HTMLInputElement;
   newCoordinates: HTMLInputElement;
   searchKeyword: string;
-  newUrl: string;
   newTag: string;
   tags: Array<any>;
   map: any;
@@ -39,6 +39,8 @@ export class FormComponent {
     this.newLocation = <HTMLInputElement>document.getElementById('autocomplete');
     this.newCoordinates = <HTMLInputElement>document.getElementById('coordinates');
     this.http = http;
+
+    this.playlistTracks = [];
 
     this.searchUpdated.next('');
 
@@ -64,7 +66,6 @@ export class FormComponent {
 
     globalService.user.subscribe(user => {
       this.user = user;
-      console.log('thisuser', this.user);
     });
 
     globalService.showForm.subscribe(bool => {
@@ -78,10 +79,9 @@ export class FormComponent {
 
   getSoundcloudPlaylists(keyword: string) {
     if (keyword !== '') {
-      this.http.get('http://api.soundcloud.com/playlists?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
+      this.http.get('http://api.soundcloud.com/tracks?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
         .map(res => {
           res.text();
-          console.log('res', res.json().collection);
           this.searchResults = res.json().collection;
         })
         .subscribe(
@@ -95,28 +95,41 @@ export class FormComponent {
     console.error('There was an error: ' + err);
   }
 
-  addPlaylist(newName: string, newLocation: string, newCoordinates: string, newUrl: string, newTag: string) {
+  addPlaylist(newName: string, newLocation: string, newCoordinates: string, newTag: string) {
     let d = new Date();
     let newDate = d.getTime();
     if (!newTag) {
       newTag = '';
     }
-    if (newName && newLocation && newCoordinates && newUrl && newDate) {
+    if (newName && newLocation && newCoordinates && this.playlistTracks.length > 0 && newDate) {
       var coordinateArray = newCoordinates.split(',');
-      let newKey = newUrl.toString() + newDate.toString();
-      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
-      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      let trackIdArray = [];
+      let playlistLength = this.playlistTracks.length;
+      for (let i = 0; i < playlistLength; i++) {
+        trackIdArray.push(this.playlistTracks[i].id);
+      }
+      let newKey = trackIdArray[0].toString() + newDate.toString();
+      this.af.database.object('/stations/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-stations/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/users-stations/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
 
       // this.newlocation.value = '';
       // this.newcoordinates.value = '';
       this.newName = '';
-      this.newUrl = '';
       this.newTag = '';
       this.searchKeyword = '';
+      this.playlistTracks = [];
 
       this.globalService.toggleForm();
     }
+  }
+
+  addToPlaylist(result) {
+    this.playlistTracks.push(result);
+  }
+
+  removeFromPlaylist(track) {
+    this.playlistTracks.splice(this.playlistTracks.indexOf(track), 1);
   }
 
   updatePlayer(url) {

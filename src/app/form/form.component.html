@@ -11,7 +11,7 @@
     </md-option>
   </md-select>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Search Soundcloud Playlists" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
+    <input mdInput placeholder="Search Soundcloud Tracks" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
   </md-input-container>
   <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newUrl" disabled/>
@@ -21,25 +21,43 @@
   </md-input-container>
   <div class="search-results">
     <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newUrl === result.id }">
-      <div class="playlist-image-container">
-        <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="playlist-image">
-        <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="playlist-image">
+      <div class="track-image-container">
+        <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">
+        <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="track-image">
       </div>
-      <div class="playlist-info">{{ result.title }} by {{ result.user.username }}</div>
+      <div class="track-info">
+        <div class="track-text">
+          {{ result.title }} by {{ result.user.username }}
+        </div>
+      </div>
       <div class="search-actions">
-        <button md-raised-button (click)="newUrl = result.id" class="alt">
-          <span *ngIf="newUrl !== result.id">Select Playlist</span>
-          <span *ngIf="newUrl === result.id">Playlist Selected</span>
-        </button>
-        <button md-raised-button (click)="updatePlayer(result.id)" class="alt">
-          Preview Playlist
-        </button>
+        <md-icon (click)="addToPlaylist(result)" class="add-track">add_circle</md-icon>
+        <md-icon (click)="updatePlayer(result.id)" class="preview-track">play_circle_filled</md-icon>
       </div>
     </div>
   </div>
   <button
     md-raised-button
-    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newUrl, newTag)"
-    [ngClass]="{ 'disabled-button': !newName || !newLocation.value || !newCoordinates.value || !newUrl}"
-    class="add-playlist">Save Playlist</button>
+    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newTag)"
+    [ngClass]="{ 'disabled-button': !newName || !newLocation.value || !newCoordinates.value || playlistTracks.length === 0 }"
+    class="save-playlist">Save Playlist</button>
+</div>
+
+<div class="playlist-tracks" [ngClass]="{ 'show': playlistTracks && playlistTracks.length > 0 }" dnd-sortable-container [sortableData]="playlistTracks">
+  <h3>Playlist Tracks:</h3>
+  <div class="playlist-track" *ngFor="let track of playlistTracks; let i = index;" dnd-sortable [sortableIndex]="i">
+    <div class="track-image-container">
+      <img [src]="track.artwork_url" *ngIf="track.artwork_url" class="track-image">
+      <img src="../../assets/soundcloud-logo.png" *ngIf="!track.artwork_url" class="track-image">
+    </div>
+    <div class="track-info">
+      <div class="track-text">
+        {{ track.title }} by {{ track.user.username }}
+      </div>
+    </div>
+    <div class="search-actions">
+      <md-icon (click)="removeFromPlaylist(track)" class="add-track">remove_circle</md-icon>
+      <md-icon (click)="updatePlayer(track.id)" class="preview-track">play_circle_filled</md-icon>
+    </div>
+  </div>
 </div>

@@ -20,6 +20,7 @@ import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { SearchPipe } from './search.pipe';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
+import { DndModule } from 'ng2-dnd';
 import 'hammerjs';
 
 // Must export the config
@@ -61,6 +62,7 @@ const firebaseAuthConfig = {
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
     MaterialModule,
+    DndModule.forRoot(),
     Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],
   providers: [GlobalService],
