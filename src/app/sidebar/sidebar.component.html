@@ -1,6 +1,6 @@
 <md-toolbar>
   <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png" class="logo-image">
-  <span class="logo">MusicMap</span>
+  <span class="logo">BeatMap</span>
   <img *ngIf="(af.auth | async)?.uid" src="{{ (af.auth | async)?.auth.photoURL }}" class="profile-image" [mdMenuTriggerFor]="menu">
   <md-menu #menu="mdMenu">
     <button md-menu-item (click)="filterByCurrentUser()">My Profile</button>

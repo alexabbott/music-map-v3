@@ -1,27 +1,47 @@
-# Angular2Firebase
+# BeatMap
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
+BeatMap allows user to discover and create playlists based on location and activity. This app is build with [https://angular.io/] (Angular 4) and [https://github.com/angular/angularfire2] (AngularFire2), and was initially generated with [https://github.com/angular/angular-cli] (Angular CLI). BeatMap relies heavily on the [https://developers.soundcloud.com/docs/api/guide] (SoundCloud API) to search for music, and utilizes [http://www.schillmania.com/projects/soundmanager2/] (SoundManager2) for creating playlists and playing tracks.
 
-## Development server
+## Installation
+
+Ensure you have Node and NPM installed using the instructions at:
+
+[https://nodejs.org/download/](https://nodejs.org/download/)
+
+Install the project dependancies using:
+
+    npm install
+
+To enable use of a Firebase database, create a project on Firebase and add the following to app.module.ts:
+
+    export const firebaseConfig = {
+        apiKey: 'ABC123',
+        authDomain: 'yourapp.firebaseapp.com',
+        databaseURL: 'https://yourapp.firebaseio.com',
+        storageBucket: 'yourapp.appspot.com',
+        messagingSenderId: '01234'
+    };
+
+Install the necessary Firebase files using:
+
+    firebase init
+
+## Usage
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
-
 ## Build
-
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
+## Build
+Update firebase.json to use 'dist' as the public hosting directory then run:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    firebase deploy
 
-## Running end-to-end tests
+## Directory structure
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+    src/                       --> Frontend sources files
+    e2e/                       --> End to end tests using Protractor
 
-## Further help
+## Contact
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+For more information please contact alexabbott
