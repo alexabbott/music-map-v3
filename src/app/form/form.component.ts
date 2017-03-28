@@ -17,7 +17,6 @@ export class FormComponent {
   user;
   showForm: boolean;
   searchData;
-  searchRaw: any;
   searchResults: Array<any>;
   playlistKey: any;
   playlistTracks: Array<any>;
@@ -108,9 +107,7 @@ export class FormComponent {
       this.http.get('https://api.soundcloud.com/tracks?linked_partitioning=1&limit=30&client_id=' + this.clientId + '&q=' + keyword)
         .map(res => {
           res.text();
-          this.searchRaw = res.json();
           this.searchResults = res.json().collection;
-          console.log('results', this.searchRaw);
         })
         .subscribe(
           data => this.searchData = data,
