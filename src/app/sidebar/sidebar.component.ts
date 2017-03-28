@@ -12,6 +12,7 @@ export class SidebarComponent {
   map;
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
+  userPlaylists: FirebaseListObservable<any[]>;
   users: FirebaseObjectObservable<any>;
   userId: string;
   orderValue: string;
@@ -40,6 +41,7 @@ export class SidebarComponent {
         globalService.updateUserId(this.userId);
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
+        this.userPlaylists = af.database.list('/user-playlists/' + this.userId);
         this.user.subscribe(user => {
           // console.log('thieuser', user);
         });

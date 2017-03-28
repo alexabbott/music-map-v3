@@ -56,9 +56,13 @@
       <playlist-card [playlist]="playlist"></playlist-card>
     </md-card>
 
+    <h5 class="text-center" *ngIf="headline === 'My Playlists' && (!(userPlaylists | async) || (userPlaylists | async)?.length === 0)">
+      You haven't created any playlists!
+    </h5>
+
     <section *ngIf="headline === 'My Playlists'">
 
-      <h2 class="headline">Liked Playlists</h2>
+      <h2 class="headline" *ngIf="(user | async)?.likes">Liked Playlists</h2>
 
       <span *ngFor="let playlist of filteredPlaylists | async | search: searchTerm | orderBy: [orderValue]">
         <md-card *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
