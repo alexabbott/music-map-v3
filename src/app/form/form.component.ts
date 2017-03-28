@@ -79,7 +79,7 @@ export class FormComponent {
 
   getSoundcloudPlaylists(keyword: string) {
     if (keyword !== '') {
-      this.http.get('http://api.soundcloud.com/tracks?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
+      this.http.get('https://api.soundcloud.com/tracks?linked_partitioning=1&client_id=' + this.clientId + '&q=' + keyword)
         .map(res => {
           res.text();
           this.searchResults = res.json().collection;
