@@ -10,16 +10,16 @@ import { Ng2MapModule} from 'ng2-map';
 import { DndModule } from 'ng2-dnd';
 
 //services
-import { GlobalService } from './global.service';
+import { GlobalService } from './services/global.service';
 
 //pipes
-import { SearchPipe } from './search.pipe';
-import { SafePipe } from './safe.pipe';
-import { FilterPipe } from './filter.pipe';
-import { FilterUserLikesPipe } from './filter-user-likes.pipe';
-import { FirstPipe } from './first.pipe';
-import { GetPipe } from './get.pipe';
-import { OrderBy } from './order-by.pipe';
+import { SearchPipe } from './pipes/search.pipe';
+import { SafePipe } from './pipes/safe.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
+import { FilterUserLikesPipe } from './pipes/filter-user-likes.pipe';
+import { FirstPipe } from './pipes/first.pipe';
+import { GetPipe } from './pipes/get.pipe';
+import { OrderBy } from './pipes/order-by.pipe';
 
 //components
 import { AppComponent } from './app.component';

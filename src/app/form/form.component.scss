@@ -10,11 +10,19 @@
   position: absolute;
   transform: translate3d(0, -95vh, 0);
   transition: transform .3s ease-out;
-  width: 30%;
+  width: 100%;
   z-index: 2;
 
+  @include tablet {
+    width: 30%;
+  }
+
   &.push-down {
-    transform: translate3d(0, 64px, 0);
+    transform: translate3d(0, 0, 0);
+
+    @include tablet {
+      transform: translate3d(0, 64px, 0);
+    }
   }
 }
 
@@ -120,17 +128,26 @@ md-spinner {
   background: rgba($color-white, .8);
   border-right: 1px solid $color-main;
   box-sizing: border-box;
-  height: calc(100vh - 60px);
+  height: 40vh;
   left: 0;
   padding: 15px;
   position: absolute;
   top: 0;
   transition: transform .3s ease-out;
-  width: 30%;
+  width: 100%;
+
+  @include tablet {
+    height: calc(100vh - 60px);
+    width: 30%;
+  }
 
   &.show {
-    transform: translate3d(30vw, 0, 0);
+    transform: translate3d(0, -40vh, 0);
     z-index: 1;
+
+    @include tablet {
+      transform: translate3d(30vw, 0, 0);
+    }
   }
 
   h3 {

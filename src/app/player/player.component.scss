@@ -2,12 +2,18 @@
 
 .main-player {
   background-color: $color-main;
+  bottom: 0;
   box-sizing: border-box;
   font-size: 0;
   height: 60px;
-  position: relative;
+  left: 0;
+  position: fixed;
   width: 100vw;
   z-index: 2;
+
+  @include tablet {
+    position: relative;
+  }
 }
 
 .player-controls {
@@ -17,7 +23,11 @@
   height: 60px;
   line-height: 75px;
   text-align: center;
-  width: 30%;
+  width: 50%;
+
+  @include tablet {
+    width: 30%;
+  }
 
   md-icon {
     color: $color-white;
@@ -26,11 +36,27 @@
   }
 }
 
-.current-track {
-  display: inline-block;
+.current-track,
+.no-tracks {
   text-align: center;
   vertical-align: top;
   width: 50%;
+}
+
+.current-track {
+  display: none;
+
+  @include tablet {
+    display: inline-block;
+  }
+}
+
+.no-tracks {
+  color: $color-white;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 60px;
+  vertical-align: top;
 }
 
 .track-art {
@@ -50,13 +76,13 @@
 
 .track-info {
   color: $color-white;
-  display: inline-block;
+  display: none;
   font-size: 16px;
   line-height: 60px;
   vertical-align: top;
 
-  &.no-tracks {
-    transform: translateX(50%);
+  @include tablet {
+    display: inline-block;
   }
 }
 
@@ -65,7 +91,11 @@
   margin-top: 14px;
   text-align: center;
   vertical-align: top;
-  width: 20%;
+  width: 50%;
+
+  @include tablet {
+    width: 20%;
+  }
 }
 
 .playlist-menu {
@@ -81,8 +111,8 @@
     }
 
     md-icon {
-      display: inline-block;
       color: $color-highlight;
+      display: inline-block;
       font-size: 1.3em;
       vertical-align: top;
       width: 15%;

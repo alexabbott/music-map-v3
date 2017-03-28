@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'side-bar',

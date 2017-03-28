@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../services/global.service';
 import { BehaviorSubject } from "rxjs/Rx";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";

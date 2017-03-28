@@ -1,5 +1,14 @@
+@import '../../variables';
+
 .map {
   float: right;
-  height: calc(100vh - 60px);
-  width: 70%;
+  height: 40vh;
+  margin-top: 56px;
+  width: 100%;
+
+  @include tablet {
+    height: calc(100vh - 60px);
+    margin-top: 0;
+    width: 70%;
+  }
 }

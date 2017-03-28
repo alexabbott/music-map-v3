@@ -8,8 +8,12 @@ md-toolbar {
   left: 0;
   position: fixed;
   top: 0;
-  width: 30%;
+  width: 100%;
   z-index: 4;
+
+  @include tablet {
+    width: 30%;
+  }
 
   button {
     position: absolute;
@@ -40,36 +44,25 @@ md-toolbar {
   width: 50px;
 }
 
-nav {
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2);
-  position: absolute;
-  text-align: center;
-  transform: translate3d(0, -200px, 0);
-  transition: transform .3s ease-out;
-  width: 30%;
-  z-index: 3;
-
-  &.show-menu {
-    transform: translate3d(0, 65px, 0);
-  }
-}
-
-.nav-item {
-  background-color: rgba($color-white, .9);
-  border-bottom: 1px solid $color-main;
-  color: $color-main;
-  cursor: pointer;
-  padding: 15px 0;
-}
-
 .md-sidenav-left {
-  border-right: 1px solid $color-main;
+  border-top: 1px solid $color-main;
   box-sizing: border-box;
   display: inline-block;
-  height: calc(100vh - 60px);
+  height: calc(60vh - 116px);
+  left: 0;
   overflow: scroll;
+  position: fixed;
+  top: calc(40vh + 56px);
   vertical-align: top;
-  width: 30%;
+  width: 100%;
+
+  @include tablet {
+    border-right: 1px solid $color-main;
+    border-top: 0;
+    height: calc(100vh - 60px);
+    position: static;
+    width: 30%;
+  }
 
   &:focus {
     outline: 0;
@@ -78,15 +71,20 @@ nav {
 
 .sort-controls {
   background: $color-grey-lighter;
-  border-right: 1px solid $color-main;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
   box-sizing: border-box;
   margin: 0 auto;
   position: fixed;
   text-align: center;
-  top: 123px;
-  width: 30%;
+  top: calc(40vh + 116px);
+  width: 100%;
   z-index: 1;
+
+  @include tablet {
+    border-right: 1px solid $color-main;
+    top: 123px;
+    width: 30%;
+  }
 
   button {
     margin: 20px 2px;
@@ -95,15 +93,22 @@ nav {
 
 .search-container {
   background: $color-white;
-  border-right: 1px solid $color-main;
-  box-sizing: border-box;
+  border-top: 1px solid $color-highlight;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
+  box-sizing: border-box;
   display: block;
   left: 0;
   position: fixed;
-  top: 64px;
-  width: 30%;
+  top: calc(40vh + 56px);
+  width: 100%;
   z-index: 1;
+
+  @include tablet {
+    border-right: 1px solid $color-main;
+    border-top: 0;
+    top: 64px;
+    width: 30%;
+  }
 
   .search-playlists {
     display: block;
@@ -115,23 +120,36 @@ nav {
 .reset-playlists {
   background: $color-white;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
-  border-right: 1px solid $color-main;
   box-sizing: border-box;
   color: $color-main;
   cursor: pointer;
   padding: 10px 0;
   position: fixed;
-  top: 200px;
-  width: 30%;
+  top: calc(40vh + 192px);
+  width: 100%;
   z-index: 1;
+
+  @include tablet {
+    border-right: 1px solid $color-main;
+    top: 200px;
+    width: 30%;
+  }
 }
 
 .playlists-container {
-  transform: translate3d(0, 200px, 0);
+  transform: translate3d(0, 129px, 0);
   transition: transform .3s ease-out;
 
+  @include tablet {
+    transform: translate3d(0, 200px, 0);
+  }
+
   &.push-down {
-    transform: translate3d(0, 242px, 0);
+    transform: translate3d(0, 176px, 0);
+
+    @include tablet {
+      transform: translate3d(0, 242px, 0);
+    }
   }
 }
 

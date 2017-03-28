@@ -1,7 +1,7 @@
 import { Component, Injectable, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../services/global.service';
 import '../../assets/markerclusterer.js';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../services/global.service';
 import '../../assets/soundmanager2.js';
 
 @Component({
@@ -50,7 +50,6 @@ export class PlayerComponent {
         user: id[i].user
       };
       this.globalService.currentPlaylist.next(id);
-      console.log('thistrack', this.globalService.currentTrack.getValue());
       this.newSound = this.soundManager.createSound({
         id: ('a' + id[i].id.toString()),
         url: 'https://api.soundcloud.com/tracks/' + id[i].id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),

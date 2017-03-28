@@ -1,3 +1,4 @@
+// colors
 $color-white: #fff;
 $color-black: #000;
 $color-main: #1c1c1f;
@@ -6,3 +7,42 @@ $color-grey: #999;
 $color-grey-light: #ddd;
 $color-grey-lighter: #eee;
 $color-gold: #ffd700;
+
+// screen size
+$screen-sm: 960px;
+
+// transitions
+%transition {
+  transition: .3s ease-out;
+}
+
+// mixins
+@mixin mobile {
+  @media screen and (min-width: #{$screen-xs}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: #{$screen-sm}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin monitor {
+  @media screen and (min-width: #{$screen-lg}) {
+    @content;
+  }
+}
+
+@mixin retina {
+  @media screen and (min-width: #{$screen-xl}) {
+    @content;
+  }
+}

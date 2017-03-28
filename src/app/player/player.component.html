@@ -5,17 +5,17 @@
         <md-icon (click)="pauseSound()" *ngIf="currentlyPlaying === true">pause</md-icon>
         <md-icon (click)="playNext()">skip_next</md-icon>
     </div>
-    <div class="current-track">
-        <div *ngIf="currentTrack" class="track-art">
+    <div class="current-track" *ngIf="currentTrack">
+        <div class="track-art">
             <img *ngIf="currentTrack.artwork_url" [src]="currentTrack.artwork_url | safe">
             <img *ngIf="!currentTrack.artwork_url" src="../../assets/soundcloud-logo.png">
         </div>
         <div *ngIf="currentTrack" class="track-info">
             {{ currentTrack.title }} by {{ currentTrack.user.username }}
         </div>
-        <div *ngIf="!currentTrack" class="track-info no-tracks">
-            No Tracks Currently Loaded
-        </div>
+    </div>
+    <div *ngIf="!currentTrack" class="no-tracks">
+        No Tracks Loaded
     </div>
     <div class="current-playlist">
         <button md-raised-button [mdMenuTriggerFor]="playlistMenu">

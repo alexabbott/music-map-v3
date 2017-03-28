@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../services/global.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 @Component({
