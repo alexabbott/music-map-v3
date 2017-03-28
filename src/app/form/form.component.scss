@@ -2,7 +2,6 @@
 
 .form-container {
   background: $color-white;
-  border-right: 1px solid $color-main;
   box-sizing: border-box;
   height: calc(100vh - 124px);
   overflow: scroll;
@@ -14,6 +13,7 @@
   z-index: 2;
 
   @include tablet {
+    border-right: 1px solid $color-main;
     width: 30%;
   }
 
@@ -126,7 +126,6 @@ md-spinner {
 
 .playlist-tracks {
   background: rgba($color-white, .8);
-  border-right: 1px solid $color-main;
   box-sizing: border-box;
   height: 40vh;
   left: 0;
@@ -137,6 +136,7 @@ md-spinner {
   width: 100%;
 
   @include tablet {
+    border-right: 1px solid $color-main;
     height: calc(100vh - 60px);
     width: 30%;
   }

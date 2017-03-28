@@ -2,7 +2,6 @@
 
 md-toolbar {
   background: $color-main;
-  border-right: 1px solid $color-main;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
   box-sizing: border-box;
   left: 0;
@@ -12,13 +11,18 @@ md-toolbar {
   z-index: 4;
 
   @include tablet {
+    border-right: 1px solid $color-main;
     width: 30%;
   }
 
   button {
     position: absolute;
     right: calc(7% + 60px);
-    top: 13px;
+    top: 10px;
+
+    @include tablet {
+      top: 13px;
+    }
   }
 
   .login {
@@ -41,7 +45,11 @@ md-toolbar {
   position: absolute;
   right: 6%;
   top: 7px;
-  width: 50px;
+  width: 42px;
+
+  @include tablet {
+    width: 50px;
+  }
 }
 
 .md-sidenav-left {
