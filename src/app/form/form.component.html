@@ -3,7 +3,7 @@
     <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" [(ngModel)]="newName" />
   </md-input-container>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" #newLocation />
+    <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" [(ngModel)]="newLocation" />
   </md-input-container>
   <md-select placeholder="Playlist vibes" [(ngModel)]="newTag">
     <md-option *ngFor="let tag of tags" [value]="tag.value">
@@ -14,14 +14,11 @@
     <input mdInput placeholder="Search Soundcloud Tracks" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
   </md-input-container>
   <md-input-container class="md-block no-height">
-    <input mdInput placeholder="Playlist ID" type="text" [(ngModel)]="newUrl" disabled/>
-  </md-input-container>
-  <md-input-container class="md-block no-height">
-    <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled #newCoordinates />
+    <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled [(ngModel)]="newCoordinates" />
   </md-input-container>
   <div class="search-results">
     <md-spinner *ngIf="searchKeyword && (!searchResults || searchResults.length === 0)"></md-spinner>
-    <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': newUrl === result.id }">
+    <div *ngFor="let result of searchResults" class="search-result">
       <div class="track-image-container">
         <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">
         <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="track-image">
@@ -39,9 +36,16 @@
   </div>
   <button
     md-raised-button
-    (click)="addPlaylist(newName, newLocation.value, newCoordinates.value, newTag)"
-    [ngClass]="{ 'disabled-button': !newName || !newLocation.value || !newCoordinates.value || playlistTracks.length === 0 }"
+    *ngIf="!playlistKey"
+    (click)="addPlaylist(newName, newLocation, newCoordinates, newTag)"
+    [ngClass]="{ 'disabled-button': !newName || !newLocation || !newCoordinates || (playlistTracks && playlistTracks.length === 0) }"
     class="save-playlist">Save Playlist</button>
+  <button
+    md-raised-button
+    *ngIf="playlistKey"
+    (click)="updatePlaylist(playlistKey, newName, newLocation, newCoordinates, newTag)"
+    [ngClass]="{ 'disabled-button': !newName || !newLocation || !newCoordinates || (playlistTracks && playlistTracks.length === 0) }"
+    class="update-playlist">Update Playlist</button>
 </div>
 
 <div class="playlist-tracks" [ngClass]="{ 'show': playlistTracks && playlistTracks.length > 0 }" dnd-sortable-container [sortableData]="playlistTracks">

@@ -64,6 +64,7 @@ export class MapComponent {
   }
 
   initAutoComplete() {
+    let me = this;
     const input = <HTMLInputElement>document.getElementById('autocomplete');
     const autocompleteOptions = {
       types: ['(cities)']
@@ -73,8 +74,9 @@ export class MapComponent {
 
     autocomplete.addListener('place_changed', () => {
       let place = autocomplete.getPlace();
-      const coordinates = <HTMLInputElement>document.getElementById('coordinates');
-      coordinates.value = place.geometry.location.toString().replace('(', '').replace(')', '');
+      console.log('place', place);
+      this.globalService.playlistCoordinates.next(place.geometry.location.toString().replace('(', '').replace(')', ''));
+      this.globalService.playlistLocation.next(place.formatted_address);
 
       if (!place.geometry) {
         console.log("Autocomplete's returned place contains no geometry");

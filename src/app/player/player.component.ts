@@ -42,37 +42,35 @@ export class PlayerComponent {
   playTrack(id, i) {
     if (typeof id === "object" && id && id.length > 0) {
       this.currentPlaylist = id;
-      this.http.get('https://api.soundcloud.com/tracks/' + id[i] + '?client_id=' + this.globalService.soundcloudId.getValue())
-        .map(res => {
-          res.text();
-            this.currentIndex = i;
-            this.playlistTrack = res.json();
-            this.globalService.currentTrack.next(this.playlistTrack.id);
-            console.log('globaltrack', this.globalService.currentTrack.getValue());
-            this.newSound = this.soundManager.createSound({
-              id: ('a' + id[i].toString()),
-              url: 'https://api.soundcloud.com/tracks/' + id[i] + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
-              onfinish: () => {
-                this.playTrack(id, i + 1);
-              },
-              onPlay: () => {
-                this.currentlyPlaying = true;
-              },
-              onPause: () => {
-                this.currentlyPlaying = false;
-              }
-            });
-            this.currentTrack = this.playlistTrack;
-            if (this.currentSound) {
-              this.currentSound.stop();
-            }
-            this.currentSound = this.newSound;
-            this.newSound.play();
-            this.currentlyPlaying = true;
-        })
-        .subscribe(
-          data => this.playlistData = data
-        );
+      this.currentIndex = i;
+      this.playlistTrack = {
+        id: id[i].id,
+        title: id[i].title,
+        artwork_url: id[i].artwork_url,
+        user: id[i].user
+      };
+      this.globalService.currentPlaylist.next(id);
+      console.log('thistrack', this.globalService.currentTrack.getValue());
+      this.newSound = this.soundManager.createSound({
+        id: ('a' + id[i].id.toString()),
+        url: 'https://api.soundcloud.com/tracks/' + id[i].id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
+        onfinish: () => {
+          this.playTrack(id, i + 1);
+        },
+        onPlay: () => {
+          this.currentlyPlaying = true;
+        },
+        onPause: () => {
+          this.currentlyPlaying = false;
+        }
+      });
+      this.currentTrack = this.playlistTrack;
+      if (this.currentSound) {
+        this.currentSound.stop();
+      }
+      this.currentSound = this.newSound;
+      this.newSound.play();
+      this.currentlyPlaying = true;
     } else if (typeof id !== "object" && id) {
       this.currentPlaylist = null;
       this.http.get('https://api.soundcloud.com/tracks/' + id + '?client_id=' + this.globalService.soundcloudId.getValue())

@@ -15,6 +15,13 @@ export class GlobalService {
   public userId = new BehaviorSubject(null);
   public showForm = new BehaviorSubject(false);
   public currentTrack = new BehaviorSubject(null);
+  public currentPlaylist = new BehaviorSubject(null);
+  public playlistKey = new BehaviorSubject(null);
+  public playlistName = new BehaviorSubject(null);
+  public playlistLocation = new BehaviorSubject(null);
+  public playlistTag = new BehaviorSubject(null);
+  public playlistTracks = new BehaviorSubject(null);
+  public playlistCoordinates = new BehaviorSubject(null);
   public soundcloudId = new BehaviorSubject('8e1349e63dfd43dc67a63e0de3befc68');
 
   public updateLocation(key, value) {
@@ -47,5 +54,13 @@ export class GlobalService {
   }
   public toggleForm() {
     this.showForm.next(!this.showForm.getValue());
+  }
+  public setFormValues(key, name, location, tag, tracks, coordinates) {
+    this.playlistKey.next(key);
+    this.playlistName.next(name);
+    this.playlistLocation.next(location);
+    this.playlistTag.next(tag);
+    this.playlistTracks.next(tracks);
+    this.playlistCoordinates.next(coordinates);
   }
 }

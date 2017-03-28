@@ -18,10 +18,11 @@ export class FormComponent {
   showForm: boolean;
   searchData;
   searchResults: Array<any>;
+  playlistKey: any;
   playlistTracks: Array<any>;
   newName: string;
-  newLocation: HTMLInputElement;
-  newCoordinates: HTMLInputElement;
+  newLocation: string;
+  newCoordinates: string;
   searchKeyword: string;
   newTag: string;
   tags: Array<any>;
@@ -36,8 +37,6 @@ export class FormComponent {
   @Output() searchChangeEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public af: AngularFire, public globalService: GlobalService, http: Http) {
-    this.newLocation = <HTMLInputElement>document.getElementById('autocomplete');
-    this.newCoordinates = <HTMLInputElement>document.getElementById('coordinates');
     this.http = http;
 
     this.playlistTracks = [];
@@ -75,6 +74,32 @@ export class FormComponent {
     globalService.map.subscribe(themap => {
       this.map = themap;
     });
+
+    globalService.playlistName.subscribe(name => {
+      this.newName = name;
+    });
+
+    globalService.playlistLocation.subscribe(location => {
+      this.newLocation = location;
+    });
+
+    globalService.playlistTag.subscribe(tag => {
+      this.newTag = tag;
+    });
+
+    globalService.playlistTracks.subscribe(tracks => {
+      if (tracks && tracks.length > 0) {
+        this.playlistTracks = tracks;
+      }
+    });
+
+    globalService.playlistCoordinates.subscribe(coordinates => {
+      this.newCoordinates = coordinates;
+    });
+
+    globalService.playlistKey.subscribe(key => {
+      this.playlistKey = key;
+    });
   }
 
   getSoundcloudPlaylists(keyword: string) {
@@ -95,6 +120,43 @@ export class FormComponent {
     console.error('There was an error: ' + err);
   }
 
+  updatePlaylist(key, newName, newLocation, newCoordinates, newTag) {
+    let d = new Date();
+    let newDate = d.getTime();
+    if (!newTag) {
+      newTag = '';
+    }
+    if (newName && newLocation && newCoordinates && this.playlistTracks.length > 0 && newDate) {
+      var coordinateArray = newCoordinates.split(',');
+      let trackIdArray = [];
+      let playlistLength = this.playlistTracks.length;
+      for (let i = 0; i < playlistLength; i++) {
+        trackIdArray.push({
+          id: this.playlistTracks[i].id,
+          title: this.playlistTracks[i].title,
+          user: {
+            username: this.playlistTracks[i].user.username
+          },
+          artwork_url: this.playlistTracks[i].artwork_url
+        });
+      }
+      console.log('trackarray', trackIdArray);
+      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+
+      this.newLocation = '';
+      this.newCoordinates = '';
+      this.newName = '';
+      this.newTag = '';
+      this.searchKeyword = '';
+      this.playlistTracks = [];
+      this.searchResults = [];
+
+      this.globalService.toggleForm();
+    }
+  }
+
   addPlaylist(newName: string, newLocation: string, newCoordinates: string, newTag: string) {
     let d = new Date();
     let newDate = d.getTime();
@@ -106,25 +168,36 @@ export class FormComponent {
       let trackIdArray = [];
       let playlistLength = this.playlistTracks.length;
       for (let i = 0; i < playlistLength; i++) {
-        trackIdArray.push(this.playlistTracks[i].id);
+        trackIdArray.push({
+          id: this.playlistTracks[i].id,
+          title: this.playlistTracks[i].title,
+          user: {
+            username: this.playlistTracks[i].user.username
+          },
+          artwork_url: this.playlistTracks[i].artwork_url
+        });
       }
-      let newKey = trackIdArray[0].toString() + newDate.toString();
+      console.log('trackarray', trackIdArray);
+      let newKey = trackIdArray[0].id.toString() + newDate.toString();
       this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
       this.af.database.object('/location-playlists/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
       this.af.database.object('/user-playlists/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
 
-      // this.newlocation.value = '';
-      // this.newcoordinates.value = '';
+      this.newLocation = '';
+      this.newCoordinates = '';
       this.newName = '';
       this.newTag = '';
       this.searchKeyword = '';
       this.playlistTracks = [];
+      this.searchResults = [];
 
       this.globalService.toggleForm();
     }
   }
 
   addToPlaylist(result) {
+    console.log('tracks', this.playlistTracks);
+    console.log('res', result);
     this.playlistTracks.push(result);
   }
 

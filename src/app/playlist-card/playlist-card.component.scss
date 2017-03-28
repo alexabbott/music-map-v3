@@ -82,9 +82,18 @@ md-icon {
   }
 }
 
+.update-playlist {
+  color: $color-grey;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+  width: 45%;
+}
+
 .delete-playlist {
   color: $color-grey;
   cursor: pointer;
+  float: right;
   margin-top: 10px;
   text-align: right;
 }

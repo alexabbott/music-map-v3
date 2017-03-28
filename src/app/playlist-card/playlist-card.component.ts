@@ -37,8 +37,9 @@ export class PlaylistCardComponent {
     });
   }
 
-  updatePlaylist(key: string, newName: string, newLocation: string, newCoordinates: string, newUrl: string) {
-    this.filteredPlaylists.update(key, { name: newName, location: newLocation, coordinates: newCoordinates, url: newUrl });
+  updatePlaylist(key: string, name:string, location:string, tag:string, tracks:any, coordinates:string) {
+    this.globalService.toggleForm();
+    this.globalService.setFormValues(key, name, location, tag, tracks, coordinates);
   }
 
   deletePlaylist(key: string, location: string) {
@@ -97,7 +98,7 @@ export class PlaylistCardComponent {
     this.globalService.updateHeadline(loc);
   }
 
-  updatePlayer(url) {
-    this.globalService.updatePlayerUrl(url);
+  updatePlayer(tracks) {
+    this.globalService.updatePlayerUrl(tracks);
   }
 }
