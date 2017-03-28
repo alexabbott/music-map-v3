@@ -13,8 +13,24 @@
         <div *ngIf="currentTrack" class="track-info">
             {{ currentTrack.title }} by {{ currentTrack.user.username }}
         </div>
-        <div *ngIf="!currentTrack" class="track-info">
+        <div *ngIf="!currentTrack" class="track-info no-tracks">
             No Tracks Currently Loaded
         </div>
+    </div>
+    <div class="current-playlist">
+        <button md-raised-button [mdMenuTriggerFor]="playlistMenu">
+            {{ (globalService.currentPlaylistObject.getValue())?.name }}
+        </button>
+        <md-menu #playlistMenu="mdMenu">
+            <div *ngIf="globalService.currentPlaylistObject.getValue()" class="playlist-menu">
+                <div
+                    class="playlist-item" 
+                    *ngFor="let track of globalService.currentPlaylistObject.getValue().tracks; let i = index;" 
+                    (click)="playTrack(globalService.currentPlaylistObject.getValue().tracks, i)">
+                    <md-icon>play_arrow</md-icon>
+                    <div class="playlist-track">{{ track.title }} by {{ track.user.username }}</div>
+                </div>
+            </div>
+        </md-menu>
     </div>
 </section>

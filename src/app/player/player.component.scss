@@ -26,12 +26,11 @@
   }
 }
 
-
 .current-track {
   display: inline-block;
   text-align: center;
   vertical-align: top;
-  width: 70%;
+  width: 50%;
 }
 
 .track-art {
@@ -49,11 +48,49 @@
   }
 }
 
-
 .track-info {
   color: $color-white;
   display: inline-block;
   font-size: 16px;
   line-height: 60px;
   vertical-align: top;
+
+  &.no-tracks {
+    transform: translateX(50%);
+  }
+}
+
+.current-playlist {
+  display: inline-block;
+  margin-top: 14px;
+  text-align: center;
+  vertical-align: top;
+  width: 20%;
+}
+
+.playlist-menu {
+  font-size: .8em;
+
+  .playlist-item {
+    cursor: pointer;
+    padding: 8px 15px;
+    transition: background .2s ease-out;
+
+    &:hover {
+      background: $color-grey-lighter;
+    }
+
+    md-icon {
+      display: inline-block;
+      color: $color-highlight;
+      font-size: 1.3em;
+      vertical-align: top;
+      width: 15%;
+    }
+
+    .playlist-track {
+      display: inline-block;
+      width: 80%;
+    }
+  }
 }

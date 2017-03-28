@@ -31,7 +31,7 @@
   <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ playlist.userName }}
 </div>
 <div class="clearfix"></div>
-<button md-raised-button (click)="updatePlayer(playlist.tracks)" class="play-button" [ngClass]="{'alt': !globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue() }">
+<button md-raised-button (click)="updatePlayer(playlist)" class="play-button" [ngClass]="{'alt': !globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue() }">
   <span *ngIf="!globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue()">
     Play
   </span>

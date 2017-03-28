@@ -98,7 +98,8 @@ export class PlaylistCardComponent {
     this.globalService.updateHeadline(loc);
   }
 
-  updatePlayer(tracks) {
-    this.globalService.updatePlayerUrl(tracks);
+  updatePlayer(playlist) {
+    this.globalService.currentPlaylistObject.next(playlist);
+    this.globalService.updatePlayerUrl(playlist.tracks);
   }
 }
