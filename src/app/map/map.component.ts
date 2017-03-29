@@ -10,10 +10,10 @@ import '../../assets/markerclusterer.js';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent {
-  mapOptions;
-  markerOptions;
-  map;
-  markers;
+  mapOptions: any;
+  markerOptions: any;
+  map: any;
+  markers: any;
   coordinates: string;
   newlocation: string;
   locations: FirebaseListObservable<any[]>;
@@ -110,7 +110,7 @@ export class MapComponent {
       let newMarker: any = new google.maps.Marker({
         position: this.markers[i],
         map: me.map,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        icon: '../../assets/green-dot.png'
       });
       this.googleMarkers.push(newMarker);
       newMarker.addListener('click', function() {

@@ -9,7 +9,7 @@ import { GlobalService } from '../services/global.service';
 })
 
 export class SidebarComponent {
-  map;
+  map: any;
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   userPlaylists: FirebaseListObservable<any[]>;

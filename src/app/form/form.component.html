@@ -1,6 +1,6 @@
 <div class="form-container" [ngClass]="{'push-down': showForm === true}">
   <md-input-container class="md-block">
-    <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" [(ngModel)]="newName" />
+    <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" [(ngModel)]="newName" maxlength="20"/>
   </md-input-container>
   <md-input-container class="md-block">
     <input mdInput placeholder="Playlist Location" type="text" id="autocomplete" [(ngModel)]="newLocation" />

@@ -14,9 +14,9 @@ import "rxjs/add/operator/distinctUntilChanged";
 export class FormComponent {
   searchUpdated: BehaviorSubject<string> = new BehaviorSubject(null);
   filteredPlaylists: FirebaseListObservable<any[]>;
-  user;
+  user: any;
   showForm: boolean;
-  searchData;
+  searchData: any;
   searchResults: Array<any>;
   playlistKey: any;
   playlistTracks: Array<any>;

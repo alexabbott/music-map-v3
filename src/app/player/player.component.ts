@@ -12,16 +12,16 @@ import '../../assets/soundmanager2.js';
 export class PlayerComponent {
   soundManager;
   private http: Http;
-  playlistTracks;
-  playlistTrack;
-  playlistData;
+  playlistTracks: any;
+  playlistTrack: any;
+  playlistData: any;
   isPlaylist: boolean;
-  currentPlaylist;
-  currentIndex;
-  currentTrack;
-  currentSound;
-  newSounds;
-  newSound;
+  currentPlaylist: any;
+  currentIndex: any;
+  currentTrack: any;
+  currentSound: any;
+  newSounds: any;
+  newSound: any;
   currentlyPlaying: boolean;
 
   constructor(public globalService: GlobalService, http: Http) {
