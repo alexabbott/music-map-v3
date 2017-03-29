@@ -71,7 +71,8 @@ md-toolbar {
   @include mobile {
     &.full-height {
       background: $color-white;
-      height: 100vh;
+      height: calc(100vh - 116px);
+      padding-bottom: 200px;
     }
   }
 
@@ -138,7 +139,7 @@ md-toolbar {
   opacity: 0;
   padding: 10px 0;
   position: fixed;
-  top: 126px;
+  top: 123px;
   transition: opacity .2s ease-out;
   width: 100%;
   z-index: 1;
