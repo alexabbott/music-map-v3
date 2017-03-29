@@ -48,54 +48,45 @@ md-toolbar {
   width: 42px;
 
   @include tablet {
-    width: 50px;
+    top: 9px;
+    width: 45px;
   }
 }
 
 .md-sidenav-left {
+  background: transparent;
   border-top: 1px solid $color-main;
   box-sizing: border-box;
   display: inline-block;
-  height: calc(60vh - 116px);
+  height: 60px;
   left: 0;
   overflow: scroll;
   position: fixed;
-  top: calc(40vh + 56px);
+  top: 56px;
+  transition: background .3s ease-out, height .3s ease-out;
   vertical-align: top;
   width: 100%;
+  z-index: 1;
+
+  @include mobile {
+    &.full-height {
+      background: $color-white;
+      height: 100vh;
+    }
+  }
 
   @include tablet {
+    background: $color-white;
     border-right: 1px solid $color-main;
     border-top: 0;
     height: calc(100vh - 60px);
     position: static;
     width: 30%;
+    z-index: 0;
   }
 
   &:focus {
     outline: 0;
-  }
-}
-
-.sort-controls {
-  background: $color-grey-lighter;
-  box-shadow: 0 3px 5px -1px rgba($color-black, .2);
-  box-sizing: border-box;
-  margin: 0 auto;
-  position: fixed;
-  text-align: center;
-  top: calc(40vh + 116px);
-  width: 100%;
-  z-index: 1;
-
-  @include tablet {
-    border-right: 1px solid $color-main;
-    top: 123px;
-    width: 30%;
-  }
-
-  button {
-    margin: 20px 2px;
   }
 }
 
@@ -107,7 +98,7 @@ md-toolbar {
   display: block;
   left: 0;
   position: fixed;
-  top: calc(40vh + 56px);
+  top: 56px;
   width: 100%;
   z-index: 1;
 
@@ -119,44 +110,79 @@ md-toolbar {
   }
 
   .search-playlists {
-    display: block;
-    margin: 0 auto;
-    width: 90%;
+    display: inline-block;
+    margin-left: 15px;
+    width: calc(100% - 75px);
+
+    .mat-input-wrapper {
+      margin-bottom: 15px !important;
+    }
+  }
+
+  .sort {
+    color: $color-grey;
+    cursor: pointer;
+    float: right;
+    margin: 20px 15px 0 0;
+    vertical-align: middle;
   }
 }
 
 .reset-playlists {
-  background: $color-white;
+  background: $color-grey-lighter;
   box-shadow: 0 3px 5px -1px rgba($color-black, .2);
   box-sizing: border-box;
   color: $color-main;
   cursor: pointer;
+  display: none;
+  opacity: 0;
   padding: 10px 0;
   position: fixed;
-  top: calc(40vh + 192px);
+  top: 126px;
+  transition: opacity .2s ease-out;
   width: 100%;
   z-index: 1;
 
+  @include mobile {
+    &.visible {
+      display: block;
+      opacity: 1;
+    }
+  }
+
   @include tablet {
     border-right: 1px solid $color-main;
-    top: 200px;
+    display: block;
+    opacity: 1;
+    top: 133px;
     width: 30%;
   }
 }
 
 .playlists-container {
+  display: none;
+  opacity: 0;
   transform: translate3d(0, 129px, 0);
-  transition: transform .3s ease-out;
+  transition: opacity .3s ease-out, transform .3s ease-out;
+
+  @include mobile {
+    &.visible {
+      display: block;
+      opacity: 1;
+    }
+  }
 
   @include tablet {
-    transform: translate3d(0, 200px, 0);
+    display: block;
+    opacity: 1;
+    transform: translate3d(0, 125px, 0);
   }
 
   &.push-down {
-    transform: translate3d(0, 176px, 0);
+    transform: translate3d(0, 110px, 0);
 
     @include tablet {
-      transform: translate3d(0, 242px, 0);
+      transform: translate3d(0, 174px, 0);
     }
   }
 }

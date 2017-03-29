@@ -131,14 +131,19 @@ md-spinner {
   left: 0;
   padding: 15px;
   position: absolute;
-  top: 0;
+  top: -100vh;
   transition: transform .3s ease-out;
   width: 100%;
 
   @include tablet {
     border-right: 1px solid $color-main;
     height: calc(100vh - 60px);
+    top: 0;
     width: 30%;
+  }
+
+  &.z-index {
+    z-index: 1;
   }
 
   &.show {

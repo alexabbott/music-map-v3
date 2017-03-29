@@ -48,7 +48,7 @@
     class="update-playlist">Update Playlist</button>
 </div>
 
-<div class="playlist-tracks" [ngClass]="{ 'show': playlistTracks && playlistTracks.length > 0 }" dnd-sortable-container [sortableData]="playlistTracks">
+<div class="playlist-tracks" [ngClass]="{ 'show': (playlistTracks && playlistTracks.length > 0 && showForm), 'z-index': showForm }" dnd-sortable-container [sortableData]="playlistTracks">
   <h3>Playlist Tracks:</h3>
   <div class="playlist-track" *ngFor="let track of playlistTracks; let i = index;" dnd-sortable [sortableIndex]="i">
     <div class="track-image-container">

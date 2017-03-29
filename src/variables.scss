@@ -18,31 +18,13 @@ $screen-sm: 960px;
 
 // mixins
 @mixin mobile {
-  @media screen and (min-width: #{$screen-xs}) {
+  @media screen and (max-width: #{$screen-sm}) {
     @content;
   }
 }
 
 @mixin tablet {
   @media screen and (min-width: #{$screen-sm}) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media screen and (min-width: #{$screen-md}) {
-    @content;
-  }
-}
-
-@mixin monitor {
-  @media screen and (min-width: #{$screen-lg}) {
-    @content;
-  }
-}
-
-@mixin retina {
-  @media screen and (min-width: #{$screen-xl}) {
     @content;
   }
 }

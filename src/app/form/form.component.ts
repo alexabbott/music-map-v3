@@ -52,15 +52,25 @@ export class FormComponent {
     this.filteredPlaylists = af.database.list('/playlists');
 
     this.tags = [
-      { value: 'Chill' },
-      { value: 'Dance Party' },
-      { value: 'Festival Music' },
-      { value: 'Get Weird' },
-      { value: 'Rage' },
-      { value: 'Road Trip' },
-      { value: 'Rock Out' },
-      { value: 'Twerk It' },
-      { value: 'Work Time' }
+      { value: 'Blazing' },
+      { value: 'Chilling' },
+      { value: 'Commuting' },
+      { value: 'Dancing' },
+      { value: 'Driving' },
+      { value: 'Festival' },
+      { value: 'Focusing' },
+      { value: 'Getting ready' },
+      { value: 'Getting weird' },
+      { value: 'Hiking' },
+      { value: 'Hooking up' },
+      { value: 'Partying' },
+      { value: 'Pregaming' },
+      { value: 'Road tripping' },
+      { value: 'Rocking out' },
+      { value: 'Running' },
+      { value: 'Tripping balls' },
+      { value: 'Waking up' },
+      { value: 'Working out' },
     ];
 
     globalService.user.subscribe(user => {
@@ -123,10 +133,7 @@ export class FormComponent {
   updatePlaylist(key, newName, newLocation, newCoordinates, newTag) {
     let d = new Date();
     let newDate = d.getTime();
-    if (!newTag) {
-      newTag = '';
-    }
-    if (newName && newLocation && newCoordinates && this.playlistTracks.length > 0 && newDate) {
+    if (newName && newLocation && newCoordinates && newTag && this.playlistTracks.length > 0 && newDate) {
       var coordinateArray = newCoordinates.split(',');
       let trackIdArray = [];
       let playlistLength = this.playlistTracks.length;
