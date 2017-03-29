@@ -37,7 +37,7 @@
     </md-menu>
   </div>
 
-  <div class="text-center reset-playlists" *ngIf="showReset" (click)="resetPlaylists()" [ngClass]="{ 'visible': showReset }">
+  <div class="text-center reset-playlists" *ngIf="showReset || (searchTerm && searchTerm !== '')" (click)="resetPlaylists()" [ngClass]="{ 'visible': showReset || (searchTerm && searchTerm !== '')}">
       View All Playlists
   </div>
 

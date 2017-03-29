@@ -22,6 +22,7 @@ export class SidebarComponent {
   headline: string;
   showForm: boolean;
   showMenu: boolean;
+  searchTerm: string;
 
   constructor(public af: AngularFire, public globalService: GlobalService) {
     this.filterKey = null;
@@ -82,6 +83,7 @@ export class SidebarComponent {
     this.filterValue = null;
     this.map.setZoom(3);
     this.headline = null;
+    this.searchTerm = '';
   }
 
   changeOrder(neworder) {
