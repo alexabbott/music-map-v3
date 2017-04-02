@@ -1,4 +1,4 @@
-<div class="form-container" [ngClass]="{'push-down': showForm === true}">
+<div class="form-container" [ngClass]="{'push-down': showForm === true, 'slide-up': slideFormUp === true }">
   <md-input-container class="md-block">
     <input mdInput placeholder="Playlist Name" type="text" id="playlist-name" [(ngModel)]="newName" maxlength="20"/>
   </md-input-container>
@@ -11,7 +11,14 @@
     </md-option>
   </md-select>
   <md-input-container class="md-block">
-    <input mdInput placeholder="Search Soundcloud Tracks" type="text" [(ngModel)]="searchKeyword" (keyup)="makeSearch($event.target.value)"/>
+    <input 
+      mdInput
+      placeholder="Search Soundcloud Tracks"
+      type="text"
+      (focus)="slideFormUp = true"
+      (blur)="slideFormUp = false"
+      [(ngModel)]="searchKeyword"
+      (keyup)="makeSearch($event.target.value)"/>
   </md-input-container>
   <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled [(ngModel)]="newCoordinates" />

@@ -1,5 +1,11 @@
 @import '../../variables';
 
+.playlist-card {
+  @extend %transition;
+  position: relative;
+  transition-property: height;
+}
+
 .playlist-name {
   color: $color-main;
   float: left;
@@ -86,6 +92,7 @@ md-icon {
   color: $color-grey;
   cursor: pointer;
   display: inline-block;
+  font-size: 0.8em;
   margin-top: 10px;
   width: 45%;
 }
@@ -94,6 +101,71 @@ md-icon {
   color: $color-grey;
   cursor: pointer;
   float: right;
+  font-size: 0.8em;
   margin-top: 10px;
   text-align: right;
+}
+
+.view-tracks {
+  bottom: -20px;
+  color: $color-grey;
+  cursor: pointer;
+  display: block;
+  font-size: 0.8em;
+  left: 50%;
+  margin: 0 auto;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  vertical-align: middle;
+
+  md-icon{
+    color: $color-highlight;
+    vertical-align: middle;
+  }
+}
+
+.playlist-tracks {
+  font-size: 0.8em;
+  height: 0;
+  margin-top: 15px;
+  overflow: hidden;
+
+  &.full-height {
+    height: auto;
+  }
+
+  .playlist-track {
+    @extend %transition;
+    cursor: pointer;
+    padding: 5px;
+    transition-property: background-color;
+
+    &:hover {
+      background: $color-grey-light;
+    }
+  }
+
+  .track-number {
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+  }
+
+  .track-info {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 50px);
+  }
+
+  .track-play {
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+
+    md-icon {
+      color: $color-highlight;
+      cursor: pointer;
+    }
+  }
 }

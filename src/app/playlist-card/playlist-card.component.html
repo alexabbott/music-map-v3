@@ -1,43 +1,65 @@
-<div class="playlist-name">
-  {{ playlist.name }}
+<div class="playlist-card">
+  <div class="playlist-name">
+    {{ playlist.name }}
+  </div>
+  <div class="playlist-tag" *ngIf="playlist.tag" (click)="filterByTag(playlist.tag)">
+    {{ playlist.tag }}
+  </div>
+  <div class="playlist-likes">
+    <span *ngIf="(user | async)?.uid" class="like-controls">
+      <md-icon
+        (click)="unlikePlaylist(playlist.$key, playlist.user)"
+        class="active"
+        *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
+        star
+      </md-icon>
+      <md-icon
+        (click)="likePlaylist(playlist.$key, playlist.user)"
+        *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
+        star
+      </md-icon>
+    </span>
+    {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
+  </div>
+  <div class="playlist-location" (click)="filterByLocation(playlist.location, playlist.coordinates)">
+    <md-icon>location_on</md-icon> {{ playlist.location }}
+  </div>
+  <div class="clearfix"></div>
+  <div class="playlist-date">
+    Published {{ playlist.published | date: 'MM/dd/yyyy' }}
+  </div>
+  <div class="playlist-user" (click)="filterByUser(playlist.user)">
+    <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ playlist.userName }}
+  </div>
+  <div class="clearfix"></div>
+  <button md-raised-button (click)="updatePlayer(playlist, $event)" class="play-button" [ngClass]="{'alt': !globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue() }">
+    <span *ngIf="!globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue()">
+      Play
+    </span>
+    <span *ngIf="globalService.currentPlaylist.getValue() && playlist.tracks === globalService.currentPlaylist.getValue()">
+      Currently Playing
+    </span>
+  </button>
+  <div class="update-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="updatePlaylist(playlist.$key, playlist.name, playlist.location, playlist.tag, playlist.tracks, playlist.coordinates)">update playlist</div>
+  <div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>
+  <div class="playlist-tracks" [ngClass]="{ 'full-height': openPlaylist === playlist.name }">
+    <div class="playlist-track" *ngFor="let track of playlist.tracks; let i = index;" (click)="updatePlayerTrack(playlist, i)">
+      <div class="track-number">
+        {{ i + 1}}.
+      </div>
+      <div class="track-info">
+        {{ track.title }} by {{ track.user.username }}
+      </div>
+      <div class="track-play">
+        <md-icon>play_arrow</md-icon>
+      </div>
+    </div>
+  </div>
+  <div class="view-tracks" (click)="toggleTracks(playlist.name)">
+    <span *ngIf="openPlaylist !== playlist.name">View all</span>
+    <span *ngIf="openPlaylist === playlist.name">Hide</span>
+    Tracks
+    <md-icon *ngIf="openPlaylist !== playlist.name">keyboard_arrow_down</md-icon>
+    <md-icon *ngIf="openPlaylist === playlist.name">keyboard_arrow_up</md-icon>
+  </div>
 </div>
-<div class="playlist-tag" *ngIf="playlist.tag" (click)="filterByTag(playlist.tag)">
-  {{ playlist.tag }}
-</div>
-<div class="playlist-likes">
-  <span *ngIf="(user | async)?.uid" class="like-controls">
-    <md-icon
-      (click)="unlikePlaylist(playlist.$key, playlist.user)"
-      class="active"
-      *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
-      star
-    </md-icon>
-    <md-icon
-      (click)="likePlaylist(playlist.$key, playlist.user)"
-      *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
-      star
-    </md-icon>
-  </span>
-  {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
-</div>
-<div class="playlist-location" (click)="filterByLocation(playlist.location, playlist.coordinates)">
-  <md-icon>location_on</md-icon> {{ playlist.location }}
-</div>
-<div class="clearfix"></div>
-<div class="playlist-date">
-  Published {{ playlist.published | date: 'MM/dd/yyyy' }}
-</div>
-<div class="playlist-user" (click)="filterByUser(playlist.user)">
-  <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ playlist.userName }}
-</div>
-<div class="clearfix"></div>
-<button md-raised-button (click)="updatePlayer(playlist)" class="play-button" [ngClass]="{'alt': !globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue() }">
-  <span *ngIf="!globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue()">
-    Play
-  </span>
-  <span *ngIf="globalService.currentPlaylist.getValue() && playlist.tracks === globalService.currentPlaylist.getValue()">
-    Currently Playing
-  </span>
-</button>
-<div class="update-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="updatePlaylist(playlist.$key, playlist.name, playlist.location, playlist.tag, playlist.tracks, playlist.coordinates)">update playlist</div>
-<div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" (click)="deletePlaylist(playlist.$key, playlist.location)">delete playlist</div>

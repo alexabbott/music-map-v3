@@ -18,6 +18,7 @@ export class PlaylistCardComponent {
   filterValue: string;
   showReset: boolean;
   headline: string;
+  openPlaylist: string;
 
   constructor(public af: AngularFire, public globalService: GlobalService) {
     this.users = af.database.object('/users');
@@ -98,8 +99,23 @@ export class PlaylistCardComponent {
     this.globalService.updateHeadline(loc);
   }
 
-  updatePlayer(playlist) {
+  updatePlayer(playlist, e) {
+    e.stopPropagation();
     this.globalService.currentPlaylistObject.next(playlist);
     this.globalService.updatePlayerUrl(playlist.tracks);
+  }
+
+  updatePlayerTrack(playlist, i) {
+    this.globalService.currentPlaylistObject.next(playlist);
+    this.globalService.playerUrl.next(playlist.tracks);
+    this.globalService.playerIndex.next(i);
+  }
+
+  toggleTracks(name) {
+    if (this.openPlaylist === name) {
+      this.openPlaylist = '';
+    } else {
+      this.openPlaylist = name;
+    }
   }
 }

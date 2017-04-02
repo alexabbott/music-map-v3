@@ -17,16 +17,22 @@ md-toolbar {
 
   button {
     position: absolute;
-    right: calc(7% + 60px);
+    right: calc(6% + 50px);
     top: 10px;
 
     @include tablet {
+      right: 6%;
       top: 13px;
     }
   }
 
   .login {
     right: 7%;
+
+    @include tablet {
+      position: fixed;
+      right: 3%;
+    }
   }
 }
 
@@ -43,11 +49,13 @@ md-toolbar {
   border-radius: 50%;
   cursor: pointer;
   position: absolute;
-  right: 6%;
+  right: 5%;
   top: 7px;
   width: 42px;
 
   @include tablet {
+    position: fixed;
+    right: 3%;
     top: 9px;
     width: 45px;
   }
@@ -176,7 +184,7 @@ md-toolbar {
   @include tablet {
     display: block;
     opacity: 1;
-    transform: translate3d(0, 125px, 0);
+    transform: translate3d(0, 135px, 0);
   }
 
   &.push-down {
@@ -209,85 +217,9 @@ md-toolbar {
   }
 }
 
-md-card {
+.playlist-card {
   background: $color-grey-lighter;
   font-size: 1em;
   margin-bottom: 3px;
-}
-
-.playlist-name {
-  color: $color-main;
-  font-size: 24px;
-  width: 100%;
-}
-
-.playlist-location {
-  color: $color-grey;
-  cursor: pointer;
-  float: right;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.playlist-likes {
-  color: $color-grey;
-  float: left;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.playlist-date {
-  color: $color-grey;
-  float: left;
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.playlist-user {
-  color: $color-grey;
-  cursor: pointer;
-  float: right;
-  font-size: 12px;
-  margin-top: 10px;
-
-  img {
-    border-radius: 50%;
-    margin-top: -3px;
-    vertical-align: middle;
-    width: 20px;
-  }
-}
-
-.active {
-  color: $color-gold;
-}
-
-md-icon {
-  color: $color-grey-light;
-  cursor: pointer;
-  font-size: 21px;
-  margin-right: -4px;
-  vertical-align: middle;
-}
-
-.play-button {
-  display: block;
-  margin-top: 15px;
-  pointer-events: none;
-  width: 100%;
-
-  &.alt {
-    pointer-events: initial;
-  }
-
-  md-icon {
-    color: $color-white;
-  }
-}
-
-.delete-playlist {
-  color: $color-grey;
-  cursor: pointer;
-  margin-top: 10px;
-  text-align: right;
+  padding-top: 1em;
 }

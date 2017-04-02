@@ -10,6 +10,7 @@ export class GlobalService {
   public headline = new BehaviorSubject(null);
   public showReset = new BehaviorSubject(false);
   public playerUrl = new BehaviorSubject(null);
+  public playerIndex = new BehaviorSubject(null);
   public user = new BehaviorSubject(null);
   public users = new BehaviorSubject(null);
   public userId = new BehaviorSubject(null);

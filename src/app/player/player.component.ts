@@ -34,6 +34,10 @@ export class PlayerComponent {
       this.playTrack(id, 0);
     });
 
+    globalService.playerIndex.subscribe(i => {
+      this.playTrack(globalService.playerUrl.getValue(), i);
+    });
+
     this.soundManager.setup({
       url: '../../assets/swf'
     });
