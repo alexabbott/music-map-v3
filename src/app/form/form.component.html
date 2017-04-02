@@ -15,10 +15,11 @@
       mdInput
       placeholder="Search Soundcloud Tracks"
       type="text"
+      id="soundcloud-search"
       (focus)="slideFormUp = true"
       (blur)="slideFormUp = false"
       [(ngModel)]="searchKeyword"
-      (keyup)="makeSearch($event.target.value)"/>
+      (keyup)="makeSearch($event.target.value, $event.keyCode)"/>
   </md-input-container>
   <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled [(ngModel)]="newCoordinates" />

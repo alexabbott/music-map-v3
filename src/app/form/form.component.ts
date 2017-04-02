@@ -31,8 +31,11 @@ export class FormComponent {
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
 
-  private makeSearch(value: string) {
+  private makeSearch(value: string, code: number) {
     this.searchUpdated.next(value);
+    if (code === 13) {
+      document.getElementById('soundcloud-search').blur();
+    }
   }
   @Output() searchChangeEmitter: EventEmitter<any> = new EventEmitter<any>();
 
