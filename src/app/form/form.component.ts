@@ -148,7 +148,7 @@ export class FormComponent {
           user: {
             username: this.playlistTracks[i].user.username
           },
-          artwork_url: this.playlistTracks[i].artwork_url
+          artwork_url: (this.playlistTracks[i].artwork_url || '')
         });
       }
       console.log('trackarray', trackIdArray);
