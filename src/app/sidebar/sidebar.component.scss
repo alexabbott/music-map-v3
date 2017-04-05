@@ -144,6 +144,7 @@ md-toolbar {
   color: $color-main;
   cursor: pointer;
   display: none;
+  font-size: 0.9em;
   opacity: 0;
   padding: 10px 0;
   position: fixed;
@@ -207,6 +208,7 @@ md-toolbar {
     color: $color-white;
     font-size: 26px;
     margin-top: -7px;
+    vertical-align: middle;
   }
 
   img {

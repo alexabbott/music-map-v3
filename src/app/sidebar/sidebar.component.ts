@@ -13,6 +13,7 @@ export class SidebarComponent {
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   userPlaylists: FirebaseListObservable<any[]>;
+  userLikedPlaylists: FirebaseListObservable<any[]>;
   users: FirebaseObjectObservable<any>;
   userId: string;
   orderValue: string;
@@ -23,6 +24,7 @@ export class SidebarComponent {
   showForm: boolean;
   showMenu: boolean;
   searchTerm: string;
+  showCurrentUserProfile: boolean;
 
   constructor(public af: AngularFire, public globalService: GlobalService) {
     this.filterKey = null;
@@ -32,6 +34,7 @@ export class SidebarComponent {
     this.users = af.database.object('/users');
     this.showForm = false;
     this.showMenu = false;
+    this.showCurrentUserProfile = false;
 
     let me = this;
 
@@ -43,6 +46,7 @@ export class SidebarComponent {
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.userPlaylists = af.database.list('/user-playlists/' + this.userId);
+        this.userLikedPlaylists = af.database.list('/users/' + this.userId + '/likes');
         this.user.subscribe(user => {
           // console.log('thieuser', user);
         });
@@ -79,6 +83,7 @@ export class SidebarComponent {
 
   resetPlaylists() {
     this.showReset = false;
+    this.showCurrentUserProfile = false;
     this.filterKey = null;
     this.filterValue = null;
     this.map.setZoom(3);
@@ -91,10 +96,8 @@ export class SidebarComponent {
   }
 
   filterByCurrentUser() {
-    this.filterKey = 'user';
-    this.filterValue = this.userId;
     this.showReset = true;
-    this.headline = 'My Playlists';
     this.showMenu = false;
+    this.showCurrentUserProfile = true;
   }
 }

@@ -12,6 +12,22 @@ body {
   clear: both;
 }
 
+.desktop-only {
+  display: none !important;
+
+  @include tablet {
+    display: block !important;
+  }
+}
+
+.mobile-only {
+  display: block !important;
+
+  @include tablet {
+    display: none !important;
+  }
+}
+
 .mat-raised-button {
   background: $color-highlight;
 
@@ -94,5 +110,28 @@ md-option:hover {
 .mat-spinner {
   path {
     stroke: $color-highlight;
+  }
+}
+
+.mat-tab-label,
+.mat-ink-bar {
+  font-size: 1em !important;
+  width: 50% !important;
+}
+
+.mat-ink-bar {
+  background-color: $color-highlight;
+}
+
+snack-bar-container {
+  background: $color-highlight !important;
+}
+
+.mat-tab-header-pagination-disabled,
+.mat-tab-header-pagination-after,
+.mat-tab-header-pagination-before {
+
+  @include tablet {
+    display: none !important;
   }
 }

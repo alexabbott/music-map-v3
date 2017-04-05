@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { GlobalService } from '../services/global.service';
 import { BehaviorSubject } from "rxjs/Rx";
+import { MdSnackBar } from '@angular/material';
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 
@@ -39,7 +40,7 @@ export class FormComponent {
   }
   @Output() searchChangeEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(public af: AngularFire, public globalService: GlobalService, http: Http) {
+  constructor(public af: AngularFire, public globalService: GlobalService, http: Http, public snackBar: MdSnackBar) {
     this.http = http;
 
     this.playlistTracks = [];
@@ -206,13 +207,17 @@ export class FormComponent {
   }
 
   addToPlaylist(result) {
-    console.log('tracks', this.playlistTracks);
-    console.log('res', result);
     this.playlistTracks.push(result);
+    this.snackBar.open('Track added to playlist', 'OK!', {
+      duration: 2000,
+    });
   }
 
   removeFromPlaylist(track) {
     this.playlistTracks.splice(this.playlistTracks.indexOf(track), 1);
+    this.snackBar.open('Track removed from playlist', 'OK!', {
+      duration: 2000,
+    });
   }
 
   updatePlayer(url) {

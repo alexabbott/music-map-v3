@@ -8,18 +8,18 @@
   <div class="playlist-likes">
     <span *ngIf="(user | async)?.uid" class="like-controls">
       <md-icon
-        (click)="unlikePlaylist(playlist.$key, playlist.user)"
+        (click)="unlikePlaylist(playlist)"
         class="active"
         *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
         star
       </md-icon>
       <md-icon
-        (click)="likePlaylist(playlist.$key, playlist.user)"
+        (click)="likePlaylist(playlist)"
         *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
         star
       </md-icon>
     </span>
-    {{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0">s</span>
+    <span *ngIf="!playlist.likesTotal && playlist.likesTotal !== 0">0</span>{{ playlist.likesTotal }} like<span *ngIf="playlist.likesTotal > 1 || playlist.likesTotal === 0 || !playlist.likesTotal">s</span>
   </div>
   <div class="playlist-location" (click)="filterByLocation(playlist.location, playlist.coordinates)">
     <md-icon>location_on</md-icon> {{ playlist.location }}

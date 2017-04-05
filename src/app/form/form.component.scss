@@ -1,6 +1,7 @@
 @import '../../variables';
 
 .form-container {
+  @extend %transition;
   background: $color-white;
   box-sizing: border-box;
   height: calc(100vh - 124px);
@@ -8,7 +9,7 @@
   padding: 15px 15px 80px 15px;
   position: absolute;
   transform: translate3d(0, -95vh, 0);
-  transition: transform .3s ease-out;
+  transition-property: transform;
   width: 100%;
   z-index: 2;
 
@@ -66,6 +67,7 @@ md-spinner {
 
 .search-result,
 .playlist-track {
+  @extend %transition;
   background-color: $color-grey-lighter;
   box-sizing: border-box;
   cursor: pointer;
@@ -73,10 +75,15 @@ md-spinner {
   max-height: 55px;
   overflow: hidden;
   padding: 5px 10px;
-  transition: background-color .3s ease-out;
+  transition-property: background-color, color;
 
   &:hover {
     background-color: $color-grey-light;
+  }
+
+  &.selected {
+    background-color: $color-highlight;
+    color: $color-white;
   }
 }
 
@@ -129,7 +136,8 @@ md-spinner {
 
 .save-playlist,
 .update-playlist {
-  transition: opacity .2s ease-out;
+  @extend %transition;
+  transition-property: opacity;
   width: 100%;
 }
 
@@ -171,4 +179,11 @@ md-spinner {
 
 .playlist-track {
   background-color: $color-grey-lighter;
+}
+
+.mobile-only {
+  .playlist-tracks {
+    height: 300px;
+    position: static;
+  }
 }

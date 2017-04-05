@@ -24,7 +24,7 @@
   <md-input-container class="md-block no-height">
     <input mdInput placeholder="Playlist Coordinates" type="text" id="coordinates" disabled [(ngModel)]="newCoordinates" />
   </md-input-container>
-  <div class="search-results">
+  <div class="search-results desktop-only">
     <md-spinner *ngIf="searchKeyword && (!searchResults || searchResults.length === 0)"></md-spinner>
     <div *ngFor="let result of searchResults" class="search-result">
       <div class="track-image-container">
@@ -54,9 +54,54 @@
     (click)="updatePlaylist(playlistKey, newName, newLocation, newCoordinates, newTag)"
     [ngClass]="{ 'disabled-button': !newName || !newLocation || !newCoordinates || (playlistTracks && playlistTracks.length === 0) }"
     class="update-playlist">Update Playlist</button>
+
+  <md-spinner class="mobile-only" *ngIf="searchKeyword && (!searchResults || searchResults.length === 0)"></md-spinner>
+  <md-tab-group class="mobile-only" *ngIf="(searchResults && searchResults.length > 0) || (playlistTracks && playlistTracks.length > 0)">
+    <md-tab label="Search Results">
+      <div class="search-results">
+        <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': playlistTracks.indexOf(result) > -1 }">
+          <div class="track-image-container">
+            <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">
+            <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="track-image">
+          </div>
+          <div class="track-info">
+            <div class="track-text">
+              {{ result.title }} by {{ result.user.username }}
+            </div>
+          </div>
+          <div class="search-actions">
+            <md-icon (click)="addToPlaylist(result)" class="add-track">add_circle</md-icon>
+            <md-icon (click)="updatePlayer(result.id)" class="preview-track">play_circle_filled</md-icon>
+          </div>
+        </div>
+      </div>
+    </md-tab>
+    <md-tab label="Playlist Tracks">
+      <div class="text-center" *ngIf="!playlistTracks || playlistTracks.length === 0">
+        No tracks added yet
+      </div>
+      <div class="playlist-tracks" dnd-sortable-container [sortableData]="playlistTracks">
+        <div class="playlist-track" *ngFor="let track of playlistTracks; let i = index;" dnd-sortable [sortableIndex]="i">
+          <div class="track-image-container">
+            <img [src]="track.artwork_url" *ngIf="track.artwork_url" class="track-image">
+            <img src="../../assets/soundcloud-logo.png" *ngIf="!track.artwork_url" class="track-image">
+          </div>
+          <div class="track-info">
+            <div class="track-text">
+              {{ track.title }} by {{ track.user.username }}
+            </div>
+          </div>
+          <div class="search-actions">
+            <md-icon (click)="removeFromPlaylist(track)" class="add-track">remove_circle</md-icon>
+            <md-icon (click)="updatePlayer(track.id)" class="preview-track">play_circle_filled</md-icon>
+          </div>
+        </div>
+      </div>
+    </md-tab>
+  </md-tab-group>
 </div>
 
-<div class="playlist-tracks" [ngClass]="{ 'show': (playlistTracks && playlistTracks.length > 0 && showForm), 'z-index': showForm }" dnd-sortable-container [sortableData]="playlistTracks">
+<div class="playlist-tracks desktop-only" [ngClass]="{ 'show': (playlistTracks && playlistTracks.length > 0 && showForm), 'z-index': showForm }" dnd-sortable-container [sortableData]="playlistTracks">
   <h3>Playlist Tracks:</h3>
   <div class="playlist-track" *ngFor="let track of playlistTracks; let i = index;" dnd-sortable [sortableIndex]="i">
     <div class="track-image-container">
@@ -74,3 +119,4 @@
     </div>
   </div>
 </div>
+

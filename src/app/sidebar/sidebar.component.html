@@ -53,23 +53,32 @@
       <img src="{{ (users | async | get: ((filteredPlaylists | async | filter: filterKey : filterValue | first)?.user))?.photoURL }}"> {{ (users | async | get: ((filteredPlaylists | async | filter: filterKey : filterValue | first)?.user))?.name }}
     </h2>
 
-    <md-card *ngFor="let playlist of filteredPlaylists | async | filter: filterKey : filterValue | search: searchTerm | orderBy: [orderValue]" class="playlist-card">
-      <playlist-card [playlist]="playlist"></playlist-card>
-    </md-card>
+    <div *ngIf="!showCurrentUserProfile">
+      <md-card *ngFor="let playlist of filteredPlaylists | async | filter: filterKey : filterValue | search: searchTerm | orderBy: [orderValue]" class="playlist-card">
+        <playlist-card [playlist]="playlist"></playlist-card>
+      </md-card>
+    </div>
 
-    <h5 class="text-center" *ngIf="headline === 'My Playlists' && (!(userPlaylists | async) || (userPlaylists | async)?.length === 0)">
-      You haven't created any playlists!
-    </h5>
+    <md-tab-group *ngIf="showCurrentUserProfile">
+      <md-tab label="My Playlists">
+        <div *ngIf="(userPlaylists | async)">
+          <md-card *ngFor="let playlist of userPlaylists | async | filter: filterKey : filterValue | search: searchTerm | orderBy: [orderValue]" class="playlist-card">
+            <playlist-card [playlist]="playlist"></playlist-card>
+          </md-card>
+        </div>
 
-    <section *ngIf="headline === 'My Playlists'">
+        <h5 class="text-center" *ngIf="(!(userPlaylists | async) || (userPlaylists | async)?.length === 0)">
+          You haven't created any playlists!
+        </h5>
+      </md-tab>
+      <md-tab label="Liked Playlists">
+        <div *ngIf="(userLikedPlaylists | async)">
+          <md-card *ngFor="let playlist of userLikedPlaylists | async | filter: filterKey : filterValue | search: searchTerm | orderBy: [orderValue]" class="playlist-card">
+            <playlist-card [playlist]="playlist"></playlist-card>
+          </md-card>
+        </div>
+      </md-tab>
+    </md-tab-group>
 
-      <h2 class="headline" *ngIf="(user | async)?.likes">Liked Playlists</h2>
-
-      <span *ngFor="let playlist of filteredPlaylists | async | search: searchTerm | orderBy: [orderValue]">
-        <md-card *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]" class="playlist-card">
-          <playlist-card [playlist]="playlist"></playlist-card>
-        </md-card>
-      </span>
-    </section>
   </div>
 </md-sidenav>
