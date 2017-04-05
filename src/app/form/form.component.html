@@ -26,7 +26,7 @@
   </md-input-container>
   <div class="search-results desktop-only">
     <md-spinner *ngIf="searchKeyword && (!searchResults || searchResults.length === 0)"></md-spinner>
-    <div *ngFor="let result of searchResults" class="search-result">
+    <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': playlistTracks.indexOf(result) > -1 }">
       <div class="track-image-container">
         <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">
         <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="track-image">
