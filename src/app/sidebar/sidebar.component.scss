@@ -46,11 +46,13 @@ md-toolbar {
 }
 
 .profile-image {
+  @extend %transition;
   border-radius: 50%;
   cursor: pointer;
   position: absolute;
   right: 5%;
   top: 7px;
+  transition-property: transform;
   width: 42px;
 
   @include tablet {
@@ -58,6 +60,10 @@ md-toolbar {
     right: 3%;
     top: 9px;
     width: 45px;
+  }
+
+  &:hover {
+    transform: scale(1.1);
   }
 }
 

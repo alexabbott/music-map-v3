@@ -152,9 +152,9 @@ export class FormComponent {
         });
       }
       console.log('trackarray', trackIdArray);
-      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
-      this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
+      this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
 
       this.newLocation = '';
       this.newCoordinates = '';
@@ -190,9 +190,9 @@ export class FormComponent {
       }
       console.log('trackarray', trackIdArray);
       let newKey = trackIdArray[0].id.toString() + newDate.toString();
-      this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
-      this.af.database.object('/location-playlists/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
-      this.af.database.object('/user-playlists/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate });
+      this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate, likesTotal: 0 });
+      this.af.database.object('/location-playlists/' + newLocation + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
+      this.af.database.object('/user-playlists/' + this.user.uid + '/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
 
       this.newLocation = '';
       this.newCoordinates = '';
@@ -208,14 +208,14 @@ export class FormComponent {
 
   addToPlaylist(result) {
     this.playlistTracks.push(result);
-    this.snackBar.open('Track added to playlist', 'OK!', {
+    this.snackBar.open('Track added to playlist', '', {
       duration: 2000,
     });
   }
 
   removeFromPlaylist(track) {
     this.playlistTracks.splice(this.playlistTracks.indexOf(track), 1);
-    this.snackBar.open('Track removed from playlist', 'OK!', {
+    this.snackBar.open('Track removed from playlist', '', {
       duration: 2000,
     });
   }
