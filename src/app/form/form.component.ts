@@ -134,40 +134,6 @@ export class FormComponent {
     console.error('There was an error: ' + err);
   }
 
-  updatePlaylist(key, newName, newLocation, newCoordinates, newTag) {
-    let d = new Date();
-    let newDate = d.getTime();
-    if (newName && newLocation && newCoordinates && newTag && this.playlistTracks.length > 0 && newDate) {
-      var coordinateArray = newCoordinates.split(',');
-      let trackIdArray = [];
-      let playlistLength = this.playlistTracks.length;
-      for (let i = 0; i < playlistLength; i++) {
-        trackIdArray.push({
-          id: this.playlistTracks[i].id,
-          title: this.playlistTracks[i].title,
-          user: {
-            username: this.playlistTracks[i].user.username
-          },
-          artwork_url: (this.playlistTracks[i].artwork_url || '')
-        });
-      }
-      console.log('trackarray', trackIdArray);
-      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
-      this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ location: newLocation, coordinates: newCoordinates });
-      this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).set(Date.now());
-
-      this.newLocation = '';
-      this.newCoordinates = '';
-      this.newName = '';
-      this.newTag = '';
-      this.searchKeyword = '';
-      this.playlistTracks = [];
-      this.searchResults = [];
-
-      this.globalService.toggleForm();
-    }
-  }
-
   addPlaylist(newName: string, newLocation: string, newCoordinates: string, newTag: string) {
     let d = new Date();
     let newDate = d.getTime();
@@ -190,9 +156,43 @@ export class FormComponent {
       }
       console.log('trackarray', trackIdArray);
       let newKey = trackIdArray[0].id.toString() + newDate.toString();
-      this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate, likesTotal: 0 });
+      this.af.database.object('/playlists/' + newKey).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, userName: this.user.displayName, published: newDate, likesTotal: 0 });
       this.af.database.object('/location-playlists/' + newLocation + '/' + newKey).update({ location: newLocation, coordinates: newCoordinates });
       this.af.database.object('/user-playlists/' + this.user.uid + '/' + newKey).set(Date.now());
+
+      this.newLocation = '';
+      this.newCoordinates = '';
+      this.newName = '';
+      this.newTag = '';
+      this.searchKeyword = '';
+      this.playlistTracks = [];
+      this.searchResults = [];
+
+      this.globalService.toggleForm();
+    }
+  }
+
+  updatePlaylist(key, newName, newLocation, newCoordinates, newTag) {
+    let d = new Date();
+    let newDate = d.getTime();
+    if (newName && newLocation && newCoordinates && newTag && this.playlistTracks.length > 0 && newDate) {
+      var coordinateArray = newCoordinates.split(',');
+      let trackIdArray = [];
+      let playlistLength = this.playlistTracks.length;
+      for (let i = 0; i < playlistLength; i++) {
+        trackIdArray.push({
+          id: this.playlistTracks[i].id,
+          title: this.playlistTracks[i].title,
+          user: {
+            username: this.playlistTracks[i].user.username
+          },
+          artwork_url: (this.playlistTracks[i].artwork_url || '')
+        });
+      }
+      console.log('trackarray', trackIdArray);
+      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, published: newDate });
+      this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ location: newLocation, coordinates: newCoordinates });
+      this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).set(Date.now());
 
       this.newLocation = '';
       this.newCoordinates = '';
