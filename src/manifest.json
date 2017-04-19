@@ -5,7 +5,7 @@
     "scope": "/",
     "display": "standalone",
     "start_url": "./",
-    "short_name": "BM",
+    "short_name": "BeatMap",
     "theme_color": "#00cc66",
     "description": "",
     "orientation": "any",
