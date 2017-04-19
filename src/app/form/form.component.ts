@@ -152,7 +152,7 @@ export class FormComponent {
         });
       }
       console.log('trackarray', trackIdArray);
-      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate, likesTotal: 0 });
+      this.af.database.object('/playlists/' + key).update({ name: newName, location: newLocation, coordinates: newCoordinates, tracks: trackIdArray, tag: newTag, user: this.user.uid, published: newDate });
       this.af.database.object('/location-playlists/' + newLocation + '/' + key).update({ location: newLocation, coordinates: newCoordinates });
       this.af.database.object('/user-playlists/' + this.user.uid + '/' + key).set(Date.now());
 
@@ -208,14 +208,14 @@ export class FormComponent {
 
   addToPlaylist(result) {
     this.playlistTracks.push(result);
-    this.snackBar.open('Track added to playlist', '', {
+    this.snackBar.open('Track added to playlist', 'OK!', {
       duration: 2000,
     });
   }
 
   removeFromPlaylist(track) {
     this.playlistTracks.splice(this.playlistTracks.indexOf(track), 1);
-    this.snackBar.open('Track removed from playlist', '', {
+    this.snackBar.open('Track removed from playlist', 'OK!', {
       duration: 2000,
     });
   }
