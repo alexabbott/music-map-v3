@@ -46,7 +46,7 @@ export class SidebarComponent {
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
         this.userPlaylists = af.database.list('/user-playlists/' + this.userId);
-        this.userLikedPlaylists = af.database.list('/users/' + this.userId + '/likes');
+        this.userLikedPlaylists = af.database.list('/user-likes/' + this.userId);
         this.user.subscribe(user => {
           // console.log('thieuser', user);
         });

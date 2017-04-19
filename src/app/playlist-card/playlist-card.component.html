@@ -10,12 +10,12 @@
       <md-icon
         (click)="unlikePlaylist(playlist)"
         class="active"
-        *ngIf="(user | async)?.likes && (user | async)?.likes[playlist.$key]">
+        *ngIf="(userLikes | async) && (userLikes | async | get: playlist.$key)">
         star
       </md-icon>
       <md-icon
         (click)="likePlaylist(playlist)"
-        *ngIf="!(user | async)?.likes || !(user | async)?.likes[playlist.$key]">
+        *ngIf="!(userLikes | async) || !(userLikes | async | get: playlist.$key)">
         star
       </md-icon>
     </span>

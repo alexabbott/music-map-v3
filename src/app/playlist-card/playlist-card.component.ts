@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GlobalService } from '../services/global.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -7,10 +7,11 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
   templateUrl: './playlist-card.component.html',
   styleUrls: ['./playlist-card.component.scss']
 })
-export class PlaylistCardComponent {
+export class PlaylistCardComponent implements OnInit {
   @Input() playlist;
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
+  userLikes: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
   userId: string;
   playerUrl: string;
@@ -27,15 +28,25 @@ export class PlaylistCardComponent {
       if (auth) {
         this.user = af.database.object('/users/' + auth.uid);
         this.userId = auth.uid;
+        this.userLikes = af.database.object('/user-likes/' + this.userId);
         this.user.subscribe(user => {
           // console.log('thieuser', user);
         });
       }
     });
 
+
     globalService.playerUrl.subscribe(url => {
       this.playerUrl = url;
     });
+  }
+
+  ngOnInit() {
+    if (typeof this.playlist === 'string') {
+      this.af.database.object('/playlists/' + this.playlist).subscribe(p => {
+        this.playlist = p;
+      });
+    }
   }
 
   updatePlaylist(key: string, name:string, location:string, tag:string, tracks:any, coordinates:string) {
@@ -57,32 +68,22 @@ export class PlaylistCardComponent {
   }
 
   likePlaylist(playlist) {
-    this.af.database.object('/users/' + this.userId + '/likes/' + playlist.$key).update(playlist);
+    this.af.database.object('/user-likes/' + this.userId + '/' + playlist.$key).set(Date.now());
     this.af.database.list('/playlists/' + playlist.$key + '/likes/' + this.userId).push(this.userId);
-    this.af.database.list('/user-playlists/' + playlist.user + '/' + playlist.$key + '/likes/' + this.userId).push(this.userId);
     let likes = this.af.database.list('/playlists/' + playlist.$key + '/likes/');
     likes.subscribe(subscribe => {
       let length = subscribe.length;
       this.af.database.object('/playlists/' + playlist.$key).update({ likesTotal: length });
-      this.af.database.object('/user-playlists/' + playlist.user + '/' + playlist.$key).update({ likesTotal: length });
-      if (length > 0) {
-        this.af.database.object('/users/' + this.userId + '/likes/' + playlist.$key).update({ likesTotal: length });
-      }
     });
   }
 
   unlikePlaylist(playlist) {
-    this.af.database.list('/users/' + this.userId + '/likes').remove(playlist.$key);
+    this.af.database.list('/user-likes/' + this.userId).remove(playlist.$key);
     this.af.database.list('/playlists/' + playlist.$key + '/likes').remove(this.userId);
-    this.af.database.list('/user-playlists/' + playlist.user + '/' + playlist.$key + '/likes').remove(this.userId);
     let likes = this.af.database.list('/playlists/' + playlist.$key + '/likes/');
     likes.subscribe(subscribe => {
       let length = subscribe.length;
       this.af.database.object('/playlists/' + playlist.$key).update({ likesTotal: length });
-      this.af.database.object('/user-playlists/' + playlist.user + '/' + playlist.$key).update({ likesTotal: length });
-      if (length > 0) {
-        this.af.database.object('/users/' + this.userId + '/likes/' + playlist.$key).update({ likesTotal: length });
-      }
     });
   }
 
