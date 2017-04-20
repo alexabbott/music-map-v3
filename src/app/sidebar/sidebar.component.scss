@@ -175,7 +175,11 @@ md-toolbar {
   }
 
   &.move-up {
-    top: 64px;
+    top: 58px;
+
+    @include tablet {
+      top: 64px;
+    }
   }
 }
 
@@ -207,7 +211,7 @@ md-toolbar {
   }
 
   &.push-down-slightly {
-    transform: translate3d(0, 95px, 0);
+    transform: translate3d(0, 40px, 0);
 
     @include tablet {
       transform: translate3d(0, 103px, 0);
