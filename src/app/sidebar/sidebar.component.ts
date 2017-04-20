@@ -13,22 +13,24 @@ export class SidebarComponent {
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   userPlaylists: FirebaseListObservable<any[]>;
+  usersPlaylists: FirebaseListObservable<any[]>;
   userLikedPlaylists: FirebaseListObservable<any[]>;
   users: FirebaseObjectObservable<any>;
   userId: string;
   orderValue: string;
-  filterKey: string;
-  filterValue: string;
   showReset: boolean;
-  headline: string;
   showForm: boolean;
   showMenu: boolean;
   searchTerm: string;
+  filterBy: string;
   showCurrentUserProfile: boolean;
+  currentUserName: string;
+  currentUserId: string;
+  showLocationPlaylists: boolean;
+  showTagPlaylists: boolean;
+  showUserProfile: boolean;
 
   constructor(public af: AngularFire, public globalService: GlobalService) {
-    this.filterKey = null;
-    this.filterValue = null;
     this.orderValue = '-published';
     this.filteredPlaylists = af.database.list('/playlists');
     this.users = af.database.object('/users');
@@ -56,20 +58,57 @@ export class SidebarComponent {
     globalService.map.subscribe(themap => {
       this.map = themap;
     });
-    globalService.filterKey.subscribe(key => {
-      this.filterKey = key;
-    });
-    globalService.filterValue.subscribe(value => {
-      this.filterValue = value;
-    });
-    globalService.headline.subscribe(headline => {
-      this.headline = headline;
-    });
     globalService.showReset.subscribe(bool => {
       this.showReset = bool;
     });
     globalService.showForm.subscribe(bool => {
       this.showForm = bool;
+    });
+
+    globalService.filterBy.subscribe(filter => {
+      this.filterBy = filter;
+    });
+
+    // filter by user
+    globalService.currentUserName.subscribe(name => {
+      this.currentUserName = name;
+    });
+    globalService.usersId.subscribe(uid => {
+      this.currentUserId = uid;
+      if (uid) {
+        this.filteredPlaylists = af.database.list('/playlists', {
+          query: {
+            orderByChild: 'user',
+            equalTo: uid
+          }
+        });
+      }
+    });
+
+    // filter by location
+    globalService.locationPlaylists.subscribe(location => {
+      globalService.currentLocation = location;
+      if (location) {
+        this.filteredPlaylists = af.database.list('/playlists', {
+          query: {
+            orderByChild: 'location',
+            equalTo: location
+          }
+        });
+      }
+    });
+
+    // filter by tag
+    globalService.tagPlaylists.subscribe(tag => {
+      globalService.currentTag = tag;
+      if (tag) {
+        this.filteredPlaylists = af.database.list('/playlists', {
+          query: {
+            orderByChild: 'tag',
+            equalTo: tag
+          }
+        });
+      }
     });
   }
 
@@ -82,12 +121,11 @@ export class SidebarComponent {
   }
 
   resetPlaylists() {
+    this.filteredPlaylists = this.af.database.list('/playlists');
     this.showReset = false;
     this.showCurrentUserProfile = false;
-    this.filterKey = null;
-    this.filterValue = null;
+    this.globalService.filterBy.next('');
     this.map.setZoom(3);
-    this.headline = null;
     this.searchTerm = '';
   }
 

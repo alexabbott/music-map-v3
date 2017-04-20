@@ -24,6 +24,17 @@ export class GlobalService {
   public playlistTag = new BehaviorSubject(null);
   public playlistTracks = new BehaviorSubject(null);
   public playlistCoordinates = new BehaviorSubject(null);
+  public locationPlaylists = new BehaviorSubject(null);
+  public filterBy = new BehaviorSubject(null);
+  public currentLocation = new BehaviorSubject(null);
+  public currentUserName = new BehaviorSubject(null);
+  public showLocationPlaylists = new BehaviorSubject(false);
+  public showTagPlaylists = new BehaviorSubject(false);
+  public tagPlaylists = new BehaviorSubject(null);
+  public currentTag = new BehaviorSubject(null);
+  public usersId = new BehaviorSubject(null);
+  public usersName = new BehaviorSubject(null);
+  public showUserProfile = new BehaviorSubject(false);
   public soundcloudId = new BehaviorSubject('8e1349e63dfd43dc67a63e0de3befc68');
 
   public updateLocation(key, value) {

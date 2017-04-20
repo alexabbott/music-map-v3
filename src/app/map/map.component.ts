@@ -51,7 +51,7 @@ export class MapComponent {
       this.markerCount = locations.length;
       for (let i = 0; i < this.markerCount; ++i ){
         let coordinatesArray = locations[i][Object.keys(locations[i])[0]].coordinates.split(',');
-        this.markers.push({lat: parseFloat(coordinatesArray[0]), lng: parseFloat(coordinatesArray[1].trim())});
+        this.markers.push({ city: locations[i][Object.keys(locations[i])[0]].location, coordinates: {lat: parseFloat(coordinatesArray[0]), lng: parseFloat(coordinatesArray[1].trim())}});
       }
       if (!this.map) {
         this.map = new google.maps.Map(document.getElementById('map'), this.mapOptions);
@@ -108,7 +108,8 @@ export class MapComponent {
     this.googleMarkers = [];
     for (let i = 0; i < this.markerCount; ++i ){
       let newMarker: any = new google.maps.Marker({
-        position: this.markers[i],
+        position: this.markers[i].coordinates,
+        title: this.markers[i].city,
         map: me.map,
         icon: '../../assets/green-dot.png'
       });
@@ -118,9 +119,9 @@ export class MapComponent {
           me.showReset = true;
           me.map.setCenter({lat: newMarker.position.lat(), lng: newMarker.position.lng()});
           me.map.setZoom(6);
-          me.globalService.updateLocation('coordinates', me.convertCoordinates(newMarker.position.lat()));
+          me.globalService.locationPlaylists.next(newMarker.title);
+          me.globalService.showLocationPlaylists.next(true);
           me.globalService.updateReset();
-          me.globalService.updateHeadline(null);
         });
       });
     }

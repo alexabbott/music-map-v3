@@ -173,6 +173,10 @@ md-toolbar {
     top: 133px;
     width: 30%;
   }
+
+  &.move-up {
+    top: 64px;
+  }
 }
 
 .playlists-container {
@@ -199,6 +203,14 @@ md-toolbar {
 
     @include tablet {
       transform: translate3d(0, 174px, 0);
+    }
+  }
+
+  &.push-down-slightly {
+    transform: translate3d(0, 95px, 0);
+
+    @include tablet {
+      transform: translate3d(0, 103px, 0);
     }
   }
 }

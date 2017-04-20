@@ -28,7 +28,7 @@
   <div class="playlist-date">
     <md-icon>event</md-icon> {{ playlist.published | date: 'mediumDate' }}
   </div>
-  <div class="playlist-user" (click)="filterByUser(playlist.user)">
+  <div class="playlist-user" (click)="filterByUser(playlist.user, playlist.userName)">
     <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ (users | async | get: playlist.user)?.name }}
   </div>
   <div class="clearfix"></div>

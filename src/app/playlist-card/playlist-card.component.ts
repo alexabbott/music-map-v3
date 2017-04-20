@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GlobalService } from '../services/global.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   selector: 'playlist-card',
@@ -12,6 +13,7 @@ export class PlaylistCardComponent implements OnInit {
   filteredPlaylists: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   userLikes: FirebaseObjectObservable<any>;
+  userPlaylists: FirebaseObjectObservable<any>;
   users: FirebaseObjectObservable<any>;
   userId: string;
   playerUrl: string;
@@ -21,7 +23,7 @@ export class PlaylistCardComponent implements OnInit {
   headline: string;
   openPlaylist: string;
 
-  constructor(public af: AngularFire, public globalService: GlobalService) {
+  constructor(public af: AngularFire, public globalService: GlobalService, public snackBar: MdSnackBar) {
     this.users = af.database.object('/users');
     this.filteredPlaylists = af.database.list('/playlists');
     this.af.auth.subscribe(auth => {
@@ -75,6 +77,10 @@ export class PlaylistCardComponent implements OnInit {
       let length = subscribe.length;
       this.af.database.object('/playlists/' + playlist.$key).update({ likesTotal: length });
     });
+
+    this.snackBar.open('Liked ' + playlist.name, 'OK!', {
+      duration: 2000,
+    });
   }
 
   unlikePlaylist(playlist) {
@@ -85,25 +91,30 @@ export class PlaylistCardComponent implements OnInit {
       let length = subscribe.length;
       this.af.database.object('/playlists/' + playlist.$key).update({ likesTotal: length });
     });
+
+    this.snackBar.open('Unliked ' + playlist.name, 'OK!', {
+      duration: 2000,
+    });
   }
 
   filterByTag(tag) {
-    this.globalService.updateLocation('tag', tag);
     this.globalService.updateReset();
-    this.globalService.updateHeadline(tag);
+    this.globalService.filterBy.next('tag');
+    this.globalService.tagPlaylists.next(tag);
   }
 
-  filterByUser(uid) {
-    this.globalService.updateLocation('user', uid);
+  filterByUser(uid, userName) {
     this.globalService.updateReset();
-    this.globalService.updateHeadline(null);
+    this.globalService.filterBy.next('user');
+    this.globalService.currentUserName.next(userName);
+    this.globalService.usersId.next(uid);
   }
 
   filterByLocation(loc, coo) {
-    this.globalService.updateLocation('location', loc);
+    this.globalService.filterBy.next('location');
+    this.globalService.locationPlaylists.next(loc);
     this.globalService.updateMapCenter(coo);
     this.globalService.updateReset();
-    this.globalService.updateHeadline(loc);
   }
 
   updatePlayer(playlist, e) {
