@@ -28,6 +28,7 @@ import { PlayerComponent } from './player/player.component';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
+import { SplashComponent } from './splash/splash.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -57,7 +58,8 @@ const firebaseAuthConfig = {
     MapComponent,
     FormComponent,
     SearchPipe,
-    PlaylistCardComponent
+    PlaylistCardComponent,
+    SplashComponent
   ],
   imports: [
     MaterialModule,

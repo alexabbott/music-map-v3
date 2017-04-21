@@ -1,0 +1,11 @@
+<div class="splash" [ngClass]="{ 'hide': hidden === true, 'show': !globalService.userId.getValue() }" (click)="hidden = true">
+    <div class="inner">
+        <div class="logo">
+            <img src="../../assets/icons/android/android-launchericon-192-192.png" class="logo-image">
+            <span class="logo">BeatMap</span>
+        </div>
+        <div class="description">
+            Discover and create location-based playlists with BeatMap.
+        </div>
+    </div>
+</div>
