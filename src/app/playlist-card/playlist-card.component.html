@@ -29,7 +29,7 @@
     <md-icon>event</md-icon> {{ playlist.published | date: 'mediumDate' }}
   </div>
   <div class="playlist-user" (click)="filterByUser(playlist.user, playlist.userName)">
-    <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ (users | async | get: playlist.user)?.name }}
+    <img src="{{ (users | async | get: playlist.user)?.photoURL }}"> {{ (users | async | get: playlist.user)?.name | lastNamePipe }}
   </div>
   <div class="clearfix"></div>
   <button md-raised-button (click)="updatePlayer(playlist, $event)" class="play-button" [ngClass]="{'alt': !globalService.currentPlaylist.getValue() || playlist.tracks !== globalService.currentPlaylist.getValue() }">
@@ -41,7 +41,7 @@
     </span>
   </button>
   <div class="delete-playlist" *ngIf="playlist.user === (user | async)?.uid" >
-    <md-icon (click)="updatePlaylist(playlist.$key, playlist.name, playlist.location, playlist.tag, playlist.tracks, playlist.coordinates)">info_outline</md-icon>
+    <md-icon (click)="updatePlaylist(playlist.$key, playlist.name, playlist.location, playlist.tag, playlist.tracks, playlist.coordinates)">mode_edit</md-icon>
     <md-icon (click)="deletePlaylist(playlist.$key, playlist.location)">delete</md-icon>
   </div>
   <div class="playlist-tracks" [ngClass]="{ 'full-height': openPlaylist === playlist.name }">

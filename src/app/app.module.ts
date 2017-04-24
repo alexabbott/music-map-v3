@@ -21,6 +21,7 @@ import { FirstPipe } from './pipes/first.pipe';
 import { GetPipe } from './pipes/get.pipe';
 import { OrderBy } from './pipes/order-by.pipe';
 import { SlugifyPipe } from './pipes/slugify.pipe';
+import { LastNamePipePipe } from './pipes/last-name-pipe.pipe';
 
 //components
 import { AppComponent } from './app.component';
@@ -61,7 +62,8 @@ const firebaseAuthConfig = {
     SearchPipe,
     PlaylistCardComponent,
     SplashComponent,
-    SlugifyPipe
+    SlugifyPipe,
+    LastNamePipePipe
   ],
   imports: [
     MaterialModule,
