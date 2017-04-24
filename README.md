@@ -27,12 +27,12 @@ Install the necessary Firebase files using:
     firebase init
 
 ## Usage
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Build
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Build
+## Deploy
 Update firebase.json to use 'dist' as the public hosting directory then run:
 
     firebase deploy
