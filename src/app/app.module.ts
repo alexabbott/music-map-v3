@@ -31,6 +31,8 @@ import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { PlaylistCardComponent } from './playlist-card/playlist-card.component';
 import { SplashComponent } from './splash/splash.component';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { UserPlaylistDialogComponent } from './user-playlist-dialog/user-playlist-dialog.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -64,7 +66,9 @@ const firebaseAuthConfig = {
     PlaylistCardComponent,
     SplashComponent,
     SlugifyPipe,
-    LastNamePipePipe
+    LastNamePipePipe,
+    DeleteDialogComponent,
+    UserPlaylistDialogComponent
   ],
   imports: [
     MaterialModule,
@@ -76,6 +80,7 @@ const firebaseAuthConfig = {
     DndModule.forRoot(),
     Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyD9e_lkQIiKtphl0vGK3MjbC589jQcRtvk&libraries=places'})
   ],
+  entryComponents: [DeleteDialogComponent, UserPlaylistDialogComponent],
   providers: [GlobalService],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { GlobalService } from '../services/global.service';
+import { MdDialogRef, MdDialog } from '@angular/material';
+import { UserPlaylistDialogComponent } from '../user-playlist-dialog/user-playlist-dialog.component'
 
 @Component({
   selector: 'side-bar',
@@ -35,7 +37,7 @@ export class SidebarComponent {
   showTagPlaylists: boolean;
   showUserProfile: boolean;
 
-  constructor(public af: AngularFire, public globalService: GlobalService) {
+  constructor(public af: AngularFire, public globalService: GlobalService, public dialog: MdDialog) {
     this.orderValue = '-published';
     this.filteredPlaylists = af.database.list('/playlists');
     this.users = af.database.object('/users');
@@ -153,6 +155,17 @@ export class SidebarComponent {
 
   logout() {
      this.af.auth.logout();
+  }
+
+  togglePlaylistForm() {
+    console.log(this.currentUserPlaylistCount);
+    console.log(this.totalCurrentUserLikes);
+    if ((this.currentUserPlaylistCount <= 9) || (this.currentUserPlaylistCount <= 15 && this.totalCurrentUserLikes < 50 && this.totalCurrentUserLikes >= 25) || (this.currentUserPlaylistCount <= 20 && this.totalCurrentUserLikes < 100 && this.totalCurrentUserLikes >= 50)) {
+      this.globalService.toggleForm();
+      this.globalService.playlistKey.next(null)
+    } else {
+      this.dialog.open(UserPlaylistDialogComponent);
+    }
   }
 
   resetPlaylists() {

@@ -7,7 +7,7 @@
     <button md-menu-item (click)="logout()">Logout</button>
   </md-menu>
   <button *ngIf="!(af.auth | async)?.uid" md-raised-button (click)="login()" class="login">Login</button>
-  <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="globalService.toggleForm();globalService.playlistKey.next(null)" class="alt">
+  <button *ngIf="(af.auth | async)?.uid" md-raised-button (click)="togglePlaylistForm()" class="alt">
     <span *ngIf="showForm !== true">Add a Playlist</span>
     <span *ngIf="showForm === true">Hide</span>
   </button>

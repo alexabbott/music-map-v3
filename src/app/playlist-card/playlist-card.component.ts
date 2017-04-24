@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GlobalService } from '../services/global.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import { MdSnackBar } from '@angular/material';
+import { MdSnackBar, MdDialogRef, MdDialog } from '@angular/material';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 
 @Component({
   selector: 'playlist-card',
@@ -22,8 +23,10 @@ export class PlaylistCardComponent implements OnInit {
   showReset: boolean;
   headline: string;
   openPlaylist: string;
+  dialogRef: MdDialogRef<any>;
+  selectedOption: string;
 
-  constructor(public af: AngularFire, public globalService: GlobalService, public snackBar: MdSnackBar) {
+  constructor(public af: AngularFire, public globalService: GlobalService, public snackBar: MdSnackBar, public dialog: MdDialog) {
     this.users = af.database.object('/users');
     this.filteredPlaylists = af.database.list('/playlists');
     this.af.auth.subscribe(auth => {
@@ -57,14 +60,23 @@ export class PlaylistCardComponent implements OnInit {
   }
 
   deletePlaylist(key: string, location: string) {
-    this.filteredPlaylists.remove(key);
-    this.af.database.list('/user-playlists/' + this.userId).remove(key);
-    this.af.database.list('/location-playlists/' + location).remove(key);
-    let loc = this.af.database.list('/location-playlists/' + location);
-    loc.subscribe(subscribe => {
-      let length = subscribe.length;
-      if (length === 0) {
-        loc.remove(location);
+    let dialogRef = this.dialog.open(DeleteDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedOption = result;
+      if (this.selectedOption === 'delete') {
+        this.filteredPlaylists.remove(key);
+        this.af.database.list('/user-playlists/' + this.userId).remove(key);
+        this.af.database.list('/location-playlists/' + location).remove(key);
+        let loc = this.af.database.list('/location-playlists/' + location);
+        loc.subscribe(subscribe => {
+          let length = subscribe.length;
+          if (length === 0) {
+            loc.remove(location);
+          }
+        });
+        this.snackBar.open('Playlist deleted', 'OK!', {
+          duration: 2000,
+        });
       }
     });
   }
