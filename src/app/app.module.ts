@@ -34,12 +34,13 @@ import { SplashComponent } from './splash/splash.component';
 
 // Must export the config
 export const firebaseConfig = {
-  apiKey: "AIzaSyDIrmC834Tivjh8EM0G2h8oUbC2gIye86o",
-  authDomain: "music-map-23635.firebaseapp.com",
-  databaseURL: "https://music-map-23635.firebaseio.com",
-  storageBucket: "music-map-23635.appspot.com",
-  messagingSenderId: "1038601253190"
-};
+    apiKey: "AIzaSyDo2DoOzdHzYFwcHju_kgIV1M6wh9Babek",
+    authDomain: "beatmap-7177b.firebaseapp.com",
+    databaseURL: "https://beatmap-7177b.firebaseio.com",
+    projectId: "beatmap-7177b",
+    storageBucket: "beatmap-7177b.appspot.com",
+    messagingSenderId: "398802251123"
+  };
 
 const firebaseAuthConfig = {
   provider: AuthProviders.Google,

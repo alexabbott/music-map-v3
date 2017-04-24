@@ -3,7 +3,14 @@
     ".read": true,
     ".write": "auth != null",
     "playlists": {
-      ".indexOn": ["user", "name", "tag", "location"]
+      ".indexOn": ["user", "name", "tag", "location"],
+      "$playlistid": {
+        ".read": true,
+        ".write": "auth != null && (!data.exists() || data.child('user').val() === auth.uid) && newData.hasChild('user')",
+        "user": {
+          ".write": "newData.val() === auth.uid"
+        }
+      }
     }
   }
 }
