@@ -74,9 +74,8 @@ export class MapComponent {
 
     autocomplete.addListener('place_changed', () => {
       let place = autocomplete.getPlace();
-      console.log('place', place);
       this.globalService.playlistCoordinates.next(place.geometry.location.toString().replace('(', '').replace(')', ''));
-      this.globalService.playlistLocation.next(place.formatted_address);
+      this.globalService.playlistLocation.next(place.formatted_address.replace(/[0-9]/g, '').replace(' ,', ','));
 
       if (!place.geometry) {
         console.log("Autocomplete's returned place contains no geometry");
@@ -86,10 +85,10 @@ export class MapComponent {
       // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
         this.map.fitBounds(place.geometry.viewport);
-        this.map.setZoom(4);
+        this.map.setZoom(6);
       } else {
         this.map.setCenter(place.geometry.location);
-        this.map.setZoom(4);
+        this.map.setZoom(6);
       }
 
       var address = '';
@@ -119,6 +118,7 @@ export class MapComponent {
           me.showReset = true;
           me.map.setCenter({lat: newMarker.position.lat(), lng: newMarker.position.lng()});
           me.map.setZoom(6);
+          me.globalService.filterBy.next('location');
           me.globalService.locationPlaylists.next(newMarker.title);
           me.globalService.showLocationPlaylists.next(true);
           me.globalService.updateReset();

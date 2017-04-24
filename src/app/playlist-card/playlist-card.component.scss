@@ -9,7 +9,7 @@
 .playlist-name {
   color: $color-main;
   float: left;
-  font-size: 24px;
+  font-size: 22px;
   width: 100%;
 }
 
@@ -20,7 +20,7 @@
   cursor: pointer;
   float: right;
   font-size: 12px;
-  margin-top: -28px;
+  margin-top: -25px;
   padding: 3px 5px;
 }
 
@@ -88,36 +88,30 @@ md-icon {
   }
 }
 
-.update-playlist {
-  color: $color-grey;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 0.8em;
-  margin-top: 10px;
-  width: 45%;
-}
-
 .delete-playlist {
-  color: $color-grey;
   cursor: pointer;
   float: right;
   font-size: 0.8em;
   margin-top: 10px;
   text-align: right;
+
+  md-icon {
+    color: $color-main;
+    opacity: .2;
+  }
 }
 
 .view-tracks {
   bottom: -20px;
-  color: $color-grey;
   cursor: pointer;
   display: block;
   font-size: 0.8em;
   left: 50%;
+  line-height: 26px;
   margin: 0 auto;
   position: absolute;
   text-align: center;
   transform: translateX(-50%);
-  vertical-align: middle;
 
   md-icon{
     color: $color-highlight;

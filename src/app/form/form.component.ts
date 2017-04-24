@@ -169,6 +169,10 @@ export class FormComponent {
       this.searchResults = [];
 
       this.globalService.toggleForm();
+
+      this.snackBar.open('Playlist saved', 'OK!', {
+        duration: 2000,
+      });
     }
   }
 
@@ -203,6 +207,10 @@ export class FormComponent {
       this.searchResults = [];
 
       this.globalService.toggleForm();
+
+      this.snackBar.open('Playlist updated', 'OK!', {
+        duration: 2000,
+      });
     }
   }
 

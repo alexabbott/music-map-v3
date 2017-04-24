@@ -44,6 +44,10 @@ body {
   color: $color-highlight;
 }
 
+.grey-text .mat-button-wrapper {
+  color: $color-grey;
+}
+
 .mat-input-wrapper {
   margin: 1.3em 0 !important;
 }

@@ -20,6 +20,7 @@ import { FilterUserLikesPipe } from './pipes/filter-user-likes.pipe';
 import { FirstPipe } from './pipes/first.pipe';
 import { GetPipe } from './pipes/get.pipe';
 import { OrderBy } from './pipes/order-by.pipe';
+import { SlugifyPipe } from './pipes/slugify.pipe';
 
 //components
 import { AppComponent } from './app.component';
@@ -59,7 +60,8 @@ const firebaseAuthConfig = {
     FormComponent,
     SearchPipe,
     PlaylistCardComponent,
-    SplashComponent
+    SplashComponent,
+    SlugifyPipe
   ],
   imports: [
     MaterialModule,

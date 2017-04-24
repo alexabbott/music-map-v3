@@ -1,6 +1,9 @@
 {
   "rules": {
     ".read": true,
-    ".write": "auth != null"
+    ".write": "auth != null",
+    "playlists": {
+      ".indexOn": ["user", "name", "tag", "location"]
+    }
   }
 }

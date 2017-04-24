@@ -52,8 +52,9 @@
     <div *ngIf="!showCurrentUserProfile" class="full-list">
       <h2 class="headline" *ngIf="filterBy === 'user' || filterBy === 'location' || filterBy === 'tag'">
         <span *ngIf="filterBy === 'user'"><img src="{{ (users | async | get: currentUserId)?.photoURL }}"> {{ currentUserName }}</span>
+        <div class="user-likes" *ngIf="filterBy === 'user'"><md-icon class="active">star</md-icon> {{ selectedUserLikedCount }} likes total</div>
         <span *ngIf="filterBy === 'location'"><md-icon>location_on</md-icon> {{ globalService.currentLocation }}</span>
-        <span *ngIf="filterBy === 'tag'">{{ globalService.currentTag }}</span>
+        <span *ngIf="filterBy === 'tag'"><img src="../../assets/tags/{{ globalService.currentTag | slugify }}.jpg"> {{ globalService.currentTag }}</span>
       </h2>
       <md-card *ngFor="let playlist of filteredPlaylists | async | search: searchTerm | orderBy: [orderValue]" class="playlist-card">
         <playlist-card [playlist]="playlist"></playlist-card>
@@ -62,9 +63,10 @@
 
     <h2 class="headline" *ngIf="showCurrentUserProfile">
       <img *ngIf="(af.auth | async)?.uid" src="{{ (af.auth | async)?.auth.photoURL }}"> My Profile
+      <div class="user-likes"><md-icon class="active">star</md-icon> {{ totalCurrentUserLikes }} likes total</div>
     </h2>
     <md-tab-group *ngIf="showCurrentUserProfile">
-      <md-tab label="My Playlists">
+      <md-tab label="My Playlists ({{ currentUserPlaylistCount }})">
         <div *ngIf="(userPlaylists | async)">
           <md-card *ngFor="let playlist of userPlaylists | async" class="playlist-card">
             <playlist-card [playlist]="playlist.$key"></playlist-card>
@@ -75,7 +77,7 @@
           You haven't created any playlists!
         </h5>
       </md-tab>
-      <md-tab label="Liked Playlists">
+      <md-tab label="Liked Playlists ({{ currentUserLikedCount }})">
         <div *ngIf="(userLikedPlaylists | async)">
           <md-card *ngFor="let playlist of userLikedPlaylists | async" class="playlist-card">
             <playlist-card [playlist]="playlist.$key"></playlist-card>

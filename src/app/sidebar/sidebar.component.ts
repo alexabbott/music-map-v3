@@ -26,6 +26,11 @@ export class SidebarComponent {
   showCurrentUserProfile: boolean;
   currentUserName: string;
   currentUserId: string;
+  totalCurrentUserLikes: number;
+  currentUserPlaylistCount: number;
+  currentUserLikedCount: number;
+  selectedUserLikedCount: number;
+  selectedUserPlaylistCount: number;
   showLocationPlaylists: boolean;
   showTagPlaylists: boolean;
   showUserProfile: boolean;
@@ -37,6 +42,9 @@ export class SidebarComponent {
     this.showForm = false;
     this.showMenu = false;
     this.showCurrentUserProfile = false;
+    this.totalCurrentUserLikes = 0;
+    this.currentUserPlaylistCount = 0;
+    this.currentUserLikedCount = 0;
 
     let me = this;
 
@@ -47,8 +55,22 @@ export class SidebarComponent {
         globalService.updateUserId(this.userId);
         af.database.object('/users/' + this.userId).update({ name: auth.auth.displayName, uid: auth.uid, photoURL: auth.auth.photoURL, email: auth.auth.email });
         this.user = af.database.object('/users/' + this.userId);
-        this.userPlaylists = af.database.list('/user-playlists/' + this.userId);
+        this.userPlaylists = af.database.list('/playlists', {
+          query: {
+            orderByChild: 'user',
+            equalTo: this.userId
+          }
+        });
+        this.userPlaylists.subscribe(playlist => {
+          this.currentUserPlaylistCount = playlist.length;
+          for (let i = 0; i < this.currentUserPlaylistCount; i++) {
+            this.totalCurrentUserLikes += playlist[i].likesTotal;
+          }
+        });
         this.userLikedPlaylists = af.database.list('/user-likes/' + this.userId);
+        this.userLikedPlaylists.subscribe(playlist => {
+          this.currentUserLikedCount = playlist.length;
+        });
         this.user.subscribe(user => {
           // console.log('thieuser', user);
         });
@@ -76,10 +98,19 @@ export class SidebarComponent {
     globalService.usersId.subscribe(uid => {
       this.currentUserId = uid;
       if (uid) {
+        this.showCurrentUserProfile = false;
         this.filteredPlaylists = af.database.list('/playlists', {
           query: {
             orderByChild: 'user',
             equalTo: uid
+          }
+        });
+        this.selectedUserLikedCount = 0;
+        this.changeOrder('-published');
+        this.filteredPlaylists.subscribe(playlist => {
+          this.selectedUserPlaylistCount = playlist.length;
+          for (let i = 0; i < this.selectedUserPlaylistCount; i++) {
+            this.selectedUserLikedCount += playlist[i].likesTotal;
           }
         });
       }
@@ -89,6 +120,8 @@ export class SidebarComponent {
     globalService.locationPlaylists.subscribe(location => {
       globalService.currentLocation = location;
       if (location) {
+        this.showCurrentUserProfile = false;
+        this.changeOrder('-likesTotal');
         this.filteredPlaylists = af.database.list('/playlists', {
           query: {
             orderByChild: 'location',
@@ -102,6 +135,8 @@ export class SidebarComponent {
     globalService.tagPlaylists.subscribe(tag => {
       globalService.currentTag = tag;
       if (tag) {
+        this.showCurrentUserProfile = false;
+        this.changeOrder('-likesTotal');
         this.filteredPlaylists = af.database.list('/playlists', {
           query: {
             orderByChild: 'tag',
@@ -127,6 +162,7 @@ export class SidebarComponent {
     this.globalService.filterBy.next('');
     this.map.setZoom(3);
     this.searchTerm = '';
+    this.changeOrder('-published');
   }
 
   changeOrder(neworder) {
