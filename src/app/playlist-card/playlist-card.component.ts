@@ -25,6 +25,7 @@ export class PlaylistCardComponent implements OnInit {
   openPlaylist: string;
   dialogRef: MdDialogRef<any>;
   selectedOption: string;
+  currentTrack: string;
 
   constructor(public af: AngularFire, public globalService: GlobalService, public snackBar: MdSnackBar, public dialog: MdDialog) {
     this.users = af.database.object('/users');
@@ -43,6 +44,10 @@ export class PlaylistCardComponent implements OnInit {
 
     globalService.playerUrl.subscribe(url => {
       this.playerUrl = url;
+    });
+
+    globalService.currentTrackName.subscribe(name => {
+      this.currentTrack = name;
     });
   }
 

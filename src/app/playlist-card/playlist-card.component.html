@@ -53,7 +53,8 @@
         {{ track.title }} by {{ track.user.username }}
       </div>
       <div class="track-play">
-        <md-icon>play_arrow</md-icon>
+        <img src="../../assets/spectrum.gif" *ngIf="currentTrack === track.title">
+        <md-icon *ngIf="currentTrack !== track.title">play_arrow</md-icon>
       </div>
     </div>
   </div>

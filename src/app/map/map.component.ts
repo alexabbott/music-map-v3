@@ -60,6 +60,21 @@ export class MapComponent {
       this.initMarkers();
       this.markerCluster = new window['MarkerClusterer'](this.map, this.googleMarkers, { imagePath: '../../assets/cluster' } );
       this.initAutoComplete();
+
+      // getLocation();
+
+      function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            console.log('Geolocation is not supported by this browser.');
+        }
+      }
+
+      function showPosition(position) {
+        me.map.panTo({lat: position.coords.latitude, lng: position.coords.longitude});
+        me.map.setZoom(6);
+      }
     });
   }
 

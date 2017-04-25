@@ -110,12 +110,18 @@
       background: $color-grey-lighter;
     }
 
+    img {
+      display: inline-block;
+      width: 16%;
+    }
+
     md-icon {
       color: $color-highlight;
       display: inline-block;
       font-size: 1.3em;
+      text-align: center;
       vertical-align: top;
-      width: 15%;
+      width: 16%;
     }
 
     .playlist-track {

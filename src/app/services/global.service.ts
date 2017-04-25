@@ -16,6 +16,8 @@ export class GlobalService {
   public userId = new BehaviorSubject(null);
   public showForm = new BehaviorSubject(false);
   public currentTrack = new BehaviorSubject(null);
+  public currentTrackName = new BehaviorSubject(null);
+  public currentSound = new BehaviorSubject(null);
   public currentPlaylist = new BehaviorSubject(null);
   public currentPlaylistObject = new BehaviorSubject(null);
   public playlistKey = new BehaviorSubject(null);

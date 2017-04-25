@@ -24,11 +24,12 @@
         <md-menu #playlistMenu="mdMenu">
             <div *ngIf="globalService.currentPlaylistObject.getValue()" class="playlist-menu">
                 <div
-                    class="playlist-item" 
+                    class="playlist-item"
                     *ngFor="let track of globalService.currentPlaylistObject.getValue().tracks; let i = index;" 
                     (click)="playTrack(globalService.currentPlaylistObject.getValue().tracks, i)">
-                    <md-icon>play_arrow</md-icon>
                     <div class="playlist-track">{{ track.title }} by {{ track.user.username }}</div>
+                    <img src="../../assets/spectrum.gif" *ngIf="currentTrack.title === track.title">
+                    <md-icon *ngIf="currentTrack.title !== track.title">play_arrow</md-icon>
                 </div>
             </div>
         </md-menu>

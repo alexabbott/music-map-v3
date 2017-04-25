@@ -90,7 +90,7 @@ md-icon {
 
 .delete-playlist {
   cursor: pointer;
-  float: right;
+  display: block;
   font-size: 0.8em;
   margin-top: 10px;
   text-align: right;
@@ -131,12 +131,14 @@ md-icon {
 
   .playlist-track {
     @extend %transition;
+    background: $color-grey-light;
     cursor: pointer;
+    margin-bottom: 2px;
     padding: 5px;
     transition-property: background-color;
 
     &:hover {
-      background: $color-grey-light;
+      background: $color-white;
     }
   }
 
@@ -156,6 +158,10 @@ md-icon {
     display: inline-block;
     vertical-align: top;
     width: 20px;
+
+    img {
+      width: 29px;
+    }
 
     md-icon {
       color: $color-highlight;

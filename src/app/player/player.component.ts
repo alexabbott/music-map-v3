@@ -54,6 +54,8 @@ export class PlayerComponent {
         user: id[i].user
       };
       this.globalService.currentPlaylist.next(id);
+      this.globalService.currentTrackName.next(id[i].title);
+      console.log('service', this.globalService.currentTrackName.getValue());
       this.newSound = this.soundManager.createSound({
         id: ('a' + id[i].id.toString()),
         url: 'https://api.soundcloud.com/tracks/' + id[i].id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
@@ -72,6 +74,7 @@ export class PlayerComponent {
         this.currentSound.stop();
       }
       this.currentSound = this.newSound;
+      this.globalService.currentSound.next(this.currentSound);
       this.newSound.play();
       this.currentlyPlaying = true;
     } else if (typeof id !== "object" && id) {
@@ -81,6 +84,8 @@ export class PlayerComponent {
           res.text();
             this.playlistTrack = res.json();
             this.globalService.currentTrack.next(this.playlistTrack.id);
+            this.globalService.currentTrackName.next(this.playlistTrack.name);
+            console.log('service', this.globalService.currentTrackName.getValue());
             this.newSound = this.soundManager.createSound({
               id: ('a' + id.toString()),
               url: 'https://api.soundcloud.com/tracks/' + id + '/stream?client_id=' + this.globalService.soundcloudId.getValue(),
@@ -99,6 +104,7 @@ export class PlayerComponent {
               this.currentSound.stop();
             }
             this.currentSound = this.newSound;
+            this.globalService.currentSound.next(this.currentSound);
             this.newSound.play();
             this.currentlyPlaying = true;
         })
