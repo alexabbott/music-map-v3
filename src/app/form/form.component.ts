@@ -26,8 +26,10 @@ export class FormComponent {
   newCoordinates: string;
   searchKeyword: string;
   newTag: string;
+  showMore: boolean;
   tags: Array<any>;
   map: any;
+  offset: number;
 
   private clientId: string = '8e1349e63dfd43dc67a63e0de3befc68';
   private http: Http;
@@ -45,12 +47,16 @@ export class FormComponent {
 
     this.playlistTracks = [];
 
+    this.searchResults = [];
+
     this.searchUpdated.next('');
 
     this.searchChangeEmitter = <any>this.searchUpdated.asObservable()
          .debounceTime(400)
           .distinctUntilChanged().subscribe(q => {
-            this.getSoundcloudPlaylists(this.searchUpdated.getValue());
+            this.offset = 0;
+            this.searchResults = [];
+            this.getSoundcloudPlaylists(this.searchUpdated.getValue(), 0);
           });
 
     this.filteredPlaylists = af.database.list('/playlists');
@@ -116,12 +122,20 @@ export class FormComponent {
     });
   }
 
-  getSoundcloudPlaylists(keyword: string) {
+  showMoreTracks() {
+    this.offset += 30;
+    this.getSoundcloudPlaylists(this.searchUpdated.getValue(), this.offset);
+  }
+
+  getSoundcloudPlaylists(keyword: string, offset: number) {
     if (keyword !== '') {
-      this.http.get('https://api.soundcloud.com/tracks?linked_partitioning=1&limit=30&client_id=' + this.clientId + '&q=' + keyword)
+      this.http.get('https://api.soundcloud.com/tracks?linked_partitioning=1&limit=30&client_id=' + this.clientId + '&q=' + keyword + '&offset=' + offset)
         .map(res => {
           res.text();
-          this.searchResults = res.json().collection;
+          this.searchResults = this.searchResults.concat(res.json().collection);
+          if (res.json().next_href) {
+            this.showMore = true;
+          }
         })
         .subscribe(
           data => this.searchData = data,

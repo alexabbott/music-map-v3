@@ -41,6 +41,7 @@
         <md-icon (click)="updatePlayer(result.id)" class="preview-track">play_circle_filled</md-icon>
       </div>
     </div>
+    <button md-button class="show-more text-center alt" *ngIf="showMore" (click)="showMoreTracks()">Load more results</button>
   </div>
   <button
     md-raised-button
@@ -74,6 +75,7 @@
             <md-icon (click)="updatePlayer(result.id)" class="preview-track">play_circle_filled</md-icon>
           </div>
         </div>
+        <div class="show-more text-center" *ngIf="showMore">Load more results</div>
       </div>
     </md-tab>
     <md-tab label="Playlist Tracks">
