@@ -156,12 +156,14 @@ md-toolbar {
   opacity: 0;
   padding: 10px 0;
   position: fixed;
-  top: 123px;
+  top: 126px;
   transition: opacity .2s ease-out;
-  width: 90%;
+  width: 100%;
   z-index: 1;
 
   @include mobile {
+    bottom: auto;
+
     &.visible {
       display: block;
       opacity: 1;

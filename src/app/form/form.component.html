@@ -60,7 +60,11 @@
   <md-tab-group class="mobile-only" *ngIf="(searchResults && searchResults.length > 0) || (playlistTracks && playlistTracks.length > 0)">
     <md-tab label="Search Results">
       <div class="search-results">
-        <div *ngFor="let result of searchResults" class="search-result" [ngClass]="{ 'selected': playlistTracks.indexOf(result) > -1 }">
+        <div
+          (click)="addToPlaylist(result)"
+          *ngFor="let result of searchResults"
+          class="search-result"
+          [ngClass]="{ 'selected': playlistTracks.indexOf(result) > -1 }">
           <div class="track-image-container">
             <img [src]="result.artwork_url" *ngIf="result.artwork_url" class="track-image">
             <img src="../../assets/soundcloud-logo.png" *ngIf="!result.artwork_url" class="track-image">
@@ -71,14 +75,14 @@
             </div>
           </div>
           <div class="search-actions">
-            <md-icon (click)="addToPlaylist(result)" class="add-track">add_circle</md-icon>
+            <md-icon class="add-track">add_circle</md-icon>
             <md-icon (click)="updatePlayer(result.id)" class="preview-track">play_circle_filled</md-icon>
           </div>
         </div>
-        <div class="show-more text-center" *ngIf="showMore">Load more results</div>
+        <button md-button class="show-more text-center alt" *ngIf="showMore" (click)="showMoreTracks()">Load more results</button>
       </div>
     </md-tab>
-    <md-tab label="Playlist Tracks">
+    <md-tab label="Playlist Tracks ({{playlistTracks.length}})">
       <div class="text-center" *ngIf="!playlistTracks || playlistTracks.length === 0">
         No tracks added yet
       </div>
