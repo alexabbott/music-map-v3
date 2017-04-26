@@ -79,6 +79,17 @@ export class PlaylistCardComponent implements OnInit {
             loc.remove(location);
           }
         });
+
+        let userLikesList = this.af.database.list('/user-likes');
+        userLikesList.subscribe(users => {
+          let usersLength = users.length;
+          for (let i = 0; i < usersLength; i++) {
+            if (users[i][key]) {
+              this.af.database.list('/user-likes/' + users[i].$key + '/').remove(key);
+            }
+          }
+        });
+
         this.snackBar.open('Playlist deleted', 'OK!', {
           duration: 2000,
         });

@@ -92,7 +92,7 @@ md-icon {
   cursor: pointer;
   display: block;
   font-size: 0.8em;
-  margin-top: 10px;
+  margin: 10px 0 -15px 0;
   text-align: right;
 
   md-icon {
@@ -102,7 +102,7 @@ md-icon {
 }
 
 .view-tracks {
-  bottom: -20px;
+  bottom: -25px;
   cursor: pointer;
   display: block;
   font-size: 0.8em;
@@ -122,7 +122,7 @@ md-icon {
 .playlist-tracks {
   font-size: 0.8em;
   height: 0;
-  margin-top: 15px;
+  margin: 15px 0;
   overflow: hidden;
 
   &.full-height {
@@ -134,7 +134,7 @@ md-icon {
     background: $color-grey-light;
     cursor: pointer;
     margin-bottom: 2px;
-    padding: 5px;
+    padding: 5px 5px 5px 7px;
     transition-property: background-color;
 
     &:hover {
@@ -142,16 +142,10 @@ md-icon {
     }
   }
 
-  .track-number {
-    display: inline-block;
-    vertical-align: top;
-    width: 20px;
-  }
-
   .track-info {
     display: inline-block;
     vertical-align: top;
-    width: calc(100% - 50px);
+    width: calc(100% - 30px);
   }
 
   .track-play {

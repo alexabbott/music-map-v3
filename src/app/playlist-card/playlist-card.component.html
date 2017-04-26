@@ -46,9 +46,6 @@
   </div>
   <div class="playlist-tracks" [ngClass]="{ 'full-height': openPlaylist === playlist.name }">
     <div class="playlist-track" *ngFor="let track of playlist.tracks; let i = index;" (click)="updatePlayerTrack(playlist, i)">
-      <div class="track-number">
-        {{ i + 1}}.
-      </div>
       <div class="track-info">
         {{ track.title }} by {{ track.user.username }}
       </div>

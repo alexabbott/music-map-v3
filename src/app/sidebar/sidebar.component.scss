@@ -12,7 +12,7 @@ md-toolbar {
 
   @include tablet {
     border-right: 1px solid $color-main;
-    width: 30%;
+    width: 35%;
   }
 
   button {
@@ -97,7 +97,7 @@ md-toolbar {
     border-top: 0;
     height: calc(100vh - 60px);
     position: static;
-    width: 30%;
+    width: 35%;
     z-index: 0;
   }
 
@@ -122,7 +122,7 @@ md-toolbar {
     border-right: 1px solid $color-main;
     border-top: 0;
     top: 64px;
-    width: 30%;
+    width: 35%;
   }
 
   .search-playlists {

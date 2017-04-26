@@ -16,7 +16,7 @@
   @include tablet {
     border-right: 1px solid $color-main;
     padding: 15px;
-    width: 30%;
+    width: 35%;
   }
 
   &.push-down {
@@ -169,7 +169,7 @@ md-spinner {
     z-index: 1;
 
     @include tablet {
-      transform: translate3d(30vw, 0, 0);
+      transform: translate3d(35vw, 0, 0);
     }
   }
 
